@@ -1,0 +1,27 @@
+{
+    "calls": [
+        {
+            "channel": "java jaakoppi 1",
+            "type": "phonecall",
+            "customer": "java jaakoppi jaava jaavi jaarli",
+            "time": 60,
+            "id": 1
+        },
+        {
+            "channel": "java jaakoppi 1",
+            "type": "email",
+            "customer": "java jaakoppi jaava jaavi jaarli2",
+            "time": 2,
+            "id": 2
+        }
+    ],
+
+    "agents": [
+        {
+            "agent": "jaakoppi jaava",
+            "status": "offline",
+            "time": 120,
+            "id": 1
+        }
+    ]
+}

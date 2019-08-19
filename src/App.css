@@ -11,13 +11,41 @@ body {
   background-size: 100% auto ;
 }
 
-
-
 .left {
-  height: 100%;
+  width: 50%;
+  left: 0;
+  position: fixed;
 }
 
+.right {
+  width: 50%;
+  right: 0;
+  position: fixed;
+}
 
+.leftTop {
+  height: 50%;
+  top: 0;
+  background-color: rgb(240, 186, 186);
+}
+
+.leftBottom {
+  height: 50%;
+  bottom: 0;
+  background-color: rgb(189, 189, 243);
+}
+
+.rightTop {
+  height: 50%;
+  top: 0;
+  background-color: rgb(199, 245, 199);
+}
+
+.rightBottom {
+  height: 50%;
+  bottom: 0;
+  background-color: rgb(238, 238, 180);
+}
 
 
 /*default shit below, not needed*/
