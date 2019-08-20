@@ -1,0 +1,10 @@
+.agent-grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+
+  .agent-grid1 {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    bottom: 0;
+  }

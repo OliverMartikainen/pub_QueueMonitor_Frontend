@@ -1,0 +1,17 @@
+.Agent {
+    margin: 5px;
+    width: 150px;
+    height: 80px;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+h3 {
+    font-size: 20px;
+    margin: 0px;
+}
+
+p {
+    margin-top: 10px
+}
