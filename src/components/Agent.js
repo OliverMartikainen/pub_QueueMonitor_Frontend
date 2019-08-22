@@ -1,14 +1,10 @@
 import React from 'react'
-import '../style/Agent.css'
 
 
-const Agent = ({ name, status, time }) => {
-    //format time elsewhere? if shown in minutes no need to update, who cares for seconds.
-    //time format: 06h 50min
-
-    //options   FREE    BUSY    OFFLINE
-    const styleChooser = (status) => {
-        switch (status) {
+const Agent = ({ agent }) => {
+    //options   FREE    BUSY    OFFLINE - not in datafeed, only test.
+    const styleChooser = (reason) => {
+        switch (reason) {
             case 'busy':
                 return { backgroundColor: '#ffa6a6' } //red ish
             case 'free':
@@ -21,9 +17,9 @@ const Agent = ({ name, status, time }) => {
     }
 
     return (
-        <div className='Agent' style={styleChooser(status)}>
-            <h3>{name}</h3>
-            <p>{status} {time}</p>
+        <div className='Agent' style={styleChooser(agent.Reason)}>
+            <h3>{agent.AgentName}</h3>
+            <p>{agent.Reason} {agent.Duration}</p>
         </div>
     )
 }

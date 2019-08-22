@@ -1,0 +1,79 @@
+:root {
+  --options-button-heigth: 40px;
+  --options-button-width: 120px;
+}
+
+.options {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+  }
+
+.options button {
+  background-color: white;
+  color: rgb(0, 0, 0);
+  height: var(--options-button-heigth);
+  min-width: var(--options-button-width);
+  padding: 5px;
+  font-size: 25px;
+  border: none;
+}
+
+.options-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: var(--options-button-width);
+    bottom: 100%;
+    z-index: 1;
+  }
+
+.options-content button {
+  border: 1px;
+  border-color: rgb(248, 230, 230);
+  border-style: solid;
+    background-color: white;
+    color: black;
+    padding: 5px 5px;
+    text-decoration: none;
+    display: block;
+  }
+
+.content-item {
+  display: none;
+  position: absolute;
+  bottom: 0px;
+  left: 100%;
+  z-index: 1;
+}
+
+.content-item button {
+  width: 100%;
+  border: 1px;
+  border-color: rgb(248, 230, 230);
+  border-style: solid;
+  background-color: white;
+  color: black;
+  padding: 5px 5px;
+  text-decoration: none;
+  display: block;
+}
+
+.options button:hover {
+  background-color: #ccc;
+}
+  
+.options:hover .options-content {
+    display: grid;
+}  
+
+.options-content button:hover {
+  background-color: #ccc;
+}
+
+.options-content:hover .content-item {
+  display: block;
+}
+
+
+

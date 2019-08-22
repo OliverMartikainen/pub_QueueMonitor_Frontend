@@ -1,15 +1,12 @@
 import React, { useState } from 'react'
-import RightTop from './sections/RightTop'
+import AgentSection from './sections/AgentSection'
+import QueueSection from './sections/QueueSection'
+import OptionsSection from './sections/OptionsSection'
 import TestLists from './tests/TestLists'
 import './App.css'
 
-/*
-  Have an options menu with interactivity, monitor screen would have only 1 button and auto re-renders?
-  So in theory low number of useState hooks?
-*/
-
+/* for shits and giggles
 const PlanButton = ({ setPlan }) => {
-  console.log(setPlan, { setPlan })
   return (
     <button onClick={setPlan}>Display/hide plan</button>
   )
@@ -18,57 +15,42 @@ const PlanButton = ({ setPlan }) => {
 const Plan = () => {
   return <img src="preliminaryLayout.jpg" alt="aa" width="900" heigth="900" />
 }
+*/
 
-const TopLeft = ({ plan }) => {
-  if (plan) {
-    return <Plan />
-  }
+const BottomRight = ({team }) => {
+
   return (
-    <div>
-      <p>List of phone calls NAME # TIME</p>
+    <div className="right-bottom">
+      <h2>Team activated: {team}</h2>
     </div>
   )
 }
 
-const BottomRight = ({ setPlan }) => {
-
-  return (
-    <div>
-      <p>General stats, maybe 20% of heigth</p>
-      <PlanButton setPlan={setPlan} />
-    </div>
-  )
+const AgentFilter = (team, agents) => {
+  if(!team) {
+    return agents
+  }
+  return agents.filter(agent => agent.Team === team)
 }
 
 const App = () => {
-  const [plan, setPlan] = useState(false)
+  const [team, setTeam] = useState("")
+  const [censor, setCensor] = useState(false)
 
-  const AgentList = TestLists.AgentsList
-  const CallList = TestLists.CallList
-
-  if (plan) {
-    console.log(plan)
-  }
-  else {
-    console.log(plan)
-  }
+  const AgentList = AgentFilter(team, TestLists.AgentsList)
+  const QueueList = TestLists.QueueList
+  const TeamList = TestLists.TeamList
+  const ServiceList = TestLists.ServiceList
 
   return (
     <div>
-      <div className="left leftTop">
-        <TopLeft plan={plan} />
-      </div>
+      <QueueSection calls={QueueList} />
 
-      <div className="left leftBottom">
-        <p>This isnt really needed, can make a small area with options?</p>
-      </div>
+      <OptionsSection teams={TeamList} team={team} setTeam={setTeam} setCensor={() => setCensor(!censor)} censor={censor}/>
 
-      <RightTop agents={AgentList} />
+      <AgentSection agents={AgentList} />
 
-      <div className="right rightBottom">
-        <BottomRight setPlan={() => setPlan(!plan)} />
-      </div>
-
+      <BottomRight team={team}/>
     </div>
   );
 }

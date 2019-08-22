@@ -1,0 +1,28 @@
+.call-list {
+    margin: 5%;
+    width: 90%;
+    height: 90%;
+    background-color: rgb(224, 220, 220);   
+}
+
+.call {
+    display: grid;
+    grid-template-columns: 55% 15% 10% 20%;
+    background-color: aqua;
+    margin: 10px;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+}
+
+.call p {
+    color: blue;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    border: 1px;
+    border-color: black;
+    border-style: solid;
+    margin: 10px; 
+    height: 50px;
+}

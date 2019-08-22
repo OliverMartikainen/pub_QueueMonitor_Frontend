@@ -1,3 +1,9 @@
+.agent-grid {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 10px;
+  }
+
 .Agent {
     margin: 5px;
     width: 150px;
