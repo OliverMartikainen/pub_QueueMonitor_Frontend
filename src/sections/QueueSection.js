@@ -17,25 +17,12 @@ const QueTimeComparer = (call1, call2) => {
     return 0
 }
 
-
-
-
 const QueueSection = ({ calls }) => {
     const callsSorted = calls.sort(QueTimeComparer)
 
-
-    const call_list = callsSorted.map((call, index) =>
-        <Call key={index} call={call} />
-    )
+    const call_list = callsSorted.map((call, index) => <Call key={index} call={call} />)
     //ROW( CALLER-grid  #CALLS-grid  WAIT-TIME-grid)
     //would like: Time to count up, start with static
-
-    //assumes data is sorted&formatted into the format we want here
-
-    //temp sort here?
-
-
-
 
     return (
         <div className="call-section">

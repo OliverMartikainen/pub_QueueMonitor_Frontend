@@ -5,33 +5,23 @@ import OptionsSection from './sections/OptionsSection'
 import TestLists from './tests/TestLists'
 import './App.css'
 
-const BottomRight = ({ team }) => {
+const BottomRight = ({ team, count }) => <div className="right-bottom"><h2>Team activated: {team}</h2><h2>{count}</h2></div>
 
-  return (
-    <div className="right-bottom">
-      <h2>Team activated: {team}</h2>
-    </div>
-  )
-}
-
-const AgentFilter = (team, agents) => {
-  if (!team) {
-    return agents
-  }
-  return agents.filter(agent => agent.Team === team)
-}
-
-//const TeamFilter = ()
+const AgentFilter = (team, agents) => !team ? agents : agents.filter(agent => agent.Team === team)
 
 const QueueFilter = (queue, teamFilter) => {
-  if(!teamFilter) {
+  if (!teamFilter || teamFilter.length === 0) {
     console.log(`queue filter is empty`)
     return queue
   }
   return queue.filter(item => teamFilter.includes(item.ServiceName))
 }
 
-//in backend make Team list into {TeamName: , Services: }
+//temp here- move to 'services' later
+
+
+
+//in backend make Team list into {TeamName: , Services: } 
 const App = () => {
   const [team, setTeam] = useState("") //active team
   const [censor, setCensor] = useState(false) //if sensitive info needs to be hidden
@@ -39,6 +29,25 @@ const App = () => {
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
   const [services, setServices] = useState([]) //need to be GET only once
+  const [counter, setCounter] = useState(0)
+  const [timer, setTimer] = useState()
+
+
+  if (!timer) {
+    setTimer(1)
+    const a = setTimeout(
+      () => {
+        setCounter(counter + 1)
+        console.log(counter, "c")
+        setTimer()
+      },
+      6000
+    )
+    console.log("saatana")
+  }
+
+  console.log("a", counter, timer)
+
 
   useEffect(() => { //to get inital info Queue and Agents will then be updated every 1-6seconds
     var teamp = [...TestLists.TeamList]
@@ -49,23 +58,28 @@ const App = () => {
     setServices(TestLists.ServiceList)
   }, [])
 
+
+
+
   //func for service buttons in options - click to add/remove from teams service filter
   //prob move this to options section (once its tested and working)
-  const updateTeamServices = (service, add, teams, setTeams, team) => {
-    if(!team) {
+
+  //chosen = false : needs to be added to teams service filter
+  const updateTeamServices = (service, chosen) => {
+    if (!team) {
       console.log("no team chosen")
       return false
     }
     const updateTeam = teams.find(t => t.TeamName === team)
-
-    if(add) {
+    if (!chosen) { //add to service list
       updateTeam.services.push(service)
       setTeams(teams.filter(t => t.TeamNAme === team ? updateTeam : t))
-    } else {
-      updateTeam.services.filter(s => s !== service)
+      return true
+    } else { //remove from service list
+      updateTeam.services = updateTeam.services.filter(s => s !== service ? s : null)
       setTeams(teams.filter(t => t.TeamNAme === team ? updateTeam : t))
+      return false
     }
-    console.log(teams)
   }
 
   //want these to happen on each re-render? in theory wouldnt need to (eg no change).
@@ -75,7 +89,7 @@ const App = () => {
 
   //SrvFunc, team, teams, setTeam, services, setServices, censor, setCensor(!censor)
   const OptionsItems = {
-    SrvFunc: (() => updateTeamServices(services[0], true, teams, setTeams, team)),  //for service filtering buttons - needs rework
+    SrvFunc: ((channel, add) => updateTeamServices(channel, add)),  //, teams, setTeams, team
     team: team, //to highlight chosen team
     teams: teams, //show all teams
     setTeam: setTeam, //for change team button
@@ -91,7 +105,7 @@ const App = () => {
 
       <AgentSection agents={AgentsFiltered} />
 
-      <BottomRight team={team} />
+      <BottomRight team={team} count={counter} />
     </div>
   );
 }
