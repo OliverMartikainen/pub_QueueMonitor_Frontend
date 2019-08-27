@@ -3,6 +3,7 @@ import AgentSection from './sections/AgentSection'
 import QueueSection from './sections/QueueSection'
 import OptionsSection from './sections/OptionsSection'
 import TestLists from './tests/TestLists'
+import dataService from './services/dataService'
 import './App.css'
 
 const BottomRight = ({ team, count }) => <div className="right-bottom"><h2>Team activated: {team}</h2><h2>{count}</h2></div>
@@ -17,8 +18,6 @@ const QueueFilter = (queue, teamFilter) => {
   return queue.filter(item => teamFilter.includes(item.ServiceName))
 }
 
-//temp here- move to 'services' later
-
 
 
 //in backend make Team list into {TeamName: , Services: } 
@@ -30,23 +29,6 @@ const App = () => {
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
   const [services, setServices] = useState([]) //need to be GET only once
   const [counter, setCounter] = useState(0)
-  const [timer, setTimer] = useState()
-
-
-  if (!timer) {
-    setTimer(1)
-    const a = setTimeout(
-      () => {
-        setCounter(counter + 1)
-        console.log(counter, "c")
-        setTimer()
-      },
-      6000
-    )
-    console.log("saatana")
-  }
-
-  console.log("a", counter, timer)
 
 
   useEffect(() => { //to get inital info Queue and Agents will then be updated every 1-6seconds
@@ -56,6 +38,23 @@ const App = () => {
     setAgents(TestLists.AgentsList)
     setTeams(teamp)
     setServices(TestLists.ServiceList)
+    console.log("bb")
+  }, [])
+
+  useEffect(() => {
+    const b = setTimeout(
+      () => {
+        setCounter(counter + 1)
+        console.log(counter, "c", dataService.getHelloWorld)
+        dataService
+          .getHelloWorld()
+          .then(response => {
+            console.log("hw:", response)
+          })
+      },
+      6000
+    )
+    console.log("aa", b)
   }, [])
 
 
