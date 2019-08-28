@@ -31,8 +31,8 @@ const App = () => {
   const [counter, setCounter] = useState(0)
 
 
-  useEffect(() => { //to get inital info Queue and Agents will then be updated every 1-6seconds
-    var teamp = [...TestLists.TeamList]
+  useEffect(() => { //to get inital info Queue and Agents will then be updated every 6seconds
+    var teamp = [...TestLists.TeamList] //inst actually cloning since it contains objects
     teamp.map(team => team.services = [])
     setQueue(TestLists.QueueList)
     setAgents(TestLists.AgentsList)
@@ -45,17 +45,12 @@ const App = () => {
     const b = setTimeout(
       () => {
         setCounter(counter + 1)
-        console.log(counter, "c", dataService.getHelloWorld)
-        dataService
-          .getHelloWorld()
-          .then(response => {
-            console.log("hw:", response)
-          })
+        console.log(counter, "c")        
       },
       6000
     )
     console.log("aa", b)
-  }, [])
+  }, [counter])
 
 
 
