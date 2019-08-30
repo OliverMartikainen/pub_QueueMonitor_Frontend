@@ -16,23 +16,18 @@ const AgentSection = ({ agents }) => {
     //prob more stylish way to do this
     const reducer = (statusCount, agent) => {
         switch (agent.Reason) {
-            case ("free"):
+            case 'Login':
+            case 'Sisäänkirjaus':
                 statusCount.free++
                 break
-            case ("busy"):
-                statusCount.busy++
-                break
-            case ("offline"):
-                statusCount.offline++
-                break
             default:
-                statusCount.uncategorized++
+                statusCount.busy++
         }
         statusCount.total++
         return statusCount
     }
 
-    const statusCounter = agents.reduce(reducer, { free: 0, busy: 0, offline: 0, uncategorized: 0, total: 0 })
+    const statusCounter = agents.reduce(reducer, { free: 0, busy: 0, total: 0 })
 
     //should prob do these tests in a dev only environment? so that not in final product?
 
@@ -53,9 +48,9 @@ const AgentSection = ({ agents }) => {
             Duration: `${statusCounter.busy}`
         },
         {
-            AgentName: `Offline`,
+            AgentName: `Total`,
             Reason: `Total: `,
-            Duration: `${statusCounter.offline}`
+            Duration: `${statusCounter.total}`
         }
     ]
 
