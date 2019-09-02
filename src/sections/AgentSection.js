@@ -5,14 +5,24 @@ import '../style/AgentSection.css'
 import Agent from '../components/Agent'
 
 //dynamic agent creation, this section gets an agent list
-//agents have NAME STATUS TIME
-//can ignore offliners
-//STATUS changes agent styling, good luck.
+//agents have NAME REASON TIME
+//can ignore offliners?
+//REASON changes agent styling, good luck.
+
+
+//prob end up sorting alphabetically
+const AgentSorter = (agent1, agent2) => {
+    const isFree = (agent) => (agent.Reason === 'Login' || agent.Reason === 'Sisäänkirjaus') ? true : false
+
+    const durationSort = (agent1.Duration > agent2.Duration) ? -1 : 1 //priority to higher duration
+    const reasonSort = isFree(agent1) ? -1 : (isFree(agent2) ? 1 : 0) //sorts free agent higher
+
+    return (isFree(agent1) === isFree(agent2)) ? durationSort : reasonSort
+}
 
 const AgentSection = ({ agents }) => {
-    const agent_list = agents.map((agent, index) =>
-        <Agent key={index} agent={agent} />
-    )
+    const agentsSorted = agents.sort(AgentSorter)
+    const agent_list = agentsSorted.map((agent, index) => <Agent key={index} agent={agent} />)
     //prob more stylish way to do this
     const reducer = (statusCount, agent) => {
         switch (agent.Reason) {
@@ -31,11 +41,6 @@ const AgentSection = ({ agents }) => {
 
     //should prob do these tests in a dev only environment? so that not in final product?
 
-    const totalTest = statusCounter.total - agents.length
-    const sectionTest = (totalTest !== 0 || statusCounter.uncategorized !== 0) ? true : false
-    if (sectionTest) {
-        console.log(`Agentsectuion uncategorized: ${statusCounter.uncategorized}/ total offset: ${totalTest}`)
-    }
     const AgentCounters = [
         {
             AgentName: `Free`,

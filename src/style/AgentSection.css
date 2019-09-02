@@ -5,8 +5,9 @@
   }
 
 .Agent {
-    margin: 5px;
-    width: 150px;
+    padding: 8px;
+    margin: 2px;
+    width: 250px;
     height: 80px;
     border: 1px;
     border-color: black;

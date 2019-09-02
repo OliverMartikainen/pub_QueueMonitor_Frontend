@@ -2,33 +2,32 @@
 
 import React from 'react'
 import '../style/QueueSection.css'
-import Call from '../components/Call'
+import QueueItem from '../components/QueueItem'
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
-const QueTimeComparer = (call1, call2) => {
+const QueueSorter = (item1, item2) => {
     //if call1 is greater return -1, call2 return 1, equal return 0 - want longer up
-    if(call1.MaxQueueTime < call2.MaxQueueTime) {
+    if (item1.MaxQueueTime < item2.MaxQueueTime) {
         return 1
     }
-    else if(call1.MaxQueueTime > call2.MaxQueueTime) {
+    else if (item1.MaxQueueTime > item2.MaxQueueTime) {
         return -1
     }
     //could add if equal sort by # of calls in queue
     return 0
 }
 
-const QueueSection = ({ calls }) => {
-    const callsSorted = calls.sort(QueTimeComparer)
-
-    const call_list = callsSorted.map((call, index) => <Call key={index} call={call} />)
+const QueueSection = ({ queue }) => {
+    const queueSorted = queue.sort(QueueSorter)
+    const queue_list = queueSorted.map((item, index) => <QueueItem key={index} item={item} />)
     //ROW( CALLER-grid  #CALLS-grid  WAIT-TIME-grid)
     //would like: Time to count up, start with static
 
     return (
-        <div className="call-section">
-            <div className="call-list">
+        <div className="queue-section">
+            <div className="queue-list">
                 <h2>List of phone calls NAME # TIME</h2>
-                {call_list}
+                {queue_list}
             </div>
         </div>
     )

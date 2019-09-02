@@ -18,9 +18,6 @@ const QueueFilter = (queue, teamFilter) => {
   return queue.filter(item => teamFilter.includes(item.ServiceName))
 }
 
-
-
-//in backend make Team list into {TeamName: , Services: } 
 const App = () => {
   const [team, setTeam] = useState("") //active team
   const [censor, setCensor] = useState(false) //if sensitive info needs to be hidden
@@ -31,17 +28,27 @@ const App = () => {
   const [counter, setCounter] = useState(0)
 
 
+
   useEffect(() => { //to get inital info Queue and Agents will then be updated every 6seconds
     dataService.getTeams().then(response => setTeams(response))
     dataService.getServices().then(response => setServices(response))
-   }, [])
+
+    /*
+    setInterval(() => {
+      dataService.getAgents().then(response => setAgents(response))
+      dataService.getQueue().then(response => setQueue(response))
+    }, 6000)
+    */
+
+  }, [])
+
 
   useEffect(() => {
     setTimeout(
       () => {
         dataService.getAgents().then(response => setAgents(response))
         dataService.getQueue().then(response => setQueue(response))
-        setCounter(counter + 1)     
+        setCounter(counter + 1)
       },
       6000
     )
@@ -86,14 +93,13 @@ const App = () => {
     censor: censor, //show current status
     setCensor: (() => setCensor(!censor)), //censor button func
   }
+
+  //div child item orders matter!
   return (
-    <div>
-      <QueueSection calls={QueueFiltered} />
-
-      <OptionsSection OptItems={OptionsItems} />
-
+    <div className="main">
+      <QueueSection queue={QueueFiltered} /> 
       <AgentSection agents={AgentsFiltered} />
-
+      <OptionsSection OptItems={OptionsItems} />
       <BottomRight team={team} count={counter} />
     </div>
   );

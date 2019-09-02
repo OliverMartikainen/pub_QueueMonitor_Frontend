@@ -1,13 +1,14 @@
-.call-list {
-    margin: 5%;
-    width: 90%;
-    height: 90%;
+.queue-list {
+    margin: 20px;
+    width: 750px;
+    height: 650px;
     background-color: rgb(224, 220, 220);   
 }
 
-.call {
+.queue {
     display: grid;
-    grid-template-columns: 55% 15% 10% 20%;
+    /*grid-template-columns: 350px 150px 50px 150px; */
+    grid-template-columns: 55% 20% 10% 15%;
     background-color: aqua;
     margin: 10px;
     border: 1px;
@@ -15,7 +16,7 @@
     border-style: solid;
 }
 
-.call p {
+.queue p {
     color: blue;
     font-size: 20px;
     font-weight: 500;

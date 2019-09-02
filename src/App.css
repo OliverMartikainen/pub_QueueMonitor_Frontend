@@ -1,44 +1,35 @@
-body {
-  background-image: url(/preliminaryLayout.jpg);
-  background-repeat:no-repeat;
-  -webkit-background-size: 100% auto;
-  -moz-background-size: 100% auto;
-  -o-background-size: 100% auto;
-  background-size: 100% auto ;
+:root {
+  --height: 1080px;
+  --width: 1920px;
+  --min-height: 1420;
+  --min-width: 1584;
 }
 
-.call-section {
-  height: 80%;
-  width: 50%;
-  top: 0;
-  left: 0;
-  position: fixed;
+.main {
+  height: var(--height);
+  width: var(--width);
+
+  grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
+  grid-template-rows: calc(var(--height)*0.8) calc(var(--height)*0.2);
+  display: grid;
+}
+
+.queue-section {
   background-color: rgb(240, 186, 186);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .left-bottom {
-  height: 20%;
-  width: 50%;
-  bottom: 0;
-  left: 0;
-  position: fixed;
   background-color: rgb(189, 189, 243);
 }
 
 .agent-section {
-  height: 80%;
-  width: 50%;
-  top: 0;
-  right: 0;
-  position: fixed;
   background-color: rgb(199, 245, 199);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .right-bottom {
-  height: 20%;
-  width: 50%;
-  bottom: 0;
-  right: 0;
-  position: fixed;
   background-color: rgb(238, 238, 180);
 }

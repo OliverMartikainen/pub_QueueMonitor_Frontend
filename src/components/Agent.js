@@ -14,7 +14,12 @@ const Agent = ({ agent }) => {
                 return { backgroundColor: '#ffa6a6'} //status statistics color
         }
     }
-    const time = new Date(1000 * agent.Duration).toISOString().substr(11, 8)
+    let time = new Date(1000 * agent.Duration).toISOString().substr(11, 8)
+
+    if(agent.Reason === 'Total: ') {
+        time = agent.Duration
+    }
+    
     return (
         <div className='Agent' style={styleChooser(agent.Reason)}>
             <h3>{agent.AgentName}</h3>

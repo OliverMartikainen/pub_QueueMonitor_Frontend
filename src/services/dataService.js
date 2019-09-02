@@ -14,6 +14,7 @@ const getQueue = () => format(axios.get(`${baseUrl}/queue`))
 const getServices = () => format(axios.get(`${baseUrl}/services`)) //get Services - once per day
 
 const getTeams = () => format(axios.get(`${baseUrl}/teams`))
+//should give a team id and service to add to the team (at least)
 const putTeams = (id) => format(axios.put(`${baseUrl}/teams/${id}`))
 
 export default {getHelloWorld, getQueue, getServices, getTeams, putTeams, getAgents}
