@@ -29,9 +29,10 @@ const App = () => {
 
 
 
-  useEffect(() => { //to get inital info Queue and Agents will then be updated every 6seconds
-    dataService.getTeams().then(response => setTeams(response))
-    dataService.getServices().then(response => setServices(response))
+  useEffect(() => { 
+    //Teams updated every 1h in backend - atm need refresh in frontend
+    dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
+    //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
 
     /*
     setInterval(() => {
@@ -46,8 +47,8 @@ const App = () => {
   useEffect(() => {
     setTimeout(
       () => {
-        dataService.getAgents().then(response => setAgents(response))
-        dataService.getQueue().then(response => setQueue(response))
+        dataService.getAgents().then(response => response ? setAgents(response) : console.log('GetAgents failed', response))
+        dataService.getQueue().then(response => response ? setQueue(response) : console.log('GetQueue failed', response) )
         setCounter(counter + 1)
       },
       6000
