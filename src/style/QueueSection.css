@@ -1,29 +1,62 @@
-.queue-list {
-    margin: 20px;
-    width: 750px;
-    height: 650px;
-    background-color: rgb(224, 220, 220);   
+:root {
+    --list-color: rgb(224, 220, 220);
 }
 
-.queue {
+.email-list {
+    height: 49%;
+    background-color: var(--list-color);
+    overflow-y: scroll;   
+}
+
+.call-list {
+    margin-bottom: 10px;
+    height: 50%;
+    background-color: var(--list-color);
+    overflow-y: scroll;    
+}
+
+.queue-row {
     display: grid;
-    /*grid-template-columns: 350px 150px 50px 150px; */
     grid-template-columns: 55% 20% 10% 15%;
-    background-color: aqua;
-    margin: 10px;
+    background-color: rgb(213, 252, 252);
+    margin: 0px;
     border: 1px;
     border-color: black;
     border-style: solid;
 }
 
-.queue p {
-    color: blue;
-    font-size: 20px;
-    font-weight: 500;
+.queue-row p {
+    font-size: 150%;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    border: 1px;
-    border-color: black;
-    border-style: solid;
-    margin: 10px; 
-    height: 50px;
+    border: 2px;
+    border-color: grey;
+    border-style: ridge;
+    margin: 10px;
+    line-height: 50px;
+    padding-left: 1px;
+    overflow: hidden;
+}
+
+#content {
+    z-index: 0;
+    position: relative;
+}
+
+#background {
+    margin: 8%;
+    z-index: 0;
+    position: absolute;
+    opacity: 0.5;
+}
+
+.queue-row p#green {
+    background-color: rgb(110, 197, 110);
+}
+
+.queue-row p#yellow {
+    background-color: yellow;
+}
+
+.queue-row p#red {
+    background-color: rgb(255, 125, 125)
 }

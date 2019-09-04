@@ -1,13 +1,18 @@
 .agent-grid {
     display: grid;
-    grid-template-columns: auto auto auto;
-    margin: 10px;
-  }
+    grid-template-columns: 33% 33% 33%;
+ }
+
+.agent-container {
+    background-color: rgb(224, 220, 220);
+    min-height: 98%;
+    padding: 1%;
+}
 
 .Agent {
     padding: 8px;
-    margin: 2px;
-    width: 250px;
+    margin: 1%;
+    width: 90%;
     height: 80px;
     border: 1px;
     border-color: black;

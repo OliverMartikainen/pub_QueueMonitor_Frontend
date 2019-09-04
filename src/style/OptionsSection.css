@@ -39,6 +39,8 @@
   background-color: green;
 }
 
+
+/* button id effects */
 .item button#Selected {
   background-color: rgb(166, 166, 255);
 }

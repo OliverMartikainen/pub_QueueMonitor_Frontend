@@ -1,20 +1,20 @@
 import React from 'react'
 
 const QueueItem = ({item}) => {
-    // 1.CHANNEL      2.Calls in line from channel  3.Longest wait from channel (min:sec)
-    // NAME         #       MM:SS
-    // Limit to length?     #       Time color coded. Own css element that changes class. yeah.
+    // NAME   TYPE     NUMB    SEC
     //ChannelName ContactType QueueLength MaxQueueTime
-    const time = new Date(1000 * item.MaxQueueTime).toISOString().substr(11, 8)
-    const h = Math.floor(item.MaxQueueTime/3600)
-    const min = Math.floor(item.MaxQueueTime/60)-h*60
-    const sec = item.MaxQueueTime-min*60-h*3600
+    const wait = item.MaxQueueTime
+    const h = Math.floor(wait/3600)
+    const min = Math.floor(wait/60)-h*60
+    const sec = wait-min*60-h*3600
+    const waitStatus = (wait) => wait < 120 ? 'green' : (wait < 600 ? 'yellow' : 'red')
+    const id = item.ContactType === 'PBX' ? waitStatus(wait) : 'email' //if we want calls only
     return (
-        <div className="queue">
-            <p style={{color: "red"}}>{item.ServiceName}</p>
+        <div className="queue-row">
+            <p style={{'color': 'rgb(100, 0, 0)', 'fontWeight':'600'}}>{item.ServiceName}</p>
             <p>{(item.ContactType === 'PBX' ? 'CALL' : item.ContactType)}</p>
             <p>{item.QueueLength}</p>
-            <p>
+            <p id={id}>
             {(h < 10 ? `0${h}` : h)}:
             {(min < 10 ? `0${min}` : min)}:
             {(sec < 10 ? `0${sec}` : sec)}

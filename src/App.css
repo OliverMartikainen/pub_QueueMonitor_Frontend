@@ -3,33 +3,32 @@
   --width: 1920px;
   --min-height: 1420;
   --min-width: 1584;
+  --lower-color: rgb(255, 223, 223);
 }
 
 .main {
   height: var(--height);
   width: var(--width);
-
+  background-color: white;
   grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
   grid-template-rows: calc(var(--height)*0.8) calc(var(--height)*0.2);
   display: grid;
 }
 
 .queue-section {
-  background-color: rgb(240, 186, 186);
-  overflow-y: scroll;
-  overflow-x: hidden;
+  padding: 1%;
 }
 
-.left-bottom {
-  background-color: rgb(189, 189, 243);
+.options-section {
+  background-color: var(--lower-color);
 }
 
 .agent-section {
-  background-color: rgb(199, 245, 199);
   overflow-y: scroll;
-  overflow-x: hidden;
+  padding: 1%;
 }
 
 .right-bottom {
-  background-color: rgb(238, 238, 180);
+  background-color: var(--lower-color);
 }
+
