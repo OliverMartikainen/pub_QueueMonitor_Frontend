@@ -7,7 +7,7 @@ import './App.css'
 
 //add later cookie to save previous team & profile?
 
-const BottomRight = ({ team, count }) => <div className="right-bottom"><h2>Team activated: {team}</h2><h2>{count}</h2></div>
+const BottomRight = ({ team }) => <div className="right-bottom"><h2>Team activated: {team}</h2></div>
 
 const AgentFilter = (team, agents) => !team ? agents : agents.filter(agent => agent.Team === team)
 
@@ -26,7 +26,6 @@ const App = () => {
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
   const [queueProfile, setQueueProfile] = useState({}) //need to be GET only once
-  const [counter, setCounter] = useState(0)
 
   useEffect(() => { 
     //Teams updated every 1h in backend - atm need refresh in frontend
@@ -60,7 +59,7 @@ const App = () => {
       <QueueSection queue={QueueFiltered} /> 
       <AgentSection agents={AgentsFiltered} />
       <OptionsSection OptItems={OptionsItems} />
-      <BottomRight team={team} count={counter} />
+      <BottomRight team={team}/>
     </div>
   );
 }
