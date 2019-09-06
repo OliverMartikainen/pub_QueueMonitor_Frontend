@@ -31,8 +31,10 @@ const App = () => {
     //Teams updated every 1h in backend - atm need refresh in frontend
     //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
     dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
+    dataService.getAgents().then(response => setAgents(response))
+    dataService.getQueue().then(response => setQueue(response))
 
-    setInterval(() => {
+    setInterval(() => { 
       dataService.getAgents().then(response => setAgents(response))
       dataService.getQueue().then(response => setQueue(response))
     }, 4000)

@@ -15,13 +15,17 @@
     overflow-y: scroll;    
 }
 
+
+/*the border management atm dumb, add another div layer?*/
 .queue-row {
     display: grid;
     grid-template-columns: 55% 20% 10% 15%;
     background-color: rgb(213, 252, 252);
     margin: 0px;
     border: 1px;
-    border-color: black;
+    border-left: 0px;
+    border-right: 0px;
+    border-color: grey;
     border-style: solid;
 }
 
@@ -29,9 +33,12 @@
     font-size: 150%;
     font-family: Georgia, 'Times New Roman', Times, serif;
     border: 2px;
+    border-bottom: 0px;
+    border-top: 0px;
     border-color: grey;
-    border-style: ridge;
-    margin: 10px;
+    border-style: solid;
+    margin: 0px;
+    height: 100%;
     line-height: 50px;
     padding-left: 1px;
     overflow: hidden;

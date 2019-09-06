@@ -6,10 +6,19 @@
   --lower-color: rgb(255, 223, 223);
 }
 
+body:root:fullscreen {
+  background-color: red;
+}
+
+body:not(:root):fullscreen{
+  background-color: yellow
+}
+
+
 .main {
   height: var(--height);
   width: var(--width);
-  background-color: white;
+  
   grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
   grid-template-rows: calc(var(--height)*0.8) calc(var(--height)*0.2);
   display: grid;
@@ -21,6 +30,10 @@
 
 .options-section {
   background-color: var(--lower-color);
+  position: fixed;
+  bottom: 0px;
+  height: 5%;
+  width: calc(var(--width)*0.5);
 }
 
 .agent-section {
@@ -30,5 +43,10 @@
 
 .right-bottom {
   background-color: var(--lower-color);
+  position: fixed;
+  bottom: 0px;
+  height: 5%;
+  left: calc(var(--width)*0.5);
+  width: calc(var(--width)*0.5);
 }
 

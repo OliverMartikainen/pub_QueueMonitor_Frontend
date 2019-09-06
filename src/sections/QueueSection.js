@@ -6,7 +6,6 @@ import QueueItem from '../components/QueueItem'
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
 const QueueSorter = (item1, item2) => { //item1.MaxQueueTime < item2.MaxQueuetime ? 1 : -1
-    //if call1 is greater return -1, call2 return 1, equal return 0 - want longer up
     if (item1.MaxQueueTime < item2.MaxQueueTime) {
         return 1
     }
