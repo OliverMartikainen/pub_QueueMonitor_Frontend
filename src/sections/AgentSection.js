@@ -5,8 +5,7 @@ import Agent from '../components/Agent'
 //agents have NAME REASON TIME
 
 const AgentSection = ({ agents }) => {
-    const agentsSorted = agents.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
-    const agent_list = agentsSorted.map((agent, index) => <Agent key={index} agent={agent} />)
+    const agent_list = agents.map((agent, index) => <Agent key={index} agent={agent} />)
     //prob more stylish way to do this
     const reducer = (statusCount, agent) => {
         switch (agent.Reason) {

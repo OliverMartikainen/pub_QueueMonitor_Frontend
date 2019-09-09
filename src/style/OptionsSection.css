@@ -11,7 +11,7 @@
     height: 30px;
   }
 
-.options button {
+.options >button {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -23,24 +23,17 @@
   bottom: 100%;
 }
 
-.item button {
+.item >button {
   width: 100%;
 }
 
 /* button id effects */
-.item button#Selected {
+
+#Selected {
   background-color: rgb(166, 166, 255);
 }
 
-.item button#Unselected {
-  background-color: rgb(175, 173, 173);
-}
-
-.modal-box button#Selected {
-  background-color: rgb(166, 166, 255);
-}
-
-.modal-box button#Unselected {
+#Unselected {
   background-color: rgb(175, 173, 173);
 }
 
@@ -49,28 +42,45 @@
     display: block;
 }
 
-/*just visual effects*/
-.options button:hover {
+.options >button:hover {
   background-color: #ccc;
 }
 
 /*ALL MODAL STUFF*/
 
 .modal-box {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  bottom: 25%;
-  width: 50%; /* Full width */
-  height: 50%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  position: fixed;
+  z-index: 1;
+  bottom: 15%;
+  left: 29.9%;
+  width: 800px;
+  height: 700px;
+  background-color: whitesmoke;
 }
 
-.modal-box button {
+.modal-box#show {
+  display: grid;
+  grid-auto-columns: 50% 50%;
+  grid-auto-rows: 100%;
+}
+.modal-box#hide {
+  display: none;
+}
+
+.modal-box >button {
   width: 50px;
   height: 30px;
 }
 
+.modal-list {
+  overflow: auto;
+  background-color: rgba(99, 98, 98);;
+  padding: 10%;
+}
 
-
+.modal-search >button {
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  padding: 0px;
+}
