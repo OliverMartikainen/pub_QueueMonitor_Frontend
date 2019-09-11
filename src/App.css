@@ -1,7 +1,7 @@
 :root {
   --height: 1080px;
   --width: 1920px;
-  --min-height: 1420;
+  --min-height: 1080;
   --min-width: 1584;
   --lower-color: rgb(255, 223, 223);
 }
@@ -16,11 +16,12 @@ body:not(:root):fullscreen{
 
 
 .main {
-  height: var(--height);
-  width: var(--width);
+
+  min-width: var(--min-width);
+  min-height: var(--min-height);
   
   grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
-  grid-template-rows: calc(var(--height)*0.8) calc(var(--height)*0.2);
+  grid-template-rows: calc(var(--height)*0.8) 100px;
   display: grid;
 }
 
@@ -30,10 +31,10 @@ body:not(:root):fullscreen{
 
 .options-section {
   background-color: var(--lower-color);
-  position: fixed;
+  grid-column: 1 /span 2;
   bottom: 0px;
-  height: 5%;
-  width: calc(var(--width)*0.5);
+  width: 100%;
+  
 }
 
 .agent-section {

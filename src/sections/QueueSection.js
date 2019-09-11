@@ -5,6 +5,8 @@ import '../style/QueueSection.css'
 import QueueItem from '../components/QueueItem'
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
+//automatically in db in this order?
+const QueueSorter = (item1, item2) => item1.MaxQueueTime < item2.MaxQueuetime ? -1 : 1
 
 
 const QueueList = (queue) => {
@@ -12,8 +14,12 @@ const QueueList = (queue) => {
 }
 
 const QueueSection = ({ queue }) => {
-    const emails = queue.filter(q => q.ContactType !== 'PBX')
-    const calls = queue.filter(q => q.ContactType === 'PBX')
+    let emails = []
+    let calls = []
+    if (queue) {
+        emails = queue.filter(q => q.ContactType !== 'PBX').sort(QueueSorter)
+        calls = queue.filter(q => q.ContactType === 'PBX').sort(QueueSorter)
+    }
 
     //would like: Time to count up, start with static
 

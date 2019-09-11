@@ -9,9 +9,9 @@ const format = (request) =>
 
 
 //api AgentsOnline
-const getAgents = () => format(axios.get(`${baseUrl}/agents`))
+const getAgentsOnline = () => format(axios.get(`${baseUrl}/agentsonline`)) //api AgentsOnline
 const getQueue = () => format(axios.get(`${baseUrl}/queue`)) //api GeneralQueue
+const getTeams = () => format(axios.get(`${baseUrl}/teams`)) //[{TeamName, Profiles[{TeamName, AgentId, AgentName, ServiceIds}]}]
+const getInboundReport = () => format(axios.get(`${baseUrl}/inboundreport`)) //[{ServiceName, ServiceId, ContactsPieces, ProcessedPieces}]
 
-const getTeams = () => format(axios.get(`${baseUrl}/teams`)) //array of team {TeamName, Profiles[{TeamName, AgentId, AgentName, ServiceIds}]}
-
-export default { getQueue, getTeams, getAgents }
+export default { getQueue, getTeams, getAgentsOnline, getInboundReport }

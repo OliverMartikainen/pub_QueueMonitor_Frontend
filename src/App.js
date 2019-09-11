@@ -8,8 +8,7 @@ import './App.css'
 
 //add later cookie to save previous team & profile?
 
-const BottomRight = ({ team }) => <div className="right-bottom"><h2>Team activated: {team}</h2></div>
-
+//Agents need to be sorted before censoring (sorted by surname, censor removes it)
 const AgentFormatter = (team, agents, censor) => {
   if (!agents || agents.length === 0) {
     return []
@@ -21,28 +20,24 @@ const AgentFormatter = (team, agents, censor) => {
   return censor ? Censor(AgentsSorted) : AgentsSorted
 }
 
+//sorted in QueueSection
 const QueueFormatter = (queue, queueProfile, censor) => {
-  const QueueFilter = (queue, queueProfile) =>
-    queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
-
-  const QueueSorter = (item1, item2) => item1.MaxQueueTime < item2.MaxQueuetime ? 1 : -1
+  const QueueFilter = (queue, queueProfile) => {
+    return !queueProfile ? queue : queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
+  }
 
   try {
-    if (!queue || !queueProfile) {
+    if (!queue) {
       return queue
     }
     const QueueFiltered = QueueFilter(queue, queueProfile)
-    const QueueSorted = QueueFiltered.sort(QueueSorter)
-    return censor ? Censor(QueueSorted) : QueueSorted
+    return censor ? Censor(QueueFiltered) : QueueFiltered
   }
   catch (err) {
     console.error('QueueProfile error:', queueProfile, err)
     return queue
   }
-
 }
-
-
 
 const App = () => {
   const [team, setTeam] = useState('') //active team
@@ -50,24 +45,27 @@ const App = () => {
   const [queue, setQueue] = useState([]) //for queue updates
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
-  const [queueProfile, setQueueProfile] = useState() //need to be GET only once
+  const [queueProfile, setQueueProfile] = useState()
+  const [report, setReport] = useState('')
 
   useEffect(() => {
     //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
     dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
-    dataService.getAgents().then(response => setAgents(response))
+    dataService.getAgentsOnline().then(response => setAgents(response))
     dataService.getQueue().then(response => setQueue(response))
+    dataService.getInboundReport().then(response => setReport(response))
 
     //change to 2-way listeners
     setInterval(() => { //update every 1h
       try {
-        dataService.getAgents().then(response => setAgents(response))
+        dataService.getAgentsOnline().then(response => setAgents(response))
         dataService.getQueue().then(response => setQueue(response))
+        dataService.getInboundReport().then(response => setReport(response))
       }
       catch(err) {
         console.log('Update error:', err)
       }
-    }, 3000)
+    }, 4000)
 
     setInterval(() => { //update every 1h
       dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
@@ -88,15 +86,16 @@ const App = () => {
     setQueueProfile: setQueueProfile, //profiles button func
     censor: censor, //show current status
     setCensor: (() => setCensor(!censor)), //censor button func
+    report,
   }
 
-  //div child item orders matter!
+  //div child item orders matter! <BottomRight team={team} />
   return (
     <div className="main">
       <QueueSection queue={QueueFormatted} />
       <AgentSection agents={AgentsFormatted} />
       <OptionsSection OptItems={OptionsItems} />
-      <BottomRight team={team} />
+  
     </div>
   );
 }

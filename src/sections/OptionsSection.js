@@ -1,6 +1,9 @@
 //bottom left
 import React, { useState } from 'react'
 import '../style/OptionsSection.css'
+import StatsCounter from '../utils/StatsCounter'
+
+
 
 
 //gives the chosen teams profile list
@@ -40,10 +43,10 @@ const OptionsModal = ({ profiles, teams, showModal }) => {
 }
 
 
-
 //add team ALL later
 const OptionsSection = ({ OptItems }) => { //change to props?
     const [showModal, setShowModal] = useState(false)
+
     //, team, teams, setTeam, queueProfile, setQueueProfile, censor, setCensor(!censor)
 
     const teamFunc = (TeamName) => { //when team is changed queue profile set to new teams 'ALL' profile
@@ -72,8 +75,10 @@ const OptionsSection = ({ OptItems }) => { //change to props?
             <button className='option button' onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
             <OptionsModal teams={teamList} profiles={profilesList} showModal={showModal} />
 
-            <button onClick={() => { OptItems.setTeam(""); OptItems.setQueueProfile({}) }}>Remove filters</button>
+            <button onClick={() => { OptItems.setTeam(''); OptItems.setQueueProfile() }}>Remove filters</button>
             <button onClick={OptItems.setCensor}>Censoring {censorMode}</button>
+            <h2>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)}</h2>
+            <h2>Profile activated: {!OptItems.queueProfile ? 'NONE' : OptItems.queueProfile.AgentName} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</h2>
         </div>
     )
 }
