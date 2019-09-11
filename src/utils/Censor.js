@@ -1,4 +1,5 @@
 const AgentsCensor = (agents) => {
+    //probably should send Firstname & Lastname from backend instead of combining there.
     const CensorLastname = (AgentName) => { //remove 1st part of name
         let name = [...AgentName.split(' ')]
         name.shift()

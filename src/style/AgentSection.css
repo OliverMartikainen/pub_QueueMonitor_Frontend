@@ -1,13 +1,20 @@
+.agent-container {
+    background-color: rgb(224, 220, 220);
+    height: 100%;
+    overflow: auto;
+}
+
 .agent-grid {
+    padding: 1%;
     display: grid;
     grid-template-columns: 33% 33% 33%;
  }
-
-.agent-container {
-    background-color: rgb(224, 220, 220);
-    min-height: 98%;
-    padding: 1%;
-}
+ 
+.result-grid {
+    height: 90px;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+} 
 
 .Agent {
     padding: 8px;
@@ -22,8 +29,11 @@
 h3 {
     font-size: 20px;
     margin: 0px;
+    font-weight: 700;
 }
 
 p {
-    margin-top: 10px
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 600;
 }

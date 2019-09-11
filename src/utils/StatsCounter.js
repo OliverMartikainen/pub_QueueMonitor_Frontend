@@ -15,12 +15,14 @@ const ProfileStats = (report, profile) => {
 
 
 //needs a change once backend ALL_TEAM_Profiles is done
-const TeamStats = (report, Team, teams) => {
-    if(!Team) {
+const TeamStats = (report, team, teams) => {
+    if(!team) {
         return 'CHOOSE TEAM'
     }
-    const profile = teams.find(team => team.TeamName === Team).Profiles.find(profile => profile.AgentName === 'ALL')
-    return ProfileStats(report, profile)
+    const teamProfiles = teams.find(t => t.TeamName === team).Profiles
+    const teamAllProfile = teamProfiles.find(profile => 
+        profile.AgentName === ((team !== 'ALL TEAMS') ? `ALL ${profile.TeamName}` : team))
+    return ProfileStats(report, teamAllProfile)
 }
 
 

@@ -13,7 +13,7 @@ const AgentFormatter = (team, agents, censor) => {
   if (!agents || agents.length === 0) {
     return []
   }
-  const AgentFilter = (team, agents) => !team ? agents : agents.filter(agent => agent.Team === team)
+  const AgentFilter = (team, agents) => !team ? [] : ((team !== 'ALL TEAMS') ? agents.filter(agent => agent.Team === team) : agents)
 
   const AgentsFiltered = AgentFilter(team, agents)
   const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
@@ -23,7 +23,7 @@ const AgentFormatter = (team, agents, censor) => {
 //sorted in QueueSection
 const QueueFormatter = (queue, queueProfile, censor) => {
   const QueueFilter = (queue, queueProfile) => {
-    return !queueProfile ? queue : queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
+    return !queueProfile ? [] : queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
   }
 
   try {
@@ -62,7 +62,7 @@ const App = () => {
         dataService.getQueue().then(response => setQueue(response))
         dataService.getInboundReport().then(response => setReport(response))
       }
-      catch(err) {
+      catch (err) {
         console.log('Update error:', err)
       }
     }, 4000)
@@ -95,7 +95,7 @@ const App = () => {
       <QueueSection queue={QueueFormatted} />
       <AgentSection agents={AgentsFormatted} />
       <OptionsSection OptItems={OptionsItems} />
-  
+
     </div>
   );
 }

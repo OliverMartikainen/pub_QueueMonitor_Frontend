@@ -5,11 +5,24 @@ import StatsCounter from '../utils/StatsCounter'
 
 
 
-
 //gives the chosen teams profile list
 const TeamProfile = (TeamName, teams) => !TeamName ? [] : teams.find(t => t.TeamName === TeamName).Profiles // a team's all profiles
-//sorts the profile list into alphabetic order
-const ProfileSorter = (p1, p2) => (p1.AgentName < p2.AgentName ? -1 : 1)
+
+//sorts the profile list team profile 1st then alphabetic order 
+//could move to backend all sorting (including agent & queue)
+const ProfileSort = (profile, TeamName) => {
+    const teamAllProfile = (TeamName !== 'ALL TEAMS') ? `ALL ${TeamName}` : 'ALL TEAMS'
+    const ProfileSorter = (p1, p2) => {
+        if (p1.AgentName === teamAllProfile) {
+            return -1
+        }
+        if (p2.AgentName === teamAllProfile) {
+            return 1
+        }
+        return p1.AgentName < p2.AgentName ? -1 : 1
+    }
+    return profile.sort(ProfileSorter)
+}
 
 const SearchList = ({ list, column, header }) => {
     const [filter, setFilter] = useState('')
@@ -29,9 +42,10 @@ const SearchList = ({ list, column, header }) => {
     )
 }
 
-const OptionsModal = ({ profiles, teams, showModal }) => {
+const OptionsModal = ({ team, AgentProfile, profiles, teams, showModal }) => {
     const modalId = showModal ? 'show' : 'hide'
-
+    const TeamName = !team ? 'NONE' : team
+    const ProfileName = !AgentProfile ? 'NONE' : AgentProfile.AgentName
     return (
 
         <div className='modal-box' id={modalId} >
@@ -42,16 +56,22 @@ const OptionsModal = ({ profiles, teams, showModal }) => {
     )
 }
 
+const HelpModal = () => {
+    return <div></div>
+}
+
 
 //add team ALL later
 const OptionsSection = ({ OptItems }) => { //change to props?
     const [showModal, setShowModal] = useState(false)
+    const [showHelp, setShowHelp] = useState(false)
 
     //, team, teams, setTeam, queueProfile, setQueueProfile, censor, setCensor(!censor)
 
     const teamFunc = (TeamName) => { //when team is changed queue profile set to new teams 'ALL' profile
         OptItems.setTeam(TeamName)
-        const profile = TeamProfile(TeamName, OptItems.teams).find(p => p.AgentName === 'ALL')
+        const team = TeamProfile(TeamName, OptItems.teams)
+        const profile = team.find(p => (TeamName !== 'ALL TEAMS') ? (p.AgentName === `ALL ${TeamName}`) : (p.AgentName === TeamName))
         OptItems.setQueueProfile(profile)
     }
 
@@ -62,23 +82,39 @@ const OptionsSection = ({ OptItems }) => { //change to props?
 
     //do some wicked code to make buttons seem toggle (eg check if in filter list)
     const profileToggle = (profile) => OptItems.queueProfile.AgentId !== profile.AgentId ? "Unselected" : "Selected" //.css use
-    let profilesSorted = TeamProfile(OptItems.team, OptItems.teams).sort(ProfileSorter)
+    const teamProfile = TeamProfile(OptItems.team, OptItems.teams)
+    const profilesSorted = ProfileSort(teamProfile, OptItems.team)
     const profilesList = profilesSorted.map((profile, index) =>
         <button id={profileToggle(profile)} key={index} onClick={() => { OptItems.setQueueProfile(profile) }}>{profile.AgentName}</button>
     )
-
-    const censorMode = OptItems.censor ? 'On' : 'Off'
+    const profileActivated = (profile, censor) => {
+        const CensorLastname = (AgentName) => { //remove 1st part of name
+            let name = [...AgentName.split(' ')]
+            name.shift()
+            return name.join(' ')
+        }
+        if (!profile) {
+            return 'NONE'
+        }
+        if (censor) {
+            return (profile.AgentName.includes('ALL') ? profile.AgentName : CensorLastname(profile.AgentName))
+        }
+        return profile.AgentName
+    }
+    const censorMode = OptItems.censor ? 'On' : 'OFF'
     //probably too many services and will have to make a modal? popup window for them.
     return (
         <div className="options-section">
-
-            <button className='option button' onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
-            <OptionsModal teams={teamList} profiles={profilesList} showModal={showModal} />
-
-            <button onClick={() => { OptItems.setTeam(''); OptItems.setQueueProfile() }}>Remove filters</button>
-            <button onClick={OptItems.setCensor}>Censoring {censorMode}</button>
-            <h2>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)}</h2>
-            <h2>Profile activated: {!OptItems.queueProfile ? 'NONE' : OptItems.queueProfile.AgentName} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</h2>
+            <OptionsModal team={OptItems.team} AgentProfile={OptItems.queueProfile} teams={teamList} profiles={profilesList} showModal={showModal} />
+            <div className='buttons'>
+                <button onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
+                <button onClick={() => { OptItems.setTeam(''); OptItems.setQueueProfile() }}>REMOVE FILTERS</button>
+                <button onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
+                <button>HELP</button>
+                <HelpModal />
+                <p>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)}<dir></dir>
+                Profile activated: {profileActivated(OptItems.queueProfile, OptItems.censor)} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</p>
+            </div>
         </div>
     )
 }
