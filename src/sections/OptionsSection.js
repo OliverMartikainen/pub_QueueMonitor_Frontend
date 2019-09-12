@@ -112,7 +112,7 @@ const OptionsSection = ({ OptItems }) => { //change to props?
                 <button onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
                 <button>HELP</button>
                 <HelpModal />
-                <p>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)}<dir></dir>
+                <p>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)} <br></br>
                 Profile activated: {profileActivated(OptItems.queueProfile, OptItems.censor)} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</p>
             </div>
         </div>

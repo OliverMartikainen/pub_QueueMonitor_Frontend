@@ -5,11 +5,11 @@
 .email-list {
     height: 49%;
     background-color: var(--list-color);
-    overflow-y: scroll;   
+    overflow-y: scroll;
 }
 
 .call-list {
-    margin-bottom: 10px;
+    margin-bottom: 1%;
     height: 50%;
     background-color: var(--list-color);
     overflow-y: scroll;    
@@ -19,7 +19,7 @@
 /*the border management atm dumb, add another div layer?*/
 .queue-row {
     display: grid;
-    grid-template-columns: 55% 20% 10% 15%;
+    grid-template-columns: 53% 20% 10% 17%;
     background-color: rgb(213, 252, 252);
     margin: 0px;
     border: 1px;

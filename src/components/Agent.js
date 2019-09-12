@@ -2,7 +2,7 @@ import React from 'react'
 
 
 const Agent = ({ agent }) => {
-    //options   FREE    BUSY    OFFLINE - not in datafeed, only test.
+    //options   FREE    BUSY    OFFLINE - not in datafeed, only test. //move to css
     const styleChooser = (reason) => {
         switch (reason) {
             case 'Total: ':

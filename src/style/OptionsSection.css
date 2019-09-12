@@ -48,17 +48,19 @@
 
 .buttons {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px 80%;
-  width: 100%;
-  height: 90%;
-  background-color: blue;
+  grid-template-columns: 100px 100px 100px 100px 100px 70%;
+  width: 100.5%;
+  height: 115%;
+  padding: 2px;
+  background-color: rgb(255, 223, 223);
 }
 .buttons >button {
   width: 100%;
   height: 50px;
 }
 .buttons >p {
-  background-color: red;
+  margin-block-start: 0px;
+  margin-block-end: 0px; 
 }
 
 /*ALL MODAL STUFF*/
