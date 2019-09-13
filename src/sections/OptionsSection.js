@@ -47,21 +47,24 @@ const OptionsModal = ({ team, AgentProfile, profiles, teams, showModal }) => {
     const TeamName = !team ? 'NONE' : team
     const ProfileName = !AgentProfile ? 'NONE' : AgentProfile.AgentName
     return (
-
         <div className='modal-box' id={modalId} >
-            <SearchList list={teams} column={1} header={'TEAMS'} />
-            <SearchList list={profiles} column={2} header={'PROFILES'} />
+            <SearchList list={teams} column={1} header={`TEAM: ${TeamName}`} />
+            <SearchList list={profiles} column={2} header={`PROFILE: ${ProfileName}`} />
         </div>
-
     )
 }
 
-const HelpModal = () => {
-    return <div></div>
+const HelpModal = ({ showHelp }) => {
+    const modalId = showHelp ? 'show' : 'hide'
+    return (
+        <div className='help-modal' id={modalId} >
+            You called for me? I am here to help! Just no idea how...
+        </div>
+    )
 }
 
 
-//add team ALL later
+//Options buttons div can be seperated & states moved to it
 const OptionsSection = ({ OptItems }) => { //change to props?
     const [showModal, setShowModal] = useState(false)
     const [showHelp, setShowHelp] = useState(false)
@@ -110,10 +113,12 @@ const OptionsSection = ({ OptItems }) => { //change to props?
                 <button onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
                 <button onClick={() => { OptItems.setTeam(''); OptItems.setQueueProfile() }}>REMOVE FILTERS</button>
                 <button onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
-                <button>HELP</button>
-                <HelpModal />
+                <button onClick={() => setShowHelp(!showHelp)}>HELP</button>
+                <HelpModal showHelp={showHelp} />
+            </div>
+            <div>
                 <p>Team activated: {!OptItems.team ? 'NONE' : OptItems.team} | Stats: {StatsCounter.TeamStats(OptItems.report, OptItems.team, OptItems.teams)} <br></br>
-                Profile activated: {profileActivated(OptItems.queueProfile, OptItems.censor)} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</p>
+                    Profile activated: {profileActivated(OptItems.queueProfile, OptItems.censor)} | Stats: {StatsCounter.ProfileStats(OptItems.report, OptItems.queueProfile)}</p>
             </div>
         </div>
     )

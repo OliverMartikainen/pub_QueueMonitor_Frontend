@@ -2,21 +2,24 @@
   --width: 100%;
   --padding: 3px;
   --min-height: 800px;
+  --section-border-color: rgb(216, 216, 216);
+  --section-border-style: ridge;
+  --section-border-size: 3px;
   min-width: 1500px;
   min-height: var(--min-height);
 }
 
 .main {
   grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
-  grid-template-rows: 89vh 9vh;
+  grid-template-rows: 88vh 11vh;
   display: grid;
+  overflow: hidden
 }
 
 .queue-section {
   grid-column: 1;
   grid-row: 1;
   padding: var(--padding);
-
 }
 .agent-section {
   grid-column: 2;
@@ -27,6 +30,13 @@
 
 .options-section {
   grid-column: 1 /span 2;
-  width: 99%;
-  padding: var(--padding);
+  margin: var(--padding);
+  width: 99.4%;
+  display: grid;
+  grid-template-columns: 50% 48%;
+  background-color: rgb(255, 223, 223);
+  border: var(--section-border-size);    
+  border-color: var(--section-border-color);
+  border-style: var(--section-border-style);
 }
+

@@ -1,42 +1,44 @@
-:root {
+.queue-section {
     --list-color: rgb(224, 220, 220);
 }
 
 .email-list {
-    height: 49%;
+    padding: 0px;
+    height: 48%;
     background-color: var(--list-color);
     overflow-y: scroll;
+    border: var(--section-border-size);    
+    border-color: var(--section-border-color);
+    border-style: var(--section-border-style);
 }
 
 .call-list {
     margin-bottom: 1%;
-    height: 50%;
+    height: 49%;
     background-color: var(--list-color);
-    overflow-y: scroll;    
+    overflow-y: scroll;
+    border: var(--section-border-size);    
+    border-color: var(--section-border-color);
+    border-style: var(--section-border-style);
 }
 
 
-/*the border management atm dumb, add another div layer?*/
 .queue-row {
     display: grid;
     grid-template-columns: 53% 20% 10% 17%;
     background-color: rgb(213, 252, 252);
     margin: 0px;
-    border: 1px;
-    border-left: 0px;
-    border-right: 0px;
-    border-color: grey;
-    border-style: solid;
+    border-bottom: 2px;
+    border-bottom-color: grey;
+    border-bottom-style: ridge;
 }
 
-.queue-row p {
+.queue-row >div {
     font-size: 150%;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    border: 2px;
-    border-bottom: 0px;
-    border-top: 0px;
-    border-color: grey;
-    border-style: solid;
+    border-right: 2px;
+    border-right-color: grey;
+    border-right-style: ridge;
     margin: 0px;
     height: 100%;
     line-height: 50px;
@@ -56,14 +58,14 @@
     opacity: 0.5;
 }
 
-.queue-row p#green {
+.queue-row >div#green {
     background-color: rgb(110, 197, 110);
 }
 
-.queue-row p#yellow {
+.queue-row #yellow {
     background-color: yellow;
 }
 
-.queue-row p#red {
+.queue-row >div#red {
     background-color: rgb(255, 125, 125)
 }

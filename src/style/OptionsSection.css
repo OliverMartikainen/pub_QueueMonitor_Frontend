@@ -1,58 +1,8 @@
-:root {
-  --options-button-heigth: 40px;
-  --options-button-width: 120px;
-}
-
-.options {
-    position: relative;
-    display: inline-block;
-    margin: 10px;
-    width: 200px;
-    height: 30px;
-  }
-
-.options >button {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-  
-.item {
-  display: none;
-  position: absolute;
-  bottom: 100%;
-}
-
-.item >button {
-  width: 100%;
-}
-
-/* button id effects */
-
-#Selected {
-  background-color: rgb(166, 166, 255);
-}
-
-#Unselected {
-  background-color: rgb(175, 173, 173);
-}
-
-/*shows direct child div elements on hover*/
-.options:hover >div {
-    display: block;
-}
-
-.options >button:hover {
-  background-color: #ccc;
-}
-
 .buttons {
   display: grid;
-  grid-template-columns: 100px 100px 100px 100px 100px 70%;
-  width: 100.5%;
-  height: 115%;
+  grid-template-columns: 100px 100px 100px 100px;
   padding: 2px;
-  background-color: rgb(255, 223, 223);
+
 }
 .buttons >button {
   width: 100%;
@@ -100,4 +50,47 @@
   height: 40px;
   overflow: hidden;
   padding: 0px;
+}
+
+
+/* HELP Modal - probably could combine these somehow */
+.help-modal {
+  position: absolute;
+  z-index: 1;
+  bottom: 15%;
+  left: 29.6%; /*some inherit stuff to get it central?*/
+  width: 800px;
+  height: 700px;
+  background-color: whitesmoke;
+}
+
+.help-modal#show {
+  display: grid;
+  grid-auto-columns: 50% 50%;
+  grid-auto-rows: 100%;
+}
+.help-modal#hide {
+  display: none;
+}
+
+
+
+
+/* button id effects */
+
+#Selected {
+  background-color: rgb(166, 166, 255);
+}
+
+#Unselected {
+  background-color: rgb(175, 173, 173);
+}
+
+/*shows direct child div elements on hover*/
+.buttons:hover >div {
+    display: block;
+}
+
+.buttons >button:hover {
+  background-color: #ccc;
 }
