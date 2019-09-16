@@ -68,6 +68,7 @@ const HelpModal = ({ showHelp }) => {
 const OptionsSection = ({ OptItems }) => { //change to props?
     const [showModal, setShowModal] = useState(false)
     const [showHelp, setShowHelp] = useState(false)
+    
 
     //, team, teams, setTeam, queueProfile, setQueueProfile, censor, setCensor(!censor)
 

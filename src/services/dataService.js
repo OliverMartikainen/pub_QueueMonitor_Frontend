@@ -4,14 +4,46 @@ import axios from 'axios'
 const baseUrl = 'http://FILI129603:3001/api' //for hosting in dev environment
 //const baseUrl = './api'
 
-const format = (request) => 
-    request.then(response => response.data)
+const ErrorHandler = (error) => {
+    //503 if frontend to backend problem
+    //502 if backend to database problem (backend will send 'Database Error' as response)
+    //500 for all unknowns
+    if (error.message === 'Network Error') {
+        error.status = 503
+        console.log('t1', { error })
+        return error
+    }
+    error.status = 500
+    return error
+}
 
+const getEventTest = () => {
+    return new EventSource(`${baseUrl}/eventtest`)
+}
 
 //api AgentsOnline
-const getAgentsOnline = () => format(axios.get(`${baseUrl}/agentsonline`)) //api AgentsOnline
-const getQueue = () => format(axios.get(`${baseUrl}/queue`)) //api GeneralQueue
-const getTeams = () => format(axios.get(`${baseUrl}/teams`)) //[{TeamName, Profiles[{TeamName, AgentId, AgentName, ServiceIds}]}]
-const getInboundReport = () => format(axios.get(`${baseUrl}/inboundreport`)) //[{ServiceName, ServiceId, ContactsPieces, ProcessedPieces}]
+const getAgentsOnline = () => axios.get(`${baseUrl}/agentsonline`)
+const getQueue = () => axios.get(`${baseUrl}/queue`) //api GeneralQueue
+const getInboundReport = () => axios.get(`${baseUrl}/inboundreport`) //[{ServiceName, ServiceId, ContactsPieces, ProcessedPieces}]
 
-export default { getQueue, getTeams, getAgentsOnline, getInboundReport }
+//[{TeamName, Profiles[{TeamName, AgentId, AgentName, ServiceIds}]}]
+const getTeams = () =>
+    axios.get(`${baseUrl}/teams`)
+        .catch(error => {
+            console.log('dataservice team error', error.message, error.status)
+            return ErrorHandler(error)
+        })
+
+
+
+const getUpdates = () =>
+    axios.all([getQueue(), getAgentsOnline(), getInboundReport()])
+        .catch(error => {
+            console.log('dataservice update error', error.message, error.status)
+            return ErrorHandler(error)
+        })
+
+
+
+
+export default { getTeams, getUpdates, getEventTest }

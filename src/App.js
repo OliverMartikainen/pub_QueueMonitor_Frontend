@@ -47,30 +47,53 @@ const App = () => {
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
   const [queueProfile, setQueueProfile] = useState()
   const [report, setReport] = useState('')
+  const [connetionStatus, setConnectionStatus] = useState(404)
+
+  console.log(dataService.getEventTest())
+
+  const updateData = () =>
+    dataService.getUpdates().then(response => {
+      setConnectionStatus(response.status)
+      if(response.status !== 200) {
+        console.log('App updateData:',response.status, response.message)
+        return
+      }
+      setQueue(response[0].data)
+      setAgents(response[1].data)
+      setReport(response[2].data)
+      console.log('all normal in data')
+      setConnectionStatus(200)
+    }).catch(err => {
+      console.log('error app update data', err)
+      setConnectionStatus(000)
+    })
+
+  const updateTeams = () =>
+    dataService.getTeams().then(response => {
+      setConnectionStatus(response.status)
+      if(response.status !== 200) {
+        console.log('App updateTeams:',response.status, response.message)
+        return
+      }
+      setTeams(response.data)
+      console.log('all normal in teams')
+    }).catch(error => {
+      console.log('error app update teams', error)
+      setConnectionStatus(000)
+      setTimeout(updateTeams, 10000) // try again in 10 sec
+    })
 
   useEffect(() => {
     //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
-    dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
-    dataService.getAgentsOnline().then(response => setAgents(response))
-    dataService.getQueue().then(response => setQueue(response))
-    dataService.getInboundReport().then(response => setReport(response))
+    updateTeams()
+    updateData()
 
     //change to 2-way listeners
-    setInterval(() => { //update every 1h
-      try {
-        dataService.getAgentsOnline().then(response => setAgents(response))
-        dataService.getQueue().then(response => setQueue(response))
-        dataService.getInboundReport().then(response => setReport(response))
-      }
-      catch (err) {
-        console.log('Update error:', err)
-      }
-    }, 4000)
+    setInterval(updateData, 4000) //update every 4 sec
 
-    setInterval(() => { //update every 1h
-      dataService.getTeams().then(response => response ? setTeams(response) : console.log('GetTeams failed', response))
-    }, 3600000) //1. per hour 1000*3600 = 3 600 000
+    setInterval(updateTeams, 3600000) //1. per hour 1000*3600 = 3 600 000
   }, [])
+  console.log(connetionStatus)
 
   //want these to happen on each re-render? in theory wouldnt need to (eg no change).
   const AgentsFormatted = AgentFormatter(team, agents, censor)

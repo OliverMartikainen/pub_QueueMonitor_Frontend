@@ -20,6 +20,7 @@ const AgentSection = ({ agents }) => {
         return statusCount
     }
 
+
     const statusCounter = agents.reduce(reducer, { free: 0, busy: 0, total: 0 })
 
     //could rework- <div className='Agent'> 
