@@ -29,6 +29,10 @@ const getInboundReport = () => axios.get(`${baseUrl}/inboundreport`) //[{Service
 //[{TeamName, Profiles[{TeamName, AgentId, AgentName, ServiceIds}]}]
 const getTeams = () =>
     axios.get(`${baseUrl}/teams`)
+        .then(response => {
+            response.status = 200
+            return response
+        })
         .catch(error => {
             console.log('dataservice team error', error.message, error.status)
             return ErrorHandler(error)
@@ -38,6 +42,10 @@ const getTeams = () =>
 
 const getUpdates = () =>
     axios.all([getQueue(), getAgentsOnline(), getInboundReport()])
+        .then(response => {
+            response.status = 200
+            return response
+        })
         .catch(error => {
             console.log('dataservice update error', error.message, error.status)
             return ErrorHandler(error)

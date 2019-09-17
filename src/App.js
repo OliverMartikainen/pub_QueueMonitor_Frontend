@@ -49,8 +49,26 @@ const App = () => {
   const [report, setReport] = useState('')
   const [connetionStatus, setConnectionStatus] = useState(404)
 
-  console.log(dataService.getEventTest())
+  //eventsource testing
+  const aa = () => {
+    const a = dataService.getEventTest()
+    a.onmessage = (evet) => {
+      const t1 = evet.origin.toLocaleLowerCase()
+      const t2 = 'http://FILI129603:3001'.toLocaleLowerCase()
+      if(t1 !== t2) {
+        console.log('origin error', t1)
+      }
+      console.log('4 ', JSON.parse(evet.data))
+    }
+    a.onopen = (e) => {
+      console.log('opened',e, a)
+    }
+    a.onerror = () => {
+      console.log('error', a)
+    }
+  }
 
+  
   const updateData = () =>
     dataService.getUpdates().then(response => {
       setConnectionStatus(response.status)
@@ -65,7 +83,7 @@ const App = () => {
       setConnectionStatus(200)
     }).catch(err => {
       console.log('error app update data', err)
-      setConnectionStatus(000)
+      setConnectionStatus(111)
     })
 
   const updateTeams = () =>
@@ -79,8 +97,8 @@ const App = () => {
       console.log('all normal in teams')
     }).catch(error => {
       console.log('error app update teams', error)
-      setConnectionStatus(000)
-      setTimeout(updateTeams, 10000) // try again in 10 sec
+      setConnectionStatus(111)
+      //setTimeout(updateTeams, 10000) // try again in 10 sec
     })
 
   useEffect(() => {
@@ -88,12 +106,13 @@ const App = () => {
     updateTeams()
     updateData()
 
+    aa()
+
     //change to 2-way listeners
     setInterval(updateData, 4000) //update every 4 sec
 
     setInterval(updateTeams, 3600000) //1. per hour 1000*3600 = 3 600 000
   }, [])
-  console.log(connetionStatus)
 
   //want these to happen on each re-render? in theory wouldnt need to (eg no change).
   const AgentsFormatted = AgentFormatter(team, agents, censor)
