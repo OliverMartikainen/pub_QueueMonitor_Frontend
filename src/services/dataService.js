@@ -1,8 +1,9 @@
 import axios from 'axios'
+import config from '../utils/config'
 
-//const baseUrl = 'http://localhost:3001/api'
-const baseUrl = 'http://FILI129603:3001/api' //for hosting in dev environment
-//const baseUrl = './api'
+const baseUrl = `${config.baseUrl}/pull`
+
+//Only getTeams() used to initialize teams
 
 const ErrorHandler = (error) => {
     //503 if frontend to backend problem
@@ -15,10 +16,6 @@ const ErrorHandler = (error) => {
     }
     error.status = 500
     return error
-}
-
-const getEventTest = () => {
-    return new EventSource(`${baseUrl}/eventtest`)
 }
 
 //api AgentsOnline
@@ -34,24 +31,72 @@ const getTeams = () =>
             return response
         })
         .catch(error => {
+            ErrorHandler(error)
             console.log('dataservice team error', error.message, error.status)
-            return ErrorHandler(error)
+            return error
         })
 
 
 
-const getUpdates = () =>
+const getUpdates = () => 
     axios.all([getQueue(), getAgentsOnline(), getInboundReport()])
         .then(response => {
             response.status = 200
             return response
         })
         .catch(error => {
+            ErrorHandler(error)
             console.log('dataservice update error', error.message, error.status)
-            return ErrorHandler(error)
+            return error
         })
 
 
 
+/* app.js implementation of dataService
 
-export default { getTeams, getUpdates, getEventTest }
+  const updateData = () =>
+    dataService.getUpdates().then(response => {
+      setConnectionStatus(response.status)
+      if(response.status !== 200) {
+        console.log('App updateData:',response.status, response.message)
+        return
+      }
+      setQueue(response[0].data) //0 queue, 1 agents, 2 report
+      setAgents(response[1].data)
+      setReport(response[2].data)
+      console.log('all normal in data')
+      setConnectionStatus(200)
+    }).catch(err => {
+      console.log('error app update data', err)
+      setConnectionStatus(111)
+    })
+
+      const updateTeams = () =>
+    dataService.getTeams().then(response => {
+      setConnectionStatus(response.status)
+      if(response.status !== 200) {
+        console.log('App updateTeams:',response.status, response.message)
+        return
+      }
+      setTeams(response.data)
+      console.log('all normal in teams')
+    }).catch(error => {
+      console.log('error app update teams', error)
+      setConnectionStatus(111)
+    })
+
+      useEffect(() => {
+    //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
+    updateTeams()
+    //updateData()
+
+    //aa()//event source testing
+    dataUpdater()
+
+    //change to 2-way listeners
+    //setInterval(updateData, 4000) //update every 4 sec
+    setInterval(updateTeams, 3600000) //1. per hour 1000*3600 = 3 600 000
+  }, [])
+*/
+
+export default { getTeams, getUpdates }

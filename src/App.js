@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import AgentSection from './sections/AgentSection'
 import QueueSection from './sections/QueueSection'
 import OptionsSection from './sections/OptionsSection'
-import dataService from './services/dataService'
+import eventService from './services/eventService'
+import config from './utils/config'
 import Censor from './utils/Censor'
 import './App.css'
 
@@ -47,71 +48,49 @@ const App = () => {
   const [teams, setTeams] = useState([]) //list of teams and their chosen services
   const [queueProfile, setQueueProfile] = useState()
   const [report, setReport] = useState('')
-  const [connetionStatus, setConnectionStatus] = useState(404)
+  const [connectionStatus, setConnectionStatus] = useState(404)
 
-  //eventsource testing
-  const aa = () => {
-    const a = dataService.getEventTest()
-    a.onmessage = (evet) => {
-      const t1 = evet.origin.toLocaleLowerCase()
-      const t2 = 'http://FILI129603:3001'.toLocaleLowerCase()
-      if(t1 !== t2) {
-        console.log('origin error', t1)
+  const dataUpdater = () => {
+    const dataUpdates = eventService.getDataUpdates()
+    dataUpdates.onopen = (event) => {
+      console.log(`dataUpdates OPEN:`)
+    }
+    dataUpdates.onerror = (event) => {
+      console.log(`dataUpdates ERROR: `)
+    }
+    dataUpdates.onmessage = (event) => {
+      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
+        console.log('origin error', event.origin)
       }
-      console.log('4 ', JSON.parse(evet.data))
-    }
-    a.onopen = (e) => {
-      console.log('opened',e, a)
-    }
-    a.onerror = () => {
-      console.log('error', a)
+      const data = JSON.parse(event.data)
+      //console.log(`dataUpdates MESSAGE: `, data.timeStamp)
+      setQueue(data.queue)
+      setAgents(data.agentsOnline)
+      setReport(data.report)
     }
   }
 
-  
-  const updateData = () =>
-    dataService.getUpdates().then(response => {
-      setConnectionStatus(response.status)
-      if(response.status !== 200) {
-        console.log('App updateData:',response.status, response.message)
-        return
+  const teamUpdater = () => {
+    const teamUpdates = eventService.getTeamUpdates()
+    teamUpdates.onopen = (event) => {
+      console.log(`teamUpdates OPEN:`)
+    }
+    teamUpdates.onerror = (event) => {
+      console.log(`teamUpdates ERROR: `)
+    }
+    teamUpdates.onmessage = (event) => {
+      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
+        console.log('origin error', event.origin)
       }
-      setQueue(response[0].data)
-      setAgents(response[1].data)
-      setReport(response[2].data)
-      console.log('all normal in data')
-      setConnectionStatus(200)
-    }).catch(err => {
-      console.log('error app update data', err)
-      setConnectionStatus(111)
-    })
-
-  const updateTeams = () =>
-    dataService.getTeams().then(response => {
-      setConnectionStatus(response.status)
-      if(response.status !== 200) {
-        console.log('App updateTeams:',response.status, response.message)
-        return
-      }
-      setTeams(response.data)
-      console.log('all normal in teams')
-    }).catch(error => {
-      console.log('error app update teams', error)
-      setConnectionStatus(111)
-      //setTimeout(updateTeams, 10000) // try again in 10 sec
-    })
+      const data = JSON.parse(event.data)
+      console.log(`teamUpdates MESSAGE: `, data.timeStamp)
+      setTeams(data.teams)
+    }
+  }
 
   useEffect(() => {
-    //Teams = [{ TeamName, Profiles[{ TeamName, AgentId, AgentName, ServiceIds }] }]
-    updateTeams()
-    updateData()
-
-    aa()
-
-    //change to 2-way listeners
-    setInterval(updateData, 4000) //update every 4 sec
-
-    setInterval(updateTeams, 3600000) //1. per hour 1000*3600 = 3 600 000
+    teamUpdater()
+    dataUpdater()
   }, [])
 
   //want these to happen on each re-render? in theory wouldnt need to (eg no change).

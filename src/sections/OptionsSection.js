@@ -80,7 +80,7 @@ const OptionsSection = ({ OptItems }) => { //change to props?
     }
 
     const teamToggle = (team) => OptItems.team !== team ? "Unselected" : "Selected" //.css use
-    const teamList = OptItems.teams.map((team, index) =>
+    const teamList = !OptItems.teams ? [] : OptItems.teams.map((team, index) =>
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => teamFunc(team.TeamName)}>{team.TeamName}</button>
     )
 
