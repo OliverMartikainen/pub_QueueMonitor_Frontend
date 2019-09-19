@@ -2,7 +2,7 @@
 
 import React from 'react'
 import '../style/QueueSection.css'
-import QueueItem from '../components/QueueItem'
+import QueueItem from './QueueSection/QueueItem'
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
 //automatically in db in this order?

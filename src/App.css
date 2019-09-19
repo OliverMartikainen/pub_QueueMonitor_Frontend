@@ -1,42 +1,37 @@
 :root {
-  --width: 100%;
-  --padding: 3px;
+  --min-width: 1500px;
   --min-height: 800px;
-  --section-border-color: rgb(216, 216, 216);
-  --section-border-style: ridge;
-  --section-border-size: 3px;
-  min-width: 1500px;
+  min-width: var(--min-width);
   min-height: var(--min-height);
 }
 
 .main {
-  grid-template-columns: calc(var(--width)*0.5) calc(var(--width)*0.5);
-  grid-template-rows: 88vh 11vh;
+  min-width: var(--min-width);
+  min-height: var(--min-height);
+  height: 100%;
+  width: 100%;
+
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 88% 12%;
+  position: absolute;
   display: grid;
-  overflow: hidden
 }
 
 .queue-section {
+  background-color: rgb(241, 85, 85);
   grid-column: 1;
   grid-row: 1;
-  padding: var(--padding);
 }
 .agent-section {
   grid-column: 2;
   grid-row: 1;
-  padding: var(--padding);
-  /*min-height: calc(var(--min-height)*0.4);*/
+  background-color: rgb(146, 142, 142);
 }
 
-.options-section {
+.options-section {  
   grid-column: 1 /span 2;
-  margin: var(--padding);
-  width: 99.4%;
+  grid-row: 2;
   display: grid;
   grid-template-columns: 50% 48%;
   background-color: rgb(255, 223, 223);
-  border: var(--section-border-size);    
-  border-color: var(--section-border-color);
-  border-style: var(--section-border-style);
 }
-

@@ -16,7 +16,7 @@ const ProfileStats = (report, profile) => {
 
 //needs a change once backend ALL_TEAM_Profiles is done
 const TeamStats = (report, team, teams) => {
-    if(!team) {
+    if(!team || teams.length === 0) {
         return 'CHOOSE TEAM'
     }
     const teamProfiles = teams.find(t => t.TeamName === team).Profiles

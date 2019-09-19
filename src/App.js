@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import AgentSection from './sections/AgentSection'
-import QueueSection from './sections/QueueSection'
-import OptionsSection from './sections/OptionsSection'
+import AgentSection from './components/AgentSection'
+import QueueSection from './components/QueueSection'
+import OptionsSection from './components/OptionsSection'
 import eventService from './services/eventService'
 import config from './utils/config'
 import Censor from './utils/Censor'
@@ -40,6 +40,54 @@ const QueueFormatter = (queue, queueProfile, censor) => {
   }
 }
 
+  const dataUpdater = (setQueue, setAgents, setReport) => {
+    const dataUpdates = eventService.getDataUpdates()
+    dataUpdates.onopen = (event) => {
+      const time = new Date().toISOString().substr(11,8)
+      console.log(`dataUpdates OPEN:`, time)
+    }
+    dataUpdates.onerror = (event) => {
+      const time = new Date().toISOString().substr(11,8)
+      console.log(`dataUpdates ERROR: `,time)
+    }
+    dataUpdates.onmessage = (event) => {
+      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
+        const time = new Date().toISOString().substr(11,8)
+        console.log('origin error', time, event.origin)
+      }
+      const data = JSON.parse(event.data)
+      //console.log(`dataUpdates MESSAGE: `, data.timeStamp)
+      setQueue(data.queue)
+      setAgents(data.agentsOnline)
+      setReport(data.report)
+    }
+  }
+
+  const teamUpdater = (setTeams) => {
+    const teamUpdates = eventService.getTeamUpdates()
+    teamUpdates.onopen = (event) => {
+      const time = new Date().toISOString().substr(11,8)
+      console.log(`teamUpdates OPEN:`, time)
+    }
+    teamUpdates.onerror = (event) => {
+      const time = new Date().toISOString().substr(11,8)
+      console.log(`teamUpdates ERROR: `, time)
+    }
+    teamUpdates.onmessage = (event) => {
+      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
+        console.log('origin error', event.origin)
+      }
+      const data = JSON.parse(event.data)
+      if(data.status !== 200) {
+        const time = new Date().toISOString().substr(11,8)
+        console.log('TEAM UPDATE FAILED', data.status, time)
+        return
+      }
+      console.log(`teamUpdates MESSAGE: `, data.timeStamp)
+      setTeams(data.teams)
+    }
+  }
+
 const App = () => {
   const [team, setTeam] = useState('') //active team
   const [censor, setCensor] = useState(false) //if sensitive info needs to be hidden
@@ -50,47 +98,16 @@ const App = () => {
   const [report, setReport] = useState('')
   const [connectionStatus, setConnectionStatus] = useState(404)
 
-  const dataUpdater = () => {
-    const dataUpdates = eventService.getDataUpdates()
-    dataUpdates.onopen = (event) => {
-      console.log(`dataUpdates OPEN:`)
-    }
-    dataUpdates.onerror = (event) => {
-      console.log(`dataUpdates ERROR: `)
-    }
-    dataUpdates.onmessage = (event) => {
-      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
-        console.log('origin error', event.origin)
-      }
-      const data = JSON.parse(event.data)
-      //console.log(`dataUpdates MESSAGE: `, data.timeStamp)
-      setQueue(data.queue)
-      setAgents(data.agentsOnline)
-      setReport(data.report)
-    }
-  }
-
-  const teamUpdater = () => {
-    const teamUpdates = eventService.getTeamUpdates()
-    teamUpdates.onopen = (event) => {
-      console.log(`teamUpdates OPEN:`)
-    }
-    teamUpdates.onerror = (event) => {
-      console.log(`teamUpdates ERROR: `)
-    }
-    teamUpdates.onmessage = (event) => {
-      if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
-        console.log('origin error', event.origin)
-      }
-      const data = JSON.parse(event.data)
-      console.log(`teamUpdates MESSAGE: `, data.timeStamp)
-      setTeams(data.teams)
-    }
-  }
+  const storageTeam = window.localStorage.getItem('team')
+  const storageProfile = window.localStorage.getItem('queueProfile')
+  console.log('a',storageTeam,'b', storageProfile)
 
   useEffect(() => {
-    teamUpdater()
-    dataUpdater()
+    teamUpdater(setTeams)
+    dataUpdater(setQueue, setAgents, setReport)
+    const storageProfile = window.localStorage.getItem('queueProfile')
+    console.log('a',storageTeam,'b', storageProfile)
+
   }, [])
 
   //want these to happen on each re-render? in theory wouldnt need to (eg no change).
@@ -109,16 +126,22 @@ const App = () => {
     setCensor: (() => setCensor(!censor)), //censor button func
     report,
   }
+  console.log(OptionsItems.team)
+  console.log(OptionsItems.teams)
 
   //div child item orders matter! <BottomRight team={team} />
+  /*
+      <div className='queue-section'></div>
+      <div className='agent-section'></div>
+      <div className='options-section'></div>
+  */
   return (
-    <div className="main">
+    <div className='main'>
       <QueueSection queue={QueueFormatted} />
       <AgentSection agents={AgentsFormatted} />
       <OptionsSection OptItems={OptionsItems} />
-
     </div>
-  );
+  )
 }
 
 export default App;

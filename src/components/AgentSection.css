@@ -1,0 +1,14 @@
+.agent-container {
+    background-color: rgb(224, 220, 220);
+    position: inherit;
+    border: var(--section-border-size);    
+    border-color: var(--section-border-color);
+    border-style: var(--section-border-style);
+    overflow-y: scroll;
+    background-color: white;
+}
+
+ 
+.container {
+    background-color: white
+}

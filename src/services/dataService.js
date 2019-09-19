@@ -3,7 +3,7 @@ import config from '../utils/config'
 
 const baseUrl = `${config.baseUrl}/pull`
 
-//Only getTeams() used to initialize teams
+//Not being used atm
 
 const ErrorHandler = (error) => {
     //503 if frontend to backend problem
