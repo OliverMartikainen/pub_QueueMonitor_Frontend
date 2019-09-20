@@ -19,9 +19,10 @@ const OptionsSection = ({ OptItems }) => { //change to props?
 
     const censorMode = OptItems.censor ? 'On' : 'OFF'
 
+
     return (
         <div className="options-section">
-            <OptionsModal activeTeam={OptItems.team} teamsList={OptItems.teams} setTeam={OptItems.setTeam} queueProfile={OptItems.queueProfile} setQueueProfile={OptItems.setQueueProfile}  showModal={showModal} />
+            <OptionsModal activeTeam={OptItems.activeTeam} teamsList={OptItems.teams} setTeam={OptItems.setTeam} activeProfileId={OptItems.activeProfileId} setQueueProfile={OptItems.setQueueProfile}  showModal={showModal} />
             <div className='buttons'>
                 <button onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
                 <button onClick={() => { OptItems.setTeam(''); OptItems.setQueueProfile() }}>REMOVE FILTERS</button>
@@ -29,7 +30,7 @@ const OptionsSection = ({ OptItems }) => { //change to props?
                 <button onClick={() => setShowHelp(!showHelp)}>HELP</button>
                 <HelpModal showHelp={showHelp} />
             </div>
-            <Statistics team={OptItems.team} teams={OptItems.teams} queueProfile={OptItems.queueProfile} report={OptItems.report} censor={OptItems.censor}/>
+            <Statistics team={OptItems.activeTeam} teams={OptItems.teams} activeProfileServiceIds={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
         </div>
     )
 }

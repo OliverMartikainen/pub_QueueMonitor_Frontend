@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 
 //gives the chosen teams profile list
-const TeamProfile = (TeamName, teams) => (!TeamName || teams.length === 0) ? [] : teams.find(t => t.TeamName === TeamName).Profiles // a team's all profiles
 
 //sorts the profile list team profile 1st then alphabetic order 
 //could move to backend all sorting (including agent & queue)
@@ -39,35 +38,61 @@ const SearchList = ({ list, column, header }) => {
     )
 }
 
-
-const OptionsModal = ({ activeTeam, teamsList, setTeam, queueProfile, setQueueProfile, showModal }) => {
+/*
+const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
     const teamFunc = (TeamName) => { //when team is changed queue profile set to new teams 'ALL' profile
         setTeam(TeamName)
         const team = TeamProfile(TeamName, teamsList)
         const profile = team.find(p => (TeamName !== 'ALL TEAMS') ? (p.AgentName === `ALL ${TeamName}`) : (p.AgentName === TeamName))
         setQueueProfile(profile)
     }
-    const profileFunc = (profile) => setQueueProfile(profile)
 
     const teamToggle = (t) => activeTeam !== t ? "Unselected" : "Selected" //.css use
-    const teamList = !teamsList ? [] : teamsList.map((team, index) =>
+    const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
+        <button id={teamToggle(team.TeamName)} key={index} onClick={() => teamFunc(team.TeamName)}>{team.TeamName}</button>
+    )
+    return activeTeamList
+}
+*/
+
+const OptionsModal = ({ activeTeam, teamsList, setTeam, activeProfileId, setQueueProfile, showModal }) => {
+    const TeamProfile = (activeTeam, teamsList) => (!activeTeam || teamsList.length === 0) ? [] : teamsList.find(t => t.TeamName === activeTeam).Profiles // a team's all profiles
+
+    const activeTeamProfiles = TeamProfile(activeTeam, teamsList)
+    const activeProfile = !activeTeamProfiles ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
+    console.log('activeP',activeProfile)
+
+    
+    const teamFunc = (TeamName) => { //when team is changed queue profile set to new teams 'ALL' profile
+        setTeam(TeamName)
+        const team = TeamProfile(TeamName, teamsList)
+        const profile = team.find(p => (TeamName !== 'ALL TEAMS') ? (p.AgentName === `ALL ${TeamName}`) : (p.AgentName === TeamName))
+        console.log('v', profile.AgentId)
+        setQueueProfile(profile.AgentId)
+    }
+    const profileFunc = (profileId) => {
+        console.log('click', profileId)
+        setQueueProfile(profileId)
+    }
+    const teamToggle = (t) => activeTeam !== t ? "Unselected" : "Selected" //.css use
+    const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => teamFunc(team.TeamName)}>{team.TeamName}</button>
     )
 
-    const profileToggle = (profile) => queueProfile.AgentId !== profile.AgentId ? "Unselected" : "Selected" //.css use
+    const profileToggle = (profile) => activeProfileId !== profile.AgentId ? "Unselected" : "Selected" //.css use
     const teamProfile = TeamProfile(activeTeam, teamsList)
     const profilesSorted = ProfileSort(teamProfile, activeTeam)
     const profilesList = profilesSorted.map((profile, index) =>
-        <button id={profileToggle(profile)} key={index} onClick={() => profileFunc(profile)}>{profile.AgentName}</button>
+        <button id={profileToggle(profile)} key={index} onClick={() => profileFunc(profile.AgentId)}>{profile.AgentName}</button>
     )
 
     const modalId = showModal ? 'show' : 'hide'
     const TeamName = !activeTeam ? 'NONE' : activeTeam
-    const ProfileName = !queueProfile ? 'NONE' : queueProfile.AgentName
+    const ProfileName = !activeProfile ? 'NONE' : activeProfile.AgentName
 
     return (
         <div className='modal-box' id={modalId} >
-            <SearchList list={teamList} column={1} header={`TEAM: ${TeamName}`} />
+            <SearchList list={activeTeamList} column={1} header={`TEAM: ${TeamName}`} />
             <SearchList list={profilesList} column={2} header={`PROFILE: ${ProfileName}`} />
         </div>
     )
