@@ -1,27 +1,25 @@
 import React from 'react'
 import StatsCounter from '../../utils/StatsCounter'
 
+const Statistics = ({ activeTeam, teams, activeProfileId, report, censor }) => {
+    let activeProfileName = 'NONE'
+    let activeTeamName = 'NONE'
+    let activeProfileStats = 'CHOOSE PROFILE'
+    let activeTeamStats = 'CHOOSE TEAM'
+    if (teams.length !== 0 && activeTeam && activeProfileId && report) {
+        const activeTeamProfile = teams.find(t => t.TeamName === activeTeam).Profiles
+        const activeProfile = activeTeamProfile.find(p => p.AgentId === activeProfileId)
 
-const profileActivated = (profile, censor) => {
-    const CensorLastname = (AgentName) => { //remove 1st part of name
-        let name = [...AgentName.split(' ')]
-        name.shift()
-        return name.join(' ')
+        activeProfileStats = StatsCounter.ProfileStats(report, activeProfile)
+        activeTeamStats = StatsCounter.TeamStats(report, activeTeam, activeTeamProfile)
+        activeProfileName = !censor ? activeProfile.AgentName : activeProfile.AgentFirstName //if censor on show only firstname
+        activeTeamName = !activeTeam ? 'NONE' : activeTeam
     }
-    if (!profile) {
-        return 'NONE'
-    }
-    if (censor) {
-        return (profile.AgentName.includes('ALL') ? profile.AgentName : CensorLastname(profile.AgentName))
-    }
-    return profile.AgentName
-}
 
-const Statistics = ({team, teams, queueProfile, report, censor}) => {
     return (
         <div>
-            <p>Team activated: {!team ? 'NONE' : team} | Stats: {StatsCounter.TeamStats(report, team, teams)} <br></br>
-                Profile activated: {profileActivated(queueProfile, censor)} | Stats: {StatsCounter.ProfileStats(report, queueProfile)}</p>
+            <p>Team activated: {activeTeamName} | Stats: {activeTeamStats} <br></br>
+                Profile activated: {activeProfileName} | Stats: {activeProfileStats}</p>
         </div>
     )
 }

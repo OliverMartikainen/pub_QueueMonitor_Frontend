@@ -6,7 +6,7 @@ import StatusBoard from './AgentSection/StatusBoard'
 
 //agents have NAME REASON TIME - added status
 
-const AgentSection = ({ agents }) => {
+const AgentSection = ({ agents, censor }) => {
     const free = ['Login', 'Sisäänkirjaus']
     const reserved = ['JÄLKIKIRJAUS', 'PUHELU (Sisään)', 'PUHELU (Ulos)', 'SÄHKÖPOSTI (Sisään)', 'SÄHKÖPOSTI (Ulos)', 'WRAPUP TIME', 'CALL (In)', 'CALL (Out)']
 
@@ -35,7 +35,7 @@ const AgentSection = ({ agents }) => {
             <div className='container'>
                 <StatusBoard statusCount={statusCount} />
                 <div className='agent-container'>
-                    <AgentGrid agents={agents} />
+                    <AgentGrid agents={agents} censor={censor} />
                 </div>
             </div>
 

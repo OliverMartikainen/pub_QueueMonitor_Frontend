@@ -1,18 +1,19 @@
 import React from 'react'
 import './AgentGrid.css'
 
-const Agent = ({ agent }) => {
+const Agent = ({ agent, censor }) => {
     const time = new Date(1000 * agent.Duration).toISOString().substr(11, 8)
+    const agentName = !censor ? agent.AgentName : agent.FirstName
     return (
         <div className='Agent' id={agent.status}>
-            <div className='AgentName'>{agent.AgentName}</div>
+            <div className='AgentName'>{agentName}</div>
             <div className='AgentStatus'>{agent.Reason} {time}</div>
         </div>
     )
 }
 
-const AgentGrid = ({ agents }) => {
-    const agentList = agents.map((agent, index) => <Agent key={index} agent={agent} />)
+const AgentGrid = ({ agents, censor }) => {
+    const agentList = agents.map((agent, index) => <Agent key={index} agent={agent} censor={censor} />)
 
     return (
         <div className='AgentGrid'>

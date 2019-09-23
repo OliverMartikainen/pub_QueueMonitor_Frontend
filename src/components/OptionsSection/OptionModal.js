@@ -55,35 +55,20 @@ const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
 }
 */
 
-const OptionsModal = ({ activeTeam, teamsList, setTeam, activeProfileId, setQueueProfile, showModal }) => {
-    const TeamProfile = (activeTeam, teamsList) => (!activeTeam || teamsList.length === 0) ? [] : teamsList.find(t => t.TeamName === activeTeam).Profiles // a team's all profiles
+const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
 
-    const activeTeamProfiles = TeamProfile(activeTeam, teamsList)
-    const activeProfile = !activeTeamProfiles ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
-    console.log('activeP',activeProfile)
-
+    const activeTeamProfiles = (teamsList.length === 0 || !activeTeam) ? [] : teamsList.find(team => team.TeamName === activeTeam).Profiles
+    const activeProfile = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
     
-    const teamFunc = (TeamName) => { //when team is changed queue profile set to new teams 'ALL' profile
-        setTeam(TeamName)
-        const team = TeamProfile(TeamName, teamsList)
-        const profile = team.find(p => (TeamName !== 'ALL TEAMS') ? (p.AgentName === `ALL ${TeamName}`) : (p.AgentName === TeamName))
-        console.log('v', profile.AgentId)
-        setQueueProfile(profile.AgentId)
-    }
-    const profileFunc = (profileId) => {
-        console.log('click', profileId)
-        setQueueProfile(profileId)
-    }
-    const teamToggle = (t) => activeTeam !== t ? "Unselected" : "Selected" //.css use
+    const teamToggle = (t) => activeTeam !== t ? 'Unselected' : 'Selected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
-        <button id={teamToggle(team.TeamName)} key={index} onClick={() => teamFunc(team.TeamName)}>{team.TeamName}</button>
+        <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
 
     const profileToggle = (profile) => activeProfileId !== profile.AgentId ? "Unselected" : "Selected" //.css use
-    const teamProfile = TeamProfile(activeTeam, teamsList)
-    const profilesSorted = ProfileSort(teamProfile, activeTeam)
+    const profilesSorted = ProfileSort(activeTeamProfiles, activeTeam)
     const profilesList = profilesSorted.map((profile, index) =>
-        <button id={profileToggle(profile)} key={index} onClick={() => profileFunc(profile.AgentId)}>{profile.AgentName}</button>
+        <button id={profileToggle(profile)} key={index} onClick={() => changeProfile(profile.AgentId)}>{profile.AgentName}</button>
     )
 
     const modalId = showModal ? 'show' : 'hide'
