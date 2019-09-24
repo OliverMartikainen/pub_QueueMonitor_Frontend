@@ -1,4 +1,4 @@
-const QueueCensor = (queue) => {
+const queueCensor = (queue) => {
     const ServiceCensor = (name) => name[0]
 
     const newList = []
@@ -17,4 +17,4 @@ const QueueCensor = (queue) => {
     })
     return newList
 }
-export default QueueCensor
+export default queueCensor

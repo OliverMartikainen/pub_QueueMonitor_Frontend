@@ -35,7 +35,7 @@ const AgentSection = ({ agents, censor }) => {
             <div className='container'>
                 <StatusBoard statusCount={statusCount} />
                 <div className='agent-container'>
-                    <AgentGrid agents={agents} censor={censor} />
+                    <AgentGrid agents={agents} censor={censor}/>
                 </div>
             </div>
 

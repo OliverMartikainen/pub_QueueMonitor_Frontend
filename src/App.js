@@ -4,13 +4,12 @@ import QueueSection from './components/QueueSection'
 import OptionsSection from './components/OptionsSection'
 import eventService from './services/eventService'
 import config from './utils/config'
-import QueueCensor from './utils/QueueCensor'
+import queueCensor from './utils/queueCensor'
+import agentCensor from './utils/agentCensor'
 import './App.css'
 
-//add later cookie to save previous team & profile?
-
 //Agents need to be sorted before censoring (sorted by surname, censor removes it)
-const AgentFormatter = (activeTeam, agents) => {
+const AgentFormatter = (activeTeam, agents, censor, teams) => {
   if (!agents || agents.length === 0) {
     return []
   }
@@ -18,6 +17,10 @@ const AgentFormatter = (activeTeam, agents) => {
 
   const AgentsFiltered = AgentFilter(activeTeam, agents)
   const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
+  if(censor) {
+    const teamProfiles = teams.find(t => t.TeamName === activeTeam).Profiles
+    return agentCensor(AgentsSorted, teamProfiles) //takes first names from agentProfiles and replaces agentsOnline names
+  }
   return AgentsSorted
 }
 
@@ -34,7 +37,7 @@ const QueueFormatter = (queue, activeTeam, activeProfile, teams, censor) => {
     const queueProfile = !activeTeamProfiles ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfile)
 
     const QueueFiltered = QueueFilter(queue, queueProfile)
-    return censor ? QueueCensor(QueueFiltered) : QueueFiltered
+    return censor ? queueCensor(QueueFiltered) : QueueFiltered
   }
   catch (err) {
     console.error('QueueProfile error:', activeProfile, err)
@@ -42,15 +45,22 @@ const QueueFormatter = (queue, activeTeam, activeProfile, teams, censor) => {
   }
 }
 
-const dataUpdater = (setQueue, setAgents, setReport) => {
+const dataUpdater = (setQueue, setAgents, setReport, connectionStatus, setConnectionStatus) => {
   const dataUpdates = eventService.getDataUpdates()
   dataUpdates.onopen = (event) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates OPEN:`, time)
   }
-  dataUpdates.onerror = (event) => {
+  dataUpdates.onerror = (event) => { //happens when frontend-backend connection is down
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates ERROR: `, time)
+    if(connectionStatus.status === 200) {
+      setConnectionStatus({status: 503, errorStart: time})
+    }
+    if(connectionStatus.status === 502) {
+      connectionStatus.status = 503
+      setConnectionStatus(connectionStatus) //keep errorStart time
+    }
   }
   dataUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
@@ -62,6 +72,9 @@ const dataUpdater = (setQueue, setAgents, setReport) => {
     setQueue(data.queue)
     setAgents(data.agentsOnline)
     setReport(data.report)
+    if(connectionStatus.status !== 200) {
+      setConnectionStatus({status: 200, errorStart: ''})
+    }
   }
 }
 
@@ -111,9 +124,11 @@ const App = () => {
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
   const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
+    //teams in theory only need ALL TEAMS team - then filter by team name - has all profiles in it with their original team name... but there isnt really any need for optimization at this point
   const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
   const [report, setReport] = useState('')
-  const [connectionStatus, setConnectionStatus] = useState(404) //Int (200, 502, 503)
+  //200 OK, 502 database-backend error, 503 backend-frontend error
+  const [connectionStatus, setConnectionStatus] = useState({status: 200, errorStart: ''}) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
 
   //both used in OptionsSection & OptionsModal components
   const changeProfile = (newProfile) => {
@@ -136,18 +151,18 @@ const App = () => {
   useEffect(() => {
     //window.localStorage.clear()
     teamUpdater(setTeams)
-    dataUpdater(setQueue, setAgents, setReport)
+    dataUpdater(setQueue, setAgents, setReport, connectionStatus, setConnectionStatus)
     const storageProfile = window.localStorage.getItem('activeProfileId')
     const storageTeam = window.localStorage.getItem('activeTeam')
     console.log('a', storageTeam, 'b', storageProfile)
   }, [])
 
   //want these to happen on each re-render?
-  const AgentsFormatted = AgentFormatter(activeTeam, agents)
+  const AgentsFormatted = AgentFormatter(activeTeam, agents, censor, teams)
   const QueueFormatted = QueueFormatter(queue, activeTeam, activeProfileId, teams, censor)
 
-  //team, teams, setTeam, queueProfile, setQueueProfile, censor, setCensor(!censor)
-  const OptionsItems = {
+  //activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
+  const OptItems = {
     activeTeam: activeTeam, //to highlight chosen team
     teams: teams, //all teams & profiles
     changeTeam: changeTeam, //for change team button
@@ -156,13 +171,14 @@ const App = () => {
     censor: censor, //show current status
     setCensor: (() => setCensor(!censor)), //censor button func
     report,
+    connectionStatus
   }
 
   return (
     <div className='main'>
       <QueueSection queue={QueueFormatted} />
       <AgentSection agents={AgentsFormatted} censor={censor} />
-      <OptionsSection OptItems={OptionsItems} />
+      <OptionsSection OptItems={OptItems} />
     </div>
   )
 

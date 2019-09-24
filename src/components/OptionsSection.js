@@ -12,8 +12,10 @@ const HelpModal = ({ showHelp }) => {
     )
 }
 
-//props: team, teams, setTeam, queueProfile, setQueueProfile, censor, setCensor(!censor)
-const OptionsSection = ({ OptItems }) => { //change to props?
+
+//props: activeTeam, teams, changeTeam, activeProfileId, changeProfile,
+//censor, setCensor(!censor), connectionStatus
+const OptionsSection = ({ OptItems }) => {
     const [showModal, setShowModal] = useState(false)
     const [showHelp, setShowHelp] = useState(false)
 
@@ -32,6 +34,7 @@ const OptionsSection = ({ OptItems }) => { //change to props?
                 <button onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
                 <button onClick={() => setShowHelp(!showHelp)}>HELP</button>
                 <HelpModal showHelp={showHelp} />
+                <div>{OptItems.connectionStatus.status}</div>
             </div>
             <Statistics activeTeam={OptItems.activeTeam} teams={OptItems.teams} activeProfileId={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
         </div>
