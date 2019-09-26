@@ -1,22 +1,14 @@
 import React, { useState } from 'react'
 import Statistics from './OptionsSection/Statistics'
 import OptionsModal from './OptionsSection/OptionModal'
-import '../style/OptionsSection.css'
-
-const HelpModal = ({ showHelp }) => {
-    const modalId = showHelp ? 'show' : 'hide'
-    return (
-        <div className='help-modal' id={modalId} >
-            You called for me? I am here to help! Just no idea how...
-        </div>
-    )
-}
-
+import HelpModal from './OptionsSection/HelpModal'
+import ErrorStatus from './OptionsSection/ErrorStatus'
+import './OptionsSection.css'
 
 //props: activeTeam, teams, changeTeam, activeProfileId, changeProfile,
 //censor, setCensor(!censor), connectionStatus
 const OptionsSection = ({ OptItems }) => {
-    const [showModal, setShowModal] = useState(false)
+    const [showOptions, setShowOptions] = useState(false)
     const [showHelp, setShowHelp] = useState(false)
 
     const resetFunc = () => {
@@ -24,17 +16,20 @@ const OptionsSection = ({ OptItems }) => {
     }
 
     const censorMode = OptItems.censor ? 'On' : 'OFF'
+    const optionsButtonId = !showOptions ? 'Unselected' : 'Selected'
+    const helpButtonId = !showHelp ? 'Unselected' : 'Selected'
+    const censorButtonId = !OptItems.censor ? 'Unselected' : 'Selected'
 
     return (
-        <div className="options-section">
-            <OptionsModal activeTeam={OptItems.activeTeam} teamsList={OptItems.teams} changeTeam={OptItems.changeTeam} activeProfileId={OptItems.activeProfileId} changeProfile={OptItems.changeProfile}  showModal={showModal} />
-            <div className='buttons'>
-                <button onClick={() => setShowModal(!showModal)}>CHOOSE FILTERS</button>
-                <button onClick={() => resetFunc()}>REMOVE FILTERS</button>
-                <button onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
-                <button onClick={() => setShowHelp(!showHelp)}>HELP</button>
-                <HelpModal showHelp={showHelp} />
-                <div>{OptItems.connectionStatus.status}</div>
+        <div className='options-section'>
+            <OptionsModal activeTeam={OptItems.activeTeam} teamsList={OptItems.teams} changeTeam={OptItems.changeTeam} activeProfileId={OptItems.activeProfileId} changeProfile={OptItems.changeProfile}  showModal={showOptions} />
+            <HelpModal showHelp={showHelp} />
+            <div className='buttons-container'>
+                <button id={optionsButtonId} onClick={() => setShowOptions(!showOptions)}>CHOOSE FILTERS</button>
+                <button id={'Unselected'} onClick={() => resetFunc()}>REMOVE FILTERS</button>
+                <button id={censorButtonId} onClick={OptItems.setCensor}>CENSOR: {censorMode}</button>
+                <button id={helpButtonId} onClick={() => setShowHelp(!showHelp)}>HELP</button>
+                <ErrorStatus error={OptItems.connectionStatus} />
             </div>
             <Statistics activeTeam={OptItems.activeTeam} teams={OptItems.teams} activeProfileId={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
         </div>

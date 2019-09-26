@@ -1,0 +1,43 @@
+:root {
+  --selected-color: rgb(190, 199, 216);
+  --hover-color: rgb(206, 206, 206);
+}
+
+button {
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: serif;
+}
+
+#Selected {
+  background: var(--selected-color);
+}
+
+#Unselected {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#Selected:hover{
+  background-color: var(--hover-color);
+}
+#Unselected:hover{
+  background-color: var(--hover-color);
+}
+
+/*ABOVE Shared settings with rest of this section components*/
+
+.buttons-container {
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px 100px;
+  padding: 2px;
+}
+.buttons-container >button {
+  border-radius: 20px;
+  width: 100%;
+  height: 50px;
+}
+.buttons-container >p {
+  margin-block-start: 0px;
+  margin-block-end: 0px; 
+}

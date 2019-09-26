@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './OptionModal.css'
 
 
 //gives the chosen teams profile list
@@ -20,7 +21,7 @@ const ProfileSort = (profile, TeamName) => {
 }
 
 
-const SearchList = ({ list, column, header }) => {
+const SearchList = ({ list, column, type, header }) => {
     const [filter, setFilter] = useState('')
 
     const handleFilter = (event) => setFilter(event.target.value)
@@ -29,9 +30,13 @@ const SearchList = ({ list, column, header }) => {
     const style = { 'gridColumn': column }
     return (
         <div className={'modal-list'} style={style} >
-            <div className={'modal-search'}>
-                <h3>{header}</h3>
+            <div className='modal-title'>
+                <h3>{type}</h3>
+                <h4>{header}</h4>
                 Search: <input value={filter} onChange={handleFilter} />
+            </div>
+            <div className={'modal-search'}>
+
                 {filtered_list}
             </div>
         </div>
@@ -59,7 +64,7 @@ const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, chan
 
     const activeTeamProfiles = (teamsList.length === 0 || !activeTeam) ? [] : teamsList.find(team => team.TeamName === activeTeam).Profiles
     const activeProfile = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
-    
+
     const teamToggle = (t) => activeTeam !== t ? 'Unselected' : 'Selected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
@@ -77,8 +82,8 @@ const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, chan
 
     return (
         <div className='modal-box' id={modalId} >
-            <SearchList list={activeTeamList} column={1} header={`TEAM: ${TeamName}`} />
-            <SearchList list={profilesList} column={2} header={`PROFILE: ${ProfileName}`} />
+            <SearchList list={activeTeamList} column={1} type='TEAM:' header={TeamName} />
+            <SearchList list={profilesList} column={2} type='PROFILE:' header={ProfileName} />
         </div>
     )
 }

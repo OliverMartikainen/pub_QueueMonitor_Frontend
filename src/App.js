@@ -10,18 +10,24 @@ import './App.css'
 
 //Agents need to be sorted before censoring (sorted by surname, censor removes it)
 const AgentFormatter = (activeTeam, agents, censor, teams) => {
-  if (!agents || agents.length === 0) {
+  if (!agents || agents.length === 0 || !activeTeam || teams.length === 0) {
     return []
   }
-  const AgentFilter = (team, agents) => !team ? [] : ((team !== 'ALL TEAMS') ? agents.filter(agent => agent.Team === team) : agents)
+  try {
+    const AgentFilter = (team, agents) => !team ? [] : ((team !== 'ALL TEAMS') ? agents.filter(agent => agent.Team === team) : agents)
 
-  const AgentsFiltered = AgentFilter(activeTeam, agents)
-  const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
-  if(censor) {
-    const teamProfiles = teams.find(t => t.TeamName === activeTeam).Profiles
-    return agentCensor(AgentsSorted, teamProfiles) //takes first names from agentProfiles and replaces agentsOnline names
-  }
-  return AgentsSorted
+    const AgentsFiltered = AgentFilter(activeTeam, agents)
+    const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
+    if (censor) {
+      const teamProfiles = teams.find(t => t.TeamName === activeTeam).Profiles
+      return agentCensor(AgentsSorted, teamProfiles) //takes first names from agentProfiles and replaces agentsOnline names
+    }
+    return AgentsSorted
+  } catch (error) {
+    console.log('a',activeTeam, 'b', agents, 'c', censor, 'd', teams)
+    console.error('Wild AgentSorting error', error)
+    return []
+  } 
 }
 
 //sorted in QueueSection
@@ -45,7 +51,7 @@ const QueueFormatter = (queue, activeTeam, activeProfile, teams, censor) => {
   }
 }
 
-const dataUpdater = (setQueue, setAgents, setReport, connectionStatus, setConnectionStatus) => {
+const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
   const dataUpdates = eventService.getDataUpdates()
   dataUpdates.onopen = (event) => {
     const time = new Date().toISOString().substr(11, 8)
@@ -54,13 +60,7 @@ const dataUpdater = (setQueue, setAgents, setReport, connectionStatus, setConnec
   dataUpdates.onerror = (event) => { //happens when frontend-backend connection is down
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates ERROR: `, time)
-    if(connectionStatus.status === 200) {
-      setConnectionStatus({status: 503, errorStart: time})
-    }
-    if(connectionStatus.status === 502) {
-      connectionStatus.status = 503
-      setConnectionStatus(connectionStatus) //keep errorStart time
-    }
+    setDataUpdateStatus(503)
   }
   dataUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
@@ -68,17 +68,20 @@ const dataUpdater = (setQueue, setAgents, setReport, connectionStatus, setConnec
       console.log('origin error', time, event.origin)
     }
     const data = JSON.parse(event.data)
+    if (data.status !== 200) {
+      const time = new Date().toISOString().substr(11, 8)
+      console.log('TEAM UPDATE FAILED', data.status, time)
+      return
+    }
     //console.log(`dataUpdates MESSAGE: `, data.timeStamp)
     setQueue(data.queue)
     setAgents(data.agentsOnline)
     setReport(data.report)
-    if(connectionStatus.status !== 200) {
-      setConnectionStatus({status: 200, errorStart: ''})
-    }
+    setDataUpdateStatus(200)
   }
 }
 
-//for some reasons TeamName 'ALL TEAMS' bugs all the teams Profiles AgentId's
+//happens approx every 30min/1h
 const teamUpdater = (setTeams) => {
   const teamUpdates = eventService.getTeamUpdates()
   teamUpdates.onopen = (event) => {
@@ -103,6 +106,13 @@ const teamUpdater = (setTeams) => {
   }
 }
 
+const errorChecker = (dataUpdateStatus, connectionStatus, setConnectionStatus) => {
+  if (connectionStatus.status !== dataUpdateStatus) {
+    const time = new Date().toISOString()
+    setConnectionStatus({ status: dataUpdateStatus, time: time })
+  }
+}
+
 //if no queueuProfile stored in browser set empty profile as starting queueProfile - changing this might cause problems
 const defaultProfile = () => {
   const storageProfile = window.localStorage.getItem('activeProfileId')
@@ -124,12 +134,12 @@ const App = () => {
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
   const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
-    //teams in theory only need ALL TEAMS team - then filter by team name - has all profiles in it with their original team name... but there isnt really any need for optimization at this point
+  //teams in theory only need ALL TEAMS team - then filter by team name - has all profiles in it with their original team name... but there isnt really any need for optimization at this point
   const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
   const [report, setReport] = useState('')
   //200 OK, 502 database-backend error, 503 backend-frontend error
-  const [connectionStatus, setConnectionStatus] = useState({status: 200, errorStart: ''}) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
-
+  const [connectionStatus, setConnectionStatus] = useState({ status: 200, errorStart: '' }) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
+  const [dataUpdateStatus, setDataUpdateStatus] = useState(200)
   //both used in OptionsSection & OptionsModal components
   const changeProfile = (newProfile) => {
     window.localStorage.setItem('activeProfileId', newProfile)
@@ -149,9 +159,14 @@ const App = () => {
   }
 
   useEffect(() => {
+    errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
+    console.log('a', dataUpdateStatus, connectionStatus)
+  }, [dataUpdateStatus, connectionStatus])
+
+  useEffect(() => {
     //window.localStorage.clear()
     teamUpdater(setTeams)
-    dataUpdater(setQueue, setAgents, setReport, connectionStatus, setConnectionStatus)
+    dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
     const storageProfile = window.localStorage.getItem('activeProfileId')
     const storageTeam = window.localStorage.getItem('activeTeam')
     console.log('a', storageTeam, 'b', storageProfile)

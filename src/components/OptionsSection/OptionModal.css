@@ -1,0 +1,58 @@
+.modal-box {
+    --width: 550px;
+    position: absolute;
+    z-index: 1;
+    bottom: 15%;
+    left: calc(50% - calc(var(--width)*0.5));
+    width: var(--width);
+    height: 700px;
+    background-color: rgb(202, 201, 201);
+}
+h3 {
+  margin: 0px;
+  padding: 0px;  
+}
+h4 {
+    margin: 5px;
+    padding: 0px;  
+  }
+
+.modal-box#show {
+    display: grid;
+    grid-auto-columns: 50% 50%;
+    border-radius: 10px;
+}
+
+.modal-box#hide {
+    display: none;
+}
+
+.modal-box>button {
+    width: 50px;
+    height: 30px;
+}
+
+.modal-list {
+    width: 90%;
+    padding: 5%;
+    padding-top: 0;
+}
+
+.modal-title {
+    margin-top: 0px;
+    height: 100px;
+}
+
+.modal-search {
+    background-color: rgba(255, 255, 255, 0.521);
+    overflow-y: auto;
+    height: 570px;
+}
+
+.modal-search >button {
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+

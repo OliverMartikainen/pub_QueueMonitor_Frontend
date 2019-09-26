@@ -1,5 +1,6 @@
 import React from 'react'
 import StatsCounter from '../../utils/StatsCounter'
+import './Statistics.css'
 
 const Statistics = ({ activeTeam, teams, activeProfileId, report, censor }) => {
     let activeProfileName = 'NONE'
@@ -17,9 +18,29 @@ const Statistics = ({ activeTeam, teams, activeProfileId, report, censor }) => {
     }
 
     return (
-        <div>
-            <p>Team activated: {activeTeamName} | Stats: {activeTeamStats} <br></br>
-                Profile activated: {activeProfileName} | Stats: {activeProfileStats}</p>
+        <div className='statistics'>
+            <div className='stat-row'>
+                <div>
+                    Team activated:
+                </div>
+                <div>
+                {activeTeamName}
+                </div>
+                <div>
+                    Stats: {activeTeamStats}
+                </div>
+            </div>
+            <div className='stat-row'>
+                <div>
+                    Profile activated:
+                </div>
+                <div>
+                {activeProfileName}
+                </div>
+                <div>
+                    Stats: {activeProfileStats}
+                </div>
+            </div>
         </div>
     )
 }

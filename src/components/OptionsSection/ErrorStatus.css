@@ -1,0 +1,20 @@
+.error-status {
+
+}
+
+.error-status button {
+    margin: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+}
+
+#green {
+    background: green;
+}
+#yellow {
+    background: yellow;
+}
+#red {
+    background: red;
+}

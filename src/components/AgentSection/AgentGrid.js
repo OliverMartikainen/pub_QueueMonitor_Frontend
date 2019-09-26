@@ -7,7 +7,7 @@ const Agent = ({ agent, censor }) => {
     return (
         <div className='Agent' id={agent.status}>
             <div className='AgentName'>{agentName}</div>
-            <div className='AgentStatus'>{agent.Reason} {time}</div>
+            <div className='AgentStatus'>{time} {agent.Reason}</div>
         </div>
     )
 }

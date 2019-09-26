@@ -1,0 +1,19 @@
+/* HELP Modal - probably could combine these somehow */
+.help-modal {
+    position: absolute;
+    z-index: 1;
+    bottom: 15%;
+    left: calc(50% - 400px); /*some inherit stuff to get it central?*/
+    width: 800px;
+    height: 700px;
+    background-color: whitesmoke;
+  }
+  
+  .help-modal#show {
+    display: grid;
+    grid-auto-columns: 70% 20%;
+    grid-auto-rows: 100%;
+  }
+  .help-modal#hide {
+    display: none;
+  }

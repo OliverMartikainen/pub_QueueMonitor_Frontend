@@ -1,20 +1,21 @@
 .StatusBoard {
-    height: 50px;
+    height: 7%;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    background-color: red;
-    margin: 0px;
+    margin-left: 2px;
+    margin-right: 3px;
 }
 
 .StatusCount {
     margin: 2px;
     display: grid;
-    grid-template-columns: 85% 15%;
-    background-color: white;
+    grid-template-columns: 80% 20%;
+    background-color: rgb(224, 224, 224);
+    padding-top: 2.5%;
 }
 
 .StatusCount >div {
     margin: 2px;
-    background-color: grey;
-    font-size: 24px;
+    font-size: 28px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
