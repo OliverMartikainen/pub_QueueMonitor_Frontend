@@ -6,7 +6,15 @@ import QueueItem from './QueueSection/QueueItem'
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
 //automatically in db in this order?
-const QueueSorter = (item1, item2) => item1.MaxQueueTime < item2.MaxQueuetime ? -1 : 1
+const QueueSorter = (item1, item2) => {
+    if(item1.MaxQueueTime< item2.MaxQueueTime) {
+        return 1
+    }
+    if(item1.MaxQueueTime > item2.MaxQueueTime) {
+        return -1
+    }
+return 0
+}
 
 
 const QueueList = (queue) => {

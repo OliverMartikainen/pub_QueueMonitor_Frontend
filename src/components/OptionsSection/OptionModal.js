@@ -32,11 +32,10 @@ const SearchList = ({ list, column, type, header }) => {
         <div className={'modal-list'} style={style} >
             <div className='modal-title'>
                 <h3>{type}</h3>
-                <h4>{header}</h4>
+                <h3>{header}</h3>
                 Search: <input value={filter} onChange={handleFilter} />
             </div>
             <div className={'modal-search'}>
-
                 {filtered_list}
             </div>
         </div>

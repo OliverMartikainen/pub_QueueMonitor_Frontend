@@ -24,10 +24,10 @@ const AgentFormatter = (activeTeam, agents, censor, teams) => {
     }
     return AgentsSorted
   } catch (error) {
-    console.log('a',activeTeam, 'b', agents, 'c', censor, 'd', teams)
+    console.log('a', activeTeam, 'b', agents, 'c', censor, 'd', teams)
     console.error('Wild AgentSorting error', error)
     return []
-  } 
+  }
 }
 
 //sorted in QueueSection
@@ -68,6 +68,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
       console.log('origin error', time, event.origin)
     }
     const data = JSON.parse(event.data)
+
     if (data.status !== 200) {
       const time = new Date().toISOString().substr(11, 8)
       console.log('TEAM UPDATE FAILED', data.status, time)
@@ -81,7 +82,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
   }
 }
 
-//happens approx every 30min/1h
+//happens approx every 30min/1h - checks server version vs local storage version
 const teamUpdater = (setTeams) => {
   const teamUpdates = eventService.getTeamUpdates()
   teamUpdates.onopen = (event) => {
@@ -94,14 +95,23 @@ const teamUpdater = (setTeams) => {
   }
   teamUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
-      console.log('origin error', event.origin)
+      console.log('origin error', event.origin) //not actually doing anything with this atm
     }
+
     const data = JSON.parse(event.data)
+
     if (data.status !== 200) {
       const time = new Date().toISOString().substr(11, 8)
       console.log('TEAM UPDATE FAILED', data.status, time)
       return
     }
+
+    const serverVersion = window.localStorage.getItem('serverVersion') //restarts on browser open if it has old version stored - could avoid with close browser actions
+    if (serverVersion && (serverVersion !== data.serverVersion)) {  //if there is a stored server version compare it to data.serverVersion and refresh client if different
+      window.location.reload(true)
+    }
+
+    window.localStorage.setItem('serverVersion', data.serverVersion)
     setTeams(data.teams)
   }
 }
@@ -140,6 +150,7 @@ const App = () => {
   //200 OK, 502 database-backend error, 503 backend-frontend error
   const [connectionStatus, setConnectionStatus] = useState({ status: 200, errorStart: '' }) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
   const [dataUpdateStatus, setDataUpdateStatus] = useState(200)
+
   //both used in OptionsSection & OptionsModal components
   const changeProfile = (newProfile) => {
     window.localStorage.setItem('activeProfileId', newProfile)
@@ -150,6 +161,7 @@ const App = () => {
     setActiveTeam(newTeam)
     if (newTeam === '') { //removeFilters button functionality
       changeProfile('')
+      window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
       return
     }
     //on team change chooses teams ALL profile
