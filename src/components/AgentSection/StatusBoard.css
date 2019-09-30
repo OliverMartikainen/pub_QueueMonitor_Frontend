@@ -1,21 +1,26 @@
+/*colors in app.css*/
 .StatusBoard {
-    height: 7%;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    margin-left: 2px;
-    margin-right: 3px;
+
+
 }
 
 .StatusCount {
     margin: 2px;
     display: grid;
-    grid-template-columns: 80% 20%;
-    background-color: rgb(224, 224, 224);
-    padding-top: 2.5%;
+    grid-template-columns: calc(100% - 50px) 50px;
+    background-color: var(--fourth-background-layer);
+    padding-top: 10px;
+    border-radius: 10px;
 }
 
 .StatusCount >div {
     margin: 2px;
     font-size: 28px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+#number {
+    text-align: right;
 }

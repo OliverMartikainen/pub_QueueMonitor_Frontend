@@ -1,19 +1,21 @@
 //top right
 
 import React from 'react'
-import '../style/QueueSection.css'
+import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
+import QueueHeader from './QueueSection/QueueHeader'
+
 
 //for Queue sorting by wait time, works with HH:MM:SS (24h) or seconds only
 //automatically in db in this order?
 const QueueSorter = (item1, item2) => {
-    if(item1.MaxQueueTime< item2.MaxQueueTime) {
+    if (item1.MaxQueueTime < item2.MaxQueueTime) {
         return 1
     }
-    if(item1.MaxQueueTime > item2.MaxQueueTime) {
+    if (item1.MaxQueueTime > item2.MaxQueueTime) {
         return -1
     }
-return 0
+    return 0
 }
 
 
@@ -37,6 +39,7 @@ const QueueSection = ({ queue }) => {
 
     return (
         <div className='queue-section'>
+            <QueueHeader />
             <div className='call-list'>
                 <div id='background'><h1>{callsBack}</h1></div>
                 <div id='content'>{QueueList(calls)}</div>

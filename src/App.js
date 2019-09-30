@@ -52,7 +52,7 @@ const QueueFormatter = (queue, activeTeam, activeProfile, teams, censor) => {
 }
 
 const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
-  const dataUpdates = eventService.getDataUpdates()
+  let dataUpdates = eventService.getDataUpdates()
   dataUpdates.onopen = (event) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates OPEN:`, time)
@@ -61,6 +61,10 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates ERROR: `, time)
     setDataUpdateStatus(503)
+    dataUpdates.close() //wihtout this firefox will close connection on 2nd error
+    setTimeout(
+      () => dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
+    , 10000)
   }
   dataUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
@@ -92,6 +96,10 @@ const teamUpdater = (setTeams) => {
   teamUpdates.onerror = (event) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`teamUpdates ERROR: `, time)
+    teamUpdates.close()
+    setTimeout(
+      () => teamUpdater(setTeams)
+      , 10000)
   }
   teamUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
@@ -144,7 +152,6 @@ const App = () => {
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
   const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
-  //teams in theory only need ALL TEAMS team - then filter by team name - has all profiles in it with their original team name... but there isnt really any need for optimization at this point
   const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
   const [report, setReport] = useState('')
   //200 OK, 502 database-backend error, 503 backend-frontend error
@@ -161,7 +168,7 @@ const App = () => {
     setActiveTeam(newTeam)
     if (newTeam === '') { //removeFilters button functionality
       changeProfile('')
-      window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
+      //window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
       return
     }
     //on team change chooses teams ALL profile
@@ -176,7 +183,6 @@ const App = () => {
   }, [dataUpdateStatus, connectionStatus])
 
   useEffect(() => {
-    //window.localStorage.clear()
     teamUpdater(setTeams)
     dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
     const storageProfile = window.localStorage.getItem('activeProfileId')

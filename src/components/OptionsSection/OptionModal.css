@@ -27,11 +27,6 @@ h4 {
     display: none;
 }
 
-.modal-box>button {
-    width: 50px;
-    height: 30px;
-}
-
 .modal-list {
     width: 90%;
     padding: 5%;
@@ -44,7 +39,6 @@ h4 {
 }
 
 .modal-search {
-    background-color: rgba(255, 255, 255, 0.521);
     overflow-y: auto;
     height: 570px;
 }

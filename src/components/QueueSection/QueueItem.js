@@ -1,4 +1,5 @@
 import React from 'react'
+import './QueueItem.css'
 
 const QueueItem = ({item}) => {
     // NAME   TYPE     NUMB    SEC
@@ -10,11 +11,11 @@ const QueueItem = ({item}) => {
     const waitStatus = (wait) => wait < 120 ? 'green' : (wait < 600 ? 'yellow' : 'red')
     const id = item.ContactType === 'PBX' ? waitStatus(wait) : 'email' //if we want calls only
     return (
-        <div className="queue-row">
-            <div style={{'color': 'rgb(100, 0, 0)', 'fontWeight':'600'}}>{item.ServiceName}</div>
-            <div>{(item.ContactType === 'PBX' ? 'CALL' : item.ContactType)}</div>
-            <div>{item.QueueLength}</div>
-            <div id={id}>
+        <div className='queue-row'>
+            <div className='service-name'>{item.ServiceName}</div>
+            <div className='service-channel'>{(item.ContactType === 'PBX' ? 'CALL' : item.ContactType)}</div>
+            <div className='service-lenght'>{item.QueueLength}</div>
+            <div className='service-time' id={id}>
             {(h < 10 ? `0${h}` : h)}:
             {(min < 10 ? `0${min}` : min)}:
             {(sec < 10 ? `0${sec}` : sec)}

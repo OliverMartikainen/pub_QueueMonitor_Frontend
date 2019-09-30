@@ -1,0 +1,36 @@
+.queue-row {
+    display: grid;
+    grid-template-columns: 53% 20% 10% 17%;
+    margin: 0px;
+    border-bottom: 2px;
+    border-bottom-color: grey;
+    border-bottom-style: ridge;
+    color: beige;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.queue-row >div {
+    background-color: var(--tertiary-background-color);
+    font-size: 25px;
+    border-right: 2px;
+    border-right-color: grey;
+    border-right-style: ridge;
+    margin-left: 5px;
+    height: 100%;
+    line-height: 50px;
+    padding-left: 1px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.queue-row >div#green {
+    background-color: rgba(108, 180, 1, 0.753);
+}
+
+.queue-row #yellow {
+    background-color: rgba(255, 166, 0, 0.726);
+}
+
+.queue-row >div#red {
+    background-color: rgba(206, 2, 2, 0.76);
+}

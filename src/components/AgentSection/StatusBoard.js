@@ -2,14 +2,13 @@ import React from 'react'
 import './StatusBoard.css'
 
 const StatusCount = ({ status, count}) => {
-
-
+ 
     return (
         <div className='StatusCount'> 
             <div>
                 {status}
             </div>
-            <div>
+            <div id='number'>
                 {count}
             </div>
         </div>
@@ -18,7 +17,6 @@ const StatusCount = ({ status, count}) => {
 
 
 const StatusBoard = ({ statusCount }) => {
-
 
     return (
         <div className='StatusBoard'>

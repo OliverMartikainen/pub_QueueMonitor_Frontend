@@ -7,6 +7,7 @@ import './HelpModal.css'
 
 const HelpModal = ({ showHelp }) => {
     const modalId = showHelp ? 'show' : 'hide'
+    const versionStorage = window.localStorage.getItem('serverVersion')
     return (
         <div className='help-modal' id={modalId} >
             <p>Help unavailable at the moment.
@@ -28,7 +29,11 @@ const HelpModal = ({ showHelp }) => {
                 Green means connection is ok.
                 Yellow means browser is not connected to server - either you need to change your connection or the server is down.
                 Red means server has no connection to database - nothing you can do - contact admin. 
+                <br></br>
+                <br></br>
+            version: {versionStorage}
             </p>
+            
         </div>
     )
 }

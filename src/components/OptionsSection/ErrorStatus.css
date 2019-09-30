@@ -1,13 +1,43 @@
-.error-status {
+.error-board {
 
+    display: grid;
+    grid-template-columns: 10% 90%
 }
 
-.error-status button {
+.error-message {
+    padding: 10px;
+    font-size: 20px;
+    background: rgba(0, 0, 0, 0);
+}
+
+.error-status {
     margin: 15px;
     width: 20px;
     height: 20px;
     border-radius: 10px;
 }
+
+.error-status button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.error-explain {
+    display: none;
+    width: 300px;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color: rgb(151, 150, 150);
+    padding-left: 5px;
+}
+
+.error-status:hover >.error-explain {
+    display: block;
+}
+
 
 #green {
     background: green;
@@ -17,4 +47,13 @@
 }
 #red {
     background: red;
+}
+#messagegreen {
+    color: green
+}
+#messageyellow {
+    color: yellow
+}
+#messagered {
+    color: red
 }

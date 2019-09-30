@@ -1,0 +1,16 @@
+.queue-header {
+    display: grid;
+    grid-template-columns: 53% 20% 10% 17%;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.queue-header >div {
+    background-color: var(--fourth-background-layer);
+    margin: 2px;
+    padding-top: 10px;
+    border-radius: 10px;
+    padding-left: 3px;
+    font-size: 28px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

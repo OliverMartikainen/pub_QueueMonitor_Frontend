@@ -1,16 +1,18 @@
+.container {
+    height: 100%;
+    position: inherit;
+    padding-bottom: 5px;
+    display: grid;
+    grid-template-rows: 7% 93%
+}
+
 .agent-container {
     position: inherit;
-    height: 93%;
     border: var(--section-border-size);    
     border-color: var(--section-border-color);
     border-style: var(--section-border-style);
+    /*background-color: var(--tertiary-background-color);*/
+    border-radius: 10px;
     overflow-y: scroll;
     margin-right: 5px;
-}
-
-
-.container {
-    height: 99.5%;
-    position: inherit;
-    padding-bottom: 5px;
 }

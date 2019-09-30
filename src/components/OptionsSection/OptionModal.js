@@ -77,7 +77,7 @@ const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, chan
 
     const modalId = showModal ? 'show' : 'hide'
     const TeamName = !activeTeam ? 'NONE' : activeTeam
-    const ProfileName = !activeProfile ? 'NONE' : activeProfile.AgentName
+    const ProfileName = !activeProfile.AgentName ? 'NONE' : activeProfile.AgentName
 
     return (
         <div className='modal-box' id={modalId} >
