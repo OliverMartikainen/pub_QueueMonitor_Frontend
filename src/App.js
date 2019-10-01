@@ -79,9 +79,13 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
       return
     }
     //console.log(`dataUpdates MESSAGE: `, data.timeStamp)
+    const report = {
+      reportPBX: data.reportPBX,
+      reportEmail: data.reportEmail
+    }
     setQueue(data.queue)
     setAgents(data.agentsOnline)
-    setReport(data.report)
+    setReport(report)
     setDataUpdateStatus(200)
   }
 }

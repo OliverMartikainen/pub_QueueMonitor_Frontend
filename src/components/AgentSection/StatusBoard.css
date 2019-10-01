@@ -2,8 +2,9 @@
 .StatusBoard {
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-
-
+    margin-left: 20px;
+    margin-right: 35px;
+    margin-bottom: 1px;
 }
 
 .StatusCount {
@@ -13,6 +14,11 @@
     background-color: var(--fourth-background-layer);
     padding-top: 10px;
     border-radius: 10px;
+    /*
+    border: var(--header-border-size);    
+    border-color: var(--header-border-color);
+    border-style: var(--header-border-style);
+    */
 }
 
 .StatusCount >div {

@@ -6,10 +6,10 @@ const QueueHeader = () => {
 
     return (
         <div className='queue-header'>
-            <div>SERVICE NAME</div>
-            <div>TYPE</div>
-            <div>#</div>
-            <div>WAIT</div>
+            <div className='header-name'>SERVICE NAME</div>
+            <div className='header-channel'>TYPE</div>
+            <div className='header-length'>#</div>
+            <div className='header-time'>WAIT</div>
         </div>
     )
 }

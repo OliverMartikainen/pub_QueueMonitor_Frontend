@@ -1,26 +1,41 @@
 .queue-row {
     display: grid;
-    grid-template-columns: 53% 20% 10% 17%;
-    margin: 0px;
-    border-bottom: 2px;
-    border-bottom-color: grey;
-    border-bottom-style: ridge;
+    grid-template-columns: 53% 15% 12% 20%;
+    margin-bottom: 0px;
+    margin-right: 2px;
     color: beige;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    /*bacground color + border the testing ground here*/
+    background-color: rgba(255, 255, 255, 0.13);
+    border: 2px;
+    border-color: rgba(255, 255, 255, 0.603);
+    border-style: groove;
+    border-radius: 20px;
 }
 
 .queue-row >div {
-    background-color: var(--tertiary-background-color);
     font-size: 25px;
-    border-right: 2px;
-    border-right-color: grey;
-    border-right-style: ridge;
-    margin-left: 5px;
+    margin-left: 2px;
     height: 100%;
     line-height: 50px;
-    padding-left: 1px;
     overflow: hidden;
-    border-radius: 8px;
+    border-radius: 20px;
+}
+
+.service-name {
+    padding-left: 5px;
+}
+.service-channel {
+    padding-left: 5px;
+}
+
+.service-length {
+    text-align: right;
+    padding-right: 25px;
+}
+.service-time {
+    text-align: center;
 }
 
 .queue-row >div#green {

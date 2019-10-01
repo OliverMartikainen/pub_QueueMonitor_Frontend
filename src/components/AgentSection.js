@@ -25,13 +25,14 @@ const AgentSection = ({ agents, censor }) => {
     }
 
     const statusCount = agents.reduce(reducer, { free: 0, reserved: 0, busy: 0, total: 0 })
-
+    const agentsBack = agents.length !== 0 ? '' : 'NO AGENTS ONLINE' 
     return (
         <div className='agent-section'>
             <div className='container'>
                 <StatusBoard statusCount={statusCount} />
                 <div className='agent-container'>
                     <AgentGrid agents={agents} censor={censor} />
+                    <div className='agent-background'>{agentsBack}</div>
                 </div>
             </div>
         </div>

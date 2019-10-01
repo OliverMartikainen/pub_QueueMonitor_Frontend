@@ -31,8 +31,6 @@ const QueueSection = ({ queue }) => {
         calls = queue.filter(q => q.ContactType === 'PBX').sort(QueueSorter)
     }
 
-    //would like: Time to count up, start with static
-
     const emailsBack = emails.length !== 0 ? '' : 'NO EMAILS'
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
@@ -41,12 +39,12 @@ const QueueSection = ({ queue }) => {
         <div className='queue-section'>
             <QueueHeader />
             <div className='call-list'>
-                <div id='background'><h1>{callsBack}</h1></div>
-                <div id='content'>{QueueList(calls)}</div>
+                <div className='list-background '><h1>{callsBack}</h1></div>
+                <div>{QueueList(calls)}</div>
             </div>
             <div className='email-list'>
-                <div id='background'><h1>{emailsBack}</h1></div>
-                <div id='content'>{QueueList(emails)}</div>
+                <div className='list-background '><h1>{emailsBack}</h1></div>
+                <div>{QueueList(emails)}</div>
             </div>
         </div>
     )

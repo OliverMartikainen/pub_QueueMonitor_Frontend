@@ -25,9 +25,11 @@
 }
 
 .error-explain {
+    position: relative;
     display: none;
     width: 300px;
     height: 50px;
+    bottom: 70px;
     border-radius: 10px;
     font-size: 18px;
     background-color: rgb(151, 150, 150);

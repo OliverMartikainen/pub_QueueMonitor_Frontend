@@ -16,7 +16,7 @@ const AgentGrid = ({ agents, censor }) => {
     const agentList = agents.map((agent, index) => <Agent key={index} agent={agent} censor={censor} />)
 
     return (
-        <div className='AgentGrid'>
+        <div className='AgentGrid' id='content'>
             {agentList}
         </div>
     )

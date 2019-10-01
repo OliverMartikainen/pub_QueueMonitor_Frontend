@@ -7,7 +7,12 @@ const ProfileStats = (report, profile) => {
         return stats
     }
     const stats = report.reduce(reducer, {'Answered' : 0, 'Received' : 0})
-    return `${stats.Answered}/${stats.Received}`
+    const numbs = `${stats.Answered}/${stats.Received}`
+    const ratio = `${Math.round(stats.Answered/stats.Received*100)} %`
+    return ({ 
+        stats: numbs,
+        ratio: (ratio !== 'NaN %') ? ratio : '100 %'
+    })
 }
 
 const TeamStats = (report, activeTeam, activeTeamProfile) => {

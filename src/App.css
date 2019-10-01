@@ -4,15 +4,24 @@
   min-width: var(--min-width);
   min-height: var(--min-height);
 
+  --header-border-color: rgba(0, 0, 0, 0.089);
+  --header-border-size: 0px;
+  --header-border-style: outset;
+
+  --container-border-color: rgba(255, 255, 255, 0.171);
+  --container-border-size: 0px;
+  --container-border-style: solid;
 
   /*(almost) ALL COLORS USED ARE CHANGED HERE (Except font)*/
   --general-font-color: rgba(245, 245, 220, 0.87);
   --status-board-color: rgba(224, 224, 224, 0.301);
 
-  --main-background-color: rgba(39, 39, 39, 0.925);
+  --header-background-color: rgb(39, 39, 39);
+  --main-background-color: rgb(39, 39, 39);
   --secondary-background-color: rgba(255, 255, 255, 0.226);
   --tertiary-background-color: rgba(224, 224, 224, 0.301);
   --fourth-background-layer: rgba(224, 224, 224, 0.479);
+  background-color: var(--main-background-color);
 }
 
 .main {
@@ -23,7 +32,7 @@
   /*color: var(--general-font-color);*/
 
   grid-template-columns: 50% 50%;
-  grid-template-rows: 90% 10%;
+  grid-template-rows: 93% 7%;
   position: absolute;
   display: grid;
   background-color: var(--main-background-color);
@@ -33,6 +42,7 @@
   padding: 5px;
   padding-top: 0px;
   margin: 5px;
+  margin-left: 10px;
   grid-column: 1;
   grid-row: 1;
   background-color: var(--secondary-background-color);
@@ -42,6 +52,7 @@
   padding: 5px;
   padding-top: 0px;
   margin: 5px;
+  margin-right: 10px;
   grid-column: 2;
   grid-row: 1;
   background-color: var(--secondary-background-color);

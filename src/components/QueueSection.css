@@ -6,33 +6,27 @@
 
 .email-list {
     background-color: var(--tertiary-background-color);
-    overflow-y: scroll;
-    border: var(--section-border-size);    
-    border-color: var(--section-border-color);
-    border-style: var(--section-border-style);
-    border-radius: 10px;
+    overflow-y: auto;
+    border: var(--container-border-size);
+    border-color: var(--container-border-color);
+    border-style: var(--container-border-style);
+    border-radius: 20px;
 }
 
 .call-list {
-    border-radius: 10px;
+    border-radius: 20px;
     margin-top: 2px;
     margin-bottom: 5px;
-
     background-color: var(--tertiary-background-color);
-    overflow-y: scroll;
-    border: var(--section-border-size);    
-    border-color: var(--section-border-color);
-    border-style: var(--section-border-style);
+    overflow-y: auto;
+    border: var(--container-border-size);
+    border-color: var(--container-border-color);
+    border-style: var(--container-border-style);
 }
 
-#content {
-    z-index: 0;
-    position: relative;
-}
-
-#background {
-    margin: 8%;
-    z-index: 0;
+.list-background {
+    margin-left: 200px;
+    margin-top: 170px;
     position: absolute;
     opacity: 0.5;
 }

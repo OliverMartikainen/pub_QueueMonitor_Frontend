@@ -1,16 +1,32 @@
 .queue-header {
     display: grid;
-    grid-template-columns: 53% 20% 10% 17%;
-    margin-left: 0px;
-    margin-right: 0px;
+    grid-template-columns: 53% 15% 12% 20%;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .queue-header >div {
     background-color: var(--fourth-background-layer);
+    /*background-color: var(--header-background-color);*/
     margin: 2px;
     padding-top: 10px;
     border-radius: 10px;
-    padding-left: 3px;
+
     font-size: 28px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.header-name {
+    padding-left: 5px;
+}
+.header-channel {
+    padding-left: 5px;
+}
+
+.header-length {
+    text-align: right;
+    padding-right: 25px;
+}
+.header-time {
+    text-align: center;
 }

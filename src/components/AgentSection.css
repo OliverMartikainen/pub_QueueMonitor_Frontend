@@ -1,18 +1,24 @@
 .container {
     height: 100%;
-    position: inherit;
-    padding-bottom: 5px;
     display: grid;
     grid-template-rows: 7% 93%
 }
 
 .agent-container {
-    position: inherit;
-    border: var(--section-border-size);    
-    border-color: var(--section-border-color);
-    border-style: var(--section-border-style);
-    /*background-color: var(--tertiary-background-color);*/
-    border-radius: 10px;
-    overflow-y: scroll;
+    background-color: var(--tertiary-background-color);
+    border: var(--container-border-size);    
+    border-color: var(--container-border-color);
+    border-style: var(--container-border-style);
+    border-radius: 20px;
+    overflow-y: auto;
     margin-right: 5px;
+}
+
+.agent-background {
+    margin-left: 200px;
+    margin-top: 20%;
+    font-size: 33px;
+    font-weight: 700;
+    position: absolute;
+    opacity: 0.5;
 }

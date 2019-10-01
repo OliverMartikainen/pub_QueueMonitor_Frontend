@@ -14,7 +14,7 @@ const QueueItem = ({item}) => {
         <div className='queue-row'>
             <div className='service-name'>{item.ServiceName}</div>
             <div className='service-channel'>{(item.ContactType === 'PBX' ? 'CALL' : item.ContactType)}</div>
-            <div className='service-lenght'>{item.QueueLength}</div>
+            <div className='service-length'>{item.QueueLength}</div>
             <div className='service-time' id={id}>
             {(h < 10 ? `0${h}` : h)}:
             {(min < 10 ? `0${min}` : min)}:
