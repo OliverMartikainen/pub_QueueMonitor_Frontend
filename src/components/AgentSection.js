@@ -1,7 +1,7 @@
 import React from 'react'
 import './AgentSection.css'
 import AgentGrid from './AgentSection/AgentGrid'
-import StatusBoard from './AgentSection/StatusBoard'
+import AgentHeader from './AgentSection/AgentHeader'
 
 const AgentSection = ({ agents, censor }) => {
     const free = ['Login', 'Sisäänkirjaus']
@@ -28,9 +28,9 @@ const AgentSection = ({ agents, censor }) => {
     const agentsBack = agents.length !== 0 ? '' : 'NO AGENTS ONLINE' 
     return (
         <div className='agent-section'>
-            <div className='container'>
-                <StatusBoard statusCount={statusCount} />
-                <div className='agent-container'>
+            <div className='agent-container'>
+                <AgentHeader statusCount={statusCount} />
+                <div className='agent-list'>
                     <AgentGrid agents={agents} censor={censor} />
                     <div className='agent-background'>{agentsBack}</div>
                 </div>

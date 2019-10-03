@@ -1,23 +1,19 @@
 .queue-header {
     display: grid;
     grid-template-columns: 53% 15% 12% 20%;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: var(--fourth-background-layer);
 }
 
 .queue-header >div {
-    background-color: var(--fourth-background-layer);
-    /*background-color: var(--header-background-color);*/
-    margin: 2px;
     padding-top: 10px;
-    border-radius: 10px;
-
     font-size: 28px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .header-name {
-    padding-left: 5px;
+    padding-left: 10px;
 }
 .header-channel {
     padding-left: 5px;

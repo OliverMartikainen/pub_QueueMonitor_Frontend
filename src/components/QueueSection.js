@@ -37,15 +37,18 @@ const QueueSection = ({ queue }) => {
 
     return (
         <div className='queue-section'>
-            <QueueHeader />
-            <div className='call-list'>
-                <div className='list-background '><h1>{callsBack}</h1></div>
-                <div>{QueueList(calls)}</div>
+            <div className='queue-container'>
+                <QueueHeader />
+                <div className='call-list'>
+                    <div className='list-background '><h1>{callsBack}</h1></div>
+                    <div>{QueueList(calls)}</div>
+                </div>
+                <div className='email-list'>
+                    <div className='list-background '><h1>{emailsBack}</h1></div>
+                    <div>{QueueList(emails)}</div>
+                </div>
             </div>
-            <div className='email-list'>
-                <div className='list-background '><h1>{emailsBack}</h1></div>
-                <div>{QueueList(emails)}</div>
-            </div>
+
         </div>
     )
 }

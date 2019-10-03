@@ -31,16 +31,16 @@ const AgentFormatter = (activeTeam, agents, censor, teams) => {
 }
 
 //sorted in QueueSection
-const QueueFormatter = (queue, activeTeam, activeProfile, teams, censor) => {
+const QueueFormatter = (queue, activeProfile, teams, censor) => {
   try {
-    if (!queue || !activeTeam || !activeProfile || teams.length === 0) {
+    if (!queue || !activeProfile || teams.length === 0) {
       return []
     }
     const QueueFilter = (queue, queueProfile) => {
       return (!queueProfile || !queueProfile.ServiceIds) ? [] : queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
     }
-    const activeTeamProfiles = teams.find(t => t.TeamName === activeTeam).Profiles
-    const queueProfile = !activeTeamProfiles ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfile)
+    const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
+    const queueProfile = !allProfiles ? [] : allProfiles.find(p => p.AgentId === activeProfile)
 
     const QueueFiltered = QueueFilter(queue, queueProfile)
     return censor ? queueCensor(QueueFiltered) : QueueFiltered
@@ -64,7 +64,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     dataUpdates.close() //wihtout this firefox will close connection on 2nd error
     setTimeout(
       () => dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
-    , 10000)
+      , 10000)
   }
   dataUpdates.onmessage = (event) => {
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
@@ -75,6 +75,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
 
     if (data.status !== 200) {
       const time = new Date().toISOString().substr(11, 8)
+      setDataUpdateStatus(data.status)
       console.log('TEAM UPDATE FAILED', data.status, time)
       return
     }
@@ -145,13 +146,13 @@ const defaultProfile = () => {
 //if no team stored in browser set '' as starting team - changing this might cause problems
 const defaultTeam = () => {
   const storageTeam = window.localStorage.getItem('activeTeam')
-  const defaultTeam = ''
-  return (!storageTeam ? defaultTeam : storageTeam)
+  const defaultTeam = []
+  return (!storageTeam ? defaultTeam : storageTeam.split(','))
 }
 
 //show all useState object requirements here
 const App = () => {
-  const [activeTeam, setActiveTeam] = useState(defaultTeam) //String
+  const [activeTeam, setActiveTeam] = useState(defaultTeam) //[String]
   const [activeProfileId, setQueueProfile] = useState(defaultProfile) //Int
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
   const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
@@ -163,61 +164,64 @@ const App = () => {
   const [dataUpdateStatus, setDataUpdateStatus] = useState(200)
 
   //both used in OptionsSection & OptionsModal components
-  const changeProfile = (newProfile) => {
+  const changeProfile = (newProfile) => { //newProfile is Int
+    //const newProfileFilter = [...activeProfileId, newProfile]
     window.localStorage.setItem('activeProfileId', newProfile)
     setQueueProfile(newProfile)
   }
-  const changeTeam = (newTeam) => {
-    window.localStorage.setItem('activeTeam', newTeam)
-    setActiveTeam(newTeam)
-    if (newTeam === '') { //removeFilters button functionality
+  const changeTeam = (newTeam) => { //newTeam is String
+    const addTeam = () => [...activeTeam, newTeam]
+    const removeTeam = () => activeTeam.filter(teamName => teamName !== newTeam)
+    if (newTeam === '') {
       changeProfile('')
-      //window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
+      setActiveTeam([])
+      window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
       return
     }
-    //on team change chooses teams ALL profile
-    const teamProfiles = teams.find(t => t.TeamName === newTeam).Profiles
-    const profile = teamProfiles.find(p => (newTeam !== 'ALL TEAMS') ? (p.AgentName === `ALL ${newTeam}`) : (p.AgentName === newTeam))
-    changeProfile(profile.AgentId)
+    const newTeamFilter = activeTeam.includes(newTeam) ? removeTeam() : addTeam()
+    window.localStorage.setItem('activeTeam', newTeamFilter.toString())
+    setActiveTeam(newTeamFilter)
   }
 
-  useEffect(() => {
-    errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
-    console.log('a', dataUpdateStatus, connectionStatus)
-  }, [dataUpdateStatus, connectionStatus])
 
-  useEffect(() => {
-    teamUpdater(setTeams)
-    dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
-    const storageProfile = window.localStorage.getItem('activeProfileId')
-    const storageTeam = window.localStorage.getItem('activeTeam')
-    console.log('a', storageTeam, 'b', storageProfile)
-  }, [])
+useEffect(() => {
+  errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
+  console.log('a', dataUpdateStatus, connectionStatus)
+}, [dataUpdateStatus, connectionStatus])
 
-  //want these to happen on each re-render?
-  const AgentsFormatted = AgentFormatter(activeTeam, agents, censor, teams)
-  const QueueFormatted = QueueFormatter(queue, activeTeam, activeProfileId, teams, censor)
+useEffect(() => {
+  teamUpdater(setTeams)
+  dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
+  const storageProfile = window.localStorage.getItem('activeProfileId')
+  const storageTeam = window.localStorage.getItem('activeTeam')
+  console.log('a', storageTeam, 'b', storageProfile)
+}, [])
 
-  //activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
-  const OptItems = {
-    activeTeam: activeTeam, //to highlight chosen team
-    teams: teams, //all teams & profiles
-    changeTeam: changeTeam, //for change team button
-    activeProfileId: activeProfileId, //highlight chosen profile
-    changeProfile: changeProfile, //profiles button func
-    censor: censor, //show current status
-    setCensor: (() => setCensor(!censor)), //censor button func
-    report,
-    connectionStatus
-  }
+//want these to happen on each re-render?
 
-  return (
-    <div className='main'>
-      <QueueSection queue={QueueFormatted} />
-      <AgentSection agents={AgentsFormatted} censor={censor} />
-      <OptionsSection OptItems={OptItems} />
-    </div>
-  )
+const AgentsFormatted = AgentFormatter(activeTeam, agents, censor, teams)
+const QueueFormatted = QueueFormatter(queue, activeProfileId, teams, censor)
+
+//activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
+const OptItems = {
+  activeTeam: activeTeam, //to highlight chosen team
+  teams: teams, //all teams & profiles
+  changeTeam: changeTeam, //for change team button
+  activeProfileId: activeProfileId, //highlight chosen profile
+  changeProfile: changeProfile, //profiles button func
+  censor: censor, //show current status
+  setCensor: (() => setCensor(!censor)), //censor button func
+  report,
+  connectionStatus
+}
+
+return (
+  <div className='main'>
+    <QueueSection queue={QueueFormatted} />
+    <AgentSection agents={AgentsFormatted} censor={censor} />
+    <OptionsSection OptItems={OptItems} />
+  </div>
+)
 
 }
 

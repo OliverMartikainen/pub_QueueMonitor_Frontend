@@ -4,17 +4,16 @@
   min-width: var(--min-width);
   min-height: var(--min-height);
 
-  --header-border-color: rgba(0, 0, 0, 0.089);
+  --header-border-color: rgb(255, 247, 247);
   --header-border-size: 0px;
   --header-border-style: outset;
 
-  --container-border-color: rgba(255, 255, 255, 0.171);
+  --container-border-color: rgba(90, 90, 90, 0.288);
   --container-border-size: 0px;
-  --container-border-style: solid;
+  --container-border-style: inset;
 
   /*(almost) ALL COLORS USED ARE CHANGED HERE (Except font)*/
   --general-font-color: rgba(245, 245, 220, 0.87);
-  --status-board-color: rgba(224, 224, 224, 0.301);
 
   --header-background-color: rgb(39, 39, 39);
   --main-background-color: rgb(39, 39, 39);
@@ -39,8 +38,6 @@
 }
 /*  background-color: rgb(241, 85, 85);*/
 .queue-section {
-  padding: 5px;
-  padding-top: 0px;
   margin: 5px;
   margin-left: 10px;
   grid-column: 1;
@@ -49,8 +46,6 @@
   border-radius: 10px;
 }
 .agent-section {
-  padding: 5px;
-  padding-top: 0px;
   margin: 5px;
   margin-right: 10px;
   grid-column: 2;

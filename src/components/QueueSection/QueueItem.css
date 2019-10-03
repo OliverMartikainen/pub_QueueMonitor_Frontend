@@ -2,16 +2,13 @@
     display: grid;
     grid-template-columns: 53% 15% 12% 20%;
     margin-bottom: 0px;
-    margin-right: 2px;
     color: beige;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 
-    /*bacground color + border the testing ground here*/
-    background-color: rgba(255, 255, 255, 0.13);
-    border: 2px;
-    border-color: rgba(255, 255, 255, 0.603);
-    border-style: groove;
-    border-radius: 20px;
+    background-color: rgba(180, 180, 180, 0.479);
+    border-bottom: 2px;
+    border-bottom-color: rgba(158, 158, 158, 0.692);
+    border-bottom-style: outset;
 }
 
 .queue-row >div {
@@ -20,7 +17,7 @@
     height: 100%;
     line-height: 50px;
     overflow: hidden;
-    border-radius: 20px;
+    
 }
 
 .service-name {
