@@ -1,6 +1,9 @@
-.queue-section {
+.queue-container {
     display: grid;
-    grid-template-rows: 7% 47% 46%
+    grid-template-rows: 7% 47% 46%;
+    margin: 5px;
+    height: calc(100% - 10px);
+
     /*6.2% is approx 1 queue row*/
 }
 
@@ -10,18 +13,17 @@
     border: var(--container-border-size);
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 .call-list {
-    border-radius: 20px;
-    margin-top: 2px;
-    margin-bottom: 5px;
+    border-radius: 10px;
     background-color: var(--tertiary-background-color);
     overflow-y: auto;
     border: var(--container-border-size);
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
+    margin-bottom: 5px;
 }
 
 .list-background {

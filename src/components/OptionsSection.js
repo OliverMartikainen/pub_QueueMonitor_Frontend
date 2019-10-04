@@ -20,9 +20,19 @@ const OptionsSection = ({ OptItems }) => {
     const helpButtonId = !showHelp ? 'Unselected' : 'Selected'
     const censorButtonId = !OptItems.censor ? 'Unselected' : 'Selected'
 
+    const findActiveTeamProfiles = (activeTeam, teamsList) => {
+        const oneTeamProfiles = (searchedTeam) => (teamsList.length === 0) ? [] : teamsList.find(team => team.TeamName === searchedTeam).Profiles
+        let activeProfilesList = []
+        activeTeam.forEach(team => {
+            activeProfilesList.push(...oneTeamProfiles(team))
+        })
+        return activeProfilesList
+    }
+    const activeTeamProfiles = findActiveTeamProfiles(OptItems.activeTeam, OptItems.teams)
+
     return (
         <div className='options-section'>
-            <OptionsModal activeTeam={OptItems.activeTeam} teamsList={OptItems.teams} changeTeam={OptItems.changeTeam} activeProfileId={OptItems.activeProfileId} changeProfile={OptItems.changeProfile}  showModal={showOptions} />
+            <OptionsModal activeTeamProfiles={activeTeamProfiles} activeTeam={OptItems.activeTeam} teamsList={OptItems.teams} changeTeam={OptItems.changeTeam} activeProfileId={OptItems.activeProfileId} changeProfile={OptItems.changeProfile}  showModal={showOptions} />
             <HelpModal showHelp={showHelp} />
             <div className='buttons-container'>
                 <button id={optionsButtonId} onClick={() => setShowOptions(!showOptions)}>CHOOSE FILTERS</button>
@@ -31,7 +41,7 @@ const OptionsSection = ({ OptItems }) => {
                 <button id={helpButtonId} onClick={() => setShowHelp(!showHelp)}>HELP</button>
                 <ErrorStatus error={OptItems.connectionStatus} />
             </div>
-            <Statistics activeTeam={OptItems.activeTeam} teams={OptItems.teams} activeProfileId={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
+            <Statistics activeTeamProfiles={activeTeamProfiles} activeTeam={OptItems.activeTeam} teams={OptItems.teams} activeProfileId={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
         </div>
     )
 }

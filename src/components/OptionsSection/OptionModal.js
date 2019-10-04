@@ -59,12 +59,13 @@ const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
 }
 */
 
-const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
+const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
 
-    const activeTeamProfiles = (teamsList.length === 0 || !activeTeam) ? [] : teamsList.find(team => team.TeamName === activeTeam).Profiles
+    //const allProfiles = teamsList.length === 0 ? [] : teamsList.find(team => team.TeamName === 'ALL TEAMS')
+    //const activeProfile = allProfiles.length === 0 ? [] : allProfiles.find(p => p.AgentId === activeProfileId)
     const activeProfile = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
 
-    const teamToggle = (t) => activeTeam !== t ? 'Unselected' : 'Selected' //.css use
+    const teamToggle = (t) => activeTeam.includes(t) ? 'Unselected' : 'Selected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
@@ -76,7 +77,7 @@ const OptionsModal = ({ activeTeam, teamsList, changeTeam, activeProfileId, chan
     )
 
     const modalId = showModal ? 'show' : 'hide'
-    const TeamName = !activeTeam ? 'NONE' : activeTeam
+    const TeamName = (activeTeam.length === 0) ? 'NONE' : activeTeam
     const ProfileName = !activeProfile.AgentName ? 'NONE' : activeProfile.AgentName
 
     return (

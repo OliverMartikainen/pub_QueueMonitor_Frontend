@@ -1,17 +1,17 @@
-.container {
-    height: 100%;
+.agent-container {
+    margin: 5px;
+    height: calc(100% - 10px);
     display: grid;
     grid-template-rows: 7% 93%
 }
 
-.agent-container {
+.agent-list {
     background-color: var(--tertiary-background-color);
     border: var(--container-border-size);    
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
-    border-radius: 20px;
+    border-radius: 10px;
     overflow-y: auto;
-    margin-right: 5px;
 }
 
 .agent-background {
