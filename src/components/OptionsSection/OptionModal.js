@@ -6,13 +6,12 @@ import './OptionModal.css'
 
 //sorts the profile list team profile 1st then alphabetic order 
 //could move to backend all sorting (including agent & queue)
-const ProfileSort = (profile, TeamName) => {
-    const teamAllProfile = (TeamName !== 'ALL TEAMS') ? `ALL ${TeamName}` : 'ALL TEAMS'
+const ProfileSort = (profile, activeTeam) => {
     const ProfileSorter = (p1, p2) => {
-        if (p1.AgentName === teamAllProfile) {
+        if (p1.AgentName === 'ALL TEAMS') {
             return -1
         }
-        if (p2.AgentName === teamAllProfile) {
+        if (p2.AgentName === 'ALL TEAMS') {
             return 1
         }
         return p1.AgentName < p2.AgentName ? -1 : 1
@@ -60,12 +59,14 @@ const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
 */
 
 const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
+    const activeProfileIdTemp = [activeProfileId]
 
     //const allProfiles = teamsList.length === 0 ? [] : teamsList.find(team => team.TeamName === 'ALL TEAMS')
-    //const activeProfile = allProfiles.length === 0 ? [] : allProfiles.find(p => p.AgentId === activeProfileId)
-    const activeProfile = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.find(p => p.AgentId === activeProfileId)
+    //const activeProfile = allProfiles.length === 0 ? [] : allProfiles.find(p => ctiveProfileId.includes(p.AgentId))
+    const activeProfileExists = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.filter(p => activeProfileIdTemp.includes(p.AgentId))
+    const activeProfile = !activeProfileExists ? [] : activeProfileExists
 
-    const teamToggle = (t) => activeTeam.includes(t) ? 'Unselected' : 'Selected' //.css use
+    const teamToggle = (t) => activeTeam.includes(t) ? 'Selected' : 'Unselected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
@@ -77,8 +78,8 @@ const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, a
     )
 
     const modalId = showModal ? 'show' : 'hide'
-    const TeamName = (activeTeam.length === 0) ? 'NONE' : activeTeam
-    const ProfileName = !activeProfile.AgentName ? 'NONE' : activeProfile.AgentName
+    const TeamName =  activeTeam.length === 0 ? 'NONE' : (activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length-1}` : activeTeam[0])
+    const ProfileName = activeProfile.length === 0 ? 'NONE' : (activeProfile.length > 1 ? `${activeProfile[0].AgentName} +${activeProfile.length}` : activeProfile[0].AgentName)
 
     return (
         <div className='modal-box' id={modalId} >

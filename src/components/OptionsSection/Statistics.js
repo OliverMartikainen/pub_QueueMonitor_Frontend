@@ -39,10 +39,10 @@ const Statistics = ({ activeTeamProfiles, activeTeam, teams, activeProfileId, re
     let activeTeamStatsPBX = '0/0'
     let activeTeamStatsEmail = '0/0'
     if (teams.length !== 0 && report) {
-        if (activeTeamProfiles !== 0) {
+        if (activeTeamProfiles.length !== 0) {
             activeTeamStatsPBX = statsCounter.TeamStats(report.reportPBX, activeTeam, activeTeamProfiles)
             activeTeamStatsEmail = statsCounter.TeamStats(report.reportEmail, activeTeam, activeTeamProfiles)
-            activeTeamName = activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length}` : activeTeam[0]
+            activeTeamName = activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length-1}` : activeTeam[0]
         }
         if (activeProfileId) {
             const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles

@@ -10,17 +10,15 @@ import './App.css'
 
 //Agents need to be sorted before censoring (sorted by surname, censor removes it)
 const AgentFormatter = (activeTeam, agents, censor, teams) => {
-  if (!agents || agents.length === 0 || !activeTeam || teams.length === 0) {
+  if (!agents || agents.length === 0 || activeTeam.length === 0 || teams.length === 0) {
     return []
   }
   try {
-    const AgentFilter = (team, agents) => !team ? [] : ((team !== 'ALL TEAMS') ? agents.filter(agent => agent.Team === team) : agents)
-
-    const AgentsFiltered = AgentFilter(activeTeam, agents)
+    const AgentsFiltered = activeTeam.includes('ALL TEAMS') ? agents : agents.filter(agent => activeTeam.includes(agent.Team))
     const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
     if (censor) {
-      const teamProfiles = teams.find(t => t.TeamName === activeTeam).Profiles
-      return agentCensor(AgentsSorted, teamProfiles) //takes first names from agentProfiles and replaces agentsOnline names
+      const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
+      return agentCensor(AgentsSorted, allProfiles) //takes first names from agentProfiles and replaces agentsOnline names
     }
     return AgentsSorted
   } catch (error) {
@@ -170,6 +168,10 @@ const App = () => {
     setQueueProfile(newProfile)
   }
   const changeTeam = (newTeam) => { //newTeam is String
+    const doChange = (newTeamFilter) => {
+      window.localStorage.setItem('activeTeam', newTeamFilter.toString())
+      setActiveTeam(newTeamFilter)
+    }
     const addTeam = () => [...activeTeam, newTeam]
     const removeTeam = () => activeTeam.filter(teamName => teamName !== newTeam)
     if (newTeam === '') {
@@ -178,9 +180,20 @@ const App = () => {
       window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
       return
     }
+    if (activeTeam.includes('ALL TEAMS')) {
+      if (newTeam === 'ALL TEAMS') {
+        doChange([])
+        return
+      }
+      doChange([newTeam])
+      return
+    }
+    if (newTeam === 'ALL TEAMS') { //avoids duplicate profiles list - room for rework in whole 'teams' listing.
+      doChange([newTeam])
+      return
+    }
     const newTeamFilter = activeTeam.includes(newTeam) ? removeTeam() : addTeam()
-    window.localStorage.setItem('activeTeam', newTeamFilter.toString())
-    setActiveTeam(newTeamFilter)
+    doChange(newTeamFilter)
   }
 
 

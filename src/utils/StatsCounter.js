@@ -16,16 +16,23 @@ const ProfileStats = (report, profile) => {
 }
 
 const TeamStats = (report, activeTeam, activeTeamProfiles) => {
-    const oneTeamResults = (teamName) => {
+    const oneTeamAllProfiles = (teamName) => {
         const teamAllProfileName = (teamName !== 'ALL TEAMS') ? `ALL ${teamName}` : 'ALL TEAMS'
         const teamAllProfile = activeTeamProfiles.find(profile => profile.AgentName === teamAllProfileName)
-        return ProfileStats(report, teamAllProfile)
+        return teamAllProfile
     }
-    if(activeTeam.includes('ALL TEAMS')) {
-        return oneTeamResults('ALL TEAMS')
+
+    if (activeTeam.includes('ALL TEAMS')) {
+        return ProfileStats(report, oneTeamAllProfiles('ALL TEAMS'))
     }
-    //still needs work
-    return ProfileStats(activeTeam[0])
+
+    const combinedProfile = {ServiceIds: []}
+        activeTeam.forEach(teamName => {
+        const allProfile = oneTeamAllProfiles(teamName)
+        combinedProfile.ServiceIds.push(...allProfile.ServiceIds)
+    })
+
+    return ProfileStats(report, combinedProfile)
 
 }
 
