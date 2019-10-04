@@ -1,6 +1,6 @@
-const ProfileStats = (report, profile) => {
+const ProfileStats = (report, ServiceIds) => {
     const reducer = (stats, report) => {
-        if (profile.ServiceIds.includes(report.ServiceId)) {
+        if (ServiceIds.includes(report.ServiceId)) {
             stats.Answered += report.ProcessedPieces
             stats.Received += report.ContactsPieces
         }
@@ -19,20 +19,18 @@ const TeamStats = (report, activeTeam, activeTeamProfiles) => {
     const oneTeamAllProfiles = (teamName) => {
         const teamAllProfileName = (teamName !== 'ALL TEAMS') ? `ALL ${teamName}` : 'ALL TEAMS'
         const teamAllProfile = activeTeamProfiles.find(profile => profile.AgentName === teamAllProfileName)
-        return teamAllProfile
+        return teamAllProfile.ServiceIds
     }
 
     if (activeTeam.includes('ALL TEAMS')) {
         return ProfileStats(report, oneTeamAllProfiles('ALL TEAMS'))
     }
-
-    const combinedProfile = {ServiceIds: []}
-        activeTeam.forEach(teamName => {
+    const combinedSerivceIds = []
+    activeTeam.forEach(teamName => {
         const allProfile = oneTeamAllProfiles(teamName)
-        combinedProfile.ServiceIds.push(...allProfile.ServiceIds)
+        combinedSerivceIds.push(...allProfile)
     })
-
-    return ProfileStats(report, combinedProfile)
+    return ProfileStats(report, combinedSerivceIds)
 
 }
 

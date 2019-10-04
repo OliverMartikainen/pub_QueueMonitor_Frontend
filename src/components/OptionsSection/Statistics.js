@@ -44,13 +44,15 @@ const Statistics = ({ activeTeamProfiles, activeTeam, teams, activeProfileId, re
             activeTeamStatsEmail = statsCounter.TeamStats(report.reportEmail, activeTeam, activeTeamProfiles)
             activeTeamName = activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length-1}` : activeTeam[0]
         }
-        if (activeProfileId) {
+        if (activeProfileId.length !== 0) {
             const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
-            const activeProfile = allProfiles.find(p => p.AgentId === activeProfileId)
-
-            activeProfileStatsPBX = statsCounter.ProfileStats(report.reportPBX, activeProfile)
-            activeProfileStatsEmail = statsCounter.ProfileStats(report.reportEmail, activeProfile)
-            activeProfileName = !censor ? activeProfile.AgentName : activeProfile.AgentFirstName //if censor on show only firstname
+            const activeProfiles = allProfiles.filter(p => activeProfileId.includes(p.AgentId))
+            const reducer = (ids, profile) => [...ids, ...profile.ServiceIds]
+            const activeServiceIds = activeProfiles.reduce(reducer, [])
+            activeProfileStatsPBX = statsCounter.ProfileStats(report.reportPBX, activeServiceIds)
+            activeProfileStatsEmail = statsCounter.ProfileStats(report.reportEmail, activeServiceIds)
+            const shownProfileName = !censor ? activeProfiles[0].AgentName : activeProfiles[0].AgentFirstName //if censor on show only firstname
+            activeProfileName = (activeProfiles.length > 1) ? `${shownProfileName} +${activeProfiles.length-1}` : shownProfileName //if censor on show only firstname
         }
     }
 

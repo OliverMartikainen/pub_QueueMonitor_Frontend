@@ -29,22 +29,22 @@ const AgentFormatter = (activeTeam, agents, censor, teams) => {
 }
 
 //sorted in QueueSection
-const QueueFormatter = (queue, activeProfile, teams, censor) => {
+const QueueFormatter = (queue, activeProfileIds, teams, censor) => {
   try {
-    if (!queue || !activeProfile || teams.length === 0) {
+    if (activeProfileIds.length === 0 || queue.length === 0 || teams.length === 0) {
       return []
     }
-    const QueueFilter = (queue, queueProfile) => {
-      return (!queueProfile || !queueProfile.ServiceIds) ? [] : queue.filter(item => queueProfile.ServiceIds.includes(item.ServiceId))
-    }
-    const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
-    const queueProfile = !allProfiles ? [] : allProfiles.find(p => p.AgentId === activeProfile)
 
-    const QueueFiltered = QueueFilter(queue, queueProfile)
+    const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
+    const activeProfiles = allProfiles.filter(p => activeProfileIds.includes(p.AgentId))
+    const reducer = (ids, profile) => [...ids, ...profile.ServiceIds]
+    const activeServiceIds = activeProfiles.reduce(reducer, [])
+
+    const QueueFiltered = queue.filter(q => activeServiceIds.includes(q.ServiceId))
     return censor ? queueCensor(QueueFiltered) : QueueFiltered
   }
   catch (err) {
-    console.error('QueueProfile error:', activeProfile, err)
+    console.error('QueueProfile error:', activeProfileIds, err)
     return queue
   }
 }
@@ -137,8 +137,8 @@ const errorChecker = (dataUpdateStatus, connectionStatus, setConnectionStatus) =
 //if no queueuProfile stored in browser set empty profile as starting queueProfile - changing this might cause problems
 const defaultProfile = () => {
   const storageProfile = window.localStorage.getItem('activeProfileId')
-  const defaultProfile = ''
-  return (!storageProfile ? defaultProfile : parseInt(storageProfile))
+  const defaultProfile = []
+  return (!storageProfile ? defaultProfile : storageProfile.split(',').map(id => parseInt(id)))
 }
 
 //if no team stored in browser set '' as starting team - changing this might cause problems
@@ -151,7 +151,7 @@ const defaultTeam = () => {
 //show all useState object requirements here
 const App = () => {
   const [activeTeam, setActiveTeam] = useState(defaultTeam) //[String]
-  const [activeProfileId, setQueueProfile] = useState(defaultProfile) //Int
+  const [activeProfileId, setQueueProfile] = useState(defaultProfile) //[Int]
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
   const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
@@ -163,37 +163,60 @@ const App = () => {
 
   //both used in OptionsSection & OptionsModal components
   const changeProfile = (newProfile) => { //newProfile is Int
-    //const newProfileFilter = [...activeProfileId, newProfile]
-    window.localStorage.setItem('activeProfileId', newProfile)
-    setQueueProfile(newProfile)
+    const doProfileChange = (newProfileFilter) => {
+      window.localStorage.setItem('activeProfileId', newProfileFilter.toString())
+      setQueueProfile(newProfileFilter)
+    }
+    const addProfile = () => [...activeProfileId, newProfile]
+    const removeProfile = () => activeProfileId.filter(id => id !== newProfile)
+
+    if (newProfile === '') { //on remove filters
+      doProfileChange([])
+      return
+    }
+    if (activeProfileId.includes(1)) { //1 === 'ALL TEAMS' profile
+      if (newProfile === 1) {
+        doProfileChange([])
+        return
+      }
+      doProfileChange([newProfile])
+      return
+    }
+    if (newProfile === 1) {
+      doProfileChange([newProfile])
+      return
+    }
+    const newProfileFilter = activeProfileId.includes(newProfile) ? removeProfile() : addProfile()
+    doProfileChange(newProfileFilter)
   }
+
   const changeTeam = (newTeam) => { //newTeam is String
-    const doChange = (newTeamFilter) => {
+    const doTeamChange = (newTeamFilter) => {
       window.localStorage.setItem('activeTeam', newTeamFilter.toString())
       setActiveTeam(newTeamFilter)
     }
     const addTeam = () => [...activeTeam, newTeam]
     const removeTeam = () => activeTeam.filter(teamName => teamName !== newTeam)
+
     if (newTeam === '') {
       changeProfile('')
-      setActiveTeam([])
-      window.localStorage.clear() //remove filters button also clears localstorage - probably not necessary
+      doTeamChange([])
       return
     }
     if (activeTeam.includes('ALL TEAMS')) {
       if (newTeam === 'ALL TEAMS') {
-        doChange([])
+        doTeamChange([])
         return
       }
-      doChange([newTeam])
+      doTeamChange([newTeam])
       return
     }
     if (newTeam === 'ALL TEAMS') { //avoids duplicate profiles list - room for rework in whole 'teams' listing.
-      doChange([newTeam])
+      doTeamChange([newTeam])
       return
     }
     const newTeamFilter = activeTeam.includes(newTeam) ? removeTeam() : addTeam()
-    doChange(newTeamFilter)
+    doTeamChange(newTeamFilter)
   }
 
 

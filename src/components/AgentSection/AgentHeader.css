@@ -1,7 +1,7 @@
 /*colors in app.css*/
 .agent-header {
     display: grid;
-    grid-template-columns: 150px 27% 25% 25%;
+    grid-template-columns: 150px calc(50% - 150px) 25% 25%;
     margin-bottom: 5px;
     background-color: var(--fourth-background-layer);
     border-radius: 10px;

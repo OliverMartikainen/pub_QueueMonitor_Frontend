@@ -6,8 +6,14 @@ import './OptionModal.css'
 
 //sorts the profile list team profile 1st then alphabetic order 
 //could move to backend all sorting (including agent & queue)
-const ProfileSort = (profile, activeTeam) => {
+const ProfileSort = (profile, activeProfileId) => {
     const ProfileSorter = (p1, p2) => {
+        if (activeProfileId.includes(p1.AgentId)) {
+            return -1
+        }
+        if (activeProfileId.includes(p2.AgentId)) {
+            return 1
+        }
         if (p1.AgentName === 'ALL TEAMS') {
             return -1
         }
@@ -59,11 +65,10 @@ const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
 */
 
 const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
-    const activeProfileIdTemp = [activeProfileId]
 
     //const allProfiles = teamsList.length === 0 ? [] : teamsList.find(team => team.TeamName === 'ALL TEAMS')
     //const activeProfile = allProfiles.length === 0 ? [] : allProfiles.find(p => ctiveProfileId.includes(p.AgentId))
-    const activeProfileExists = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.filter(p => activeProfileIdTemp.includes(p.AgentId))
+    const activeProfileExists = activeTeamProfiles.length === 0 ? [] : activeTeamProfiles.filter(p => activeProfileId.includes(p.AgentId))
     const activeProfile = !activeProfileExists ? [] : activeProfileExists
 
     const teamToggle = (t) => activeTeam.includes(t) ? 'Selected' : 'Unselected' //.css use
@@ -71,8 +76,8 @@ const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, a
         <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
 
-    const profileToggle = (profile) => activeProfileId !== profile.AgentId ? "Unselected" : "Selected" //.css use
-    const profilesSorted = ProfileSort(activeTeamProfiles, activeTeam)
+    const profileToggle = (profile) => activeProfileId.includes(profile.AgentId) ? "Selected" : "Unselected" //.css use
+    const profilesSorted = ProfileSort(activeTeamProfiles, activeProfileId)
     const profilesList = profilesSorted.map((profile, index) =>
         <button id={profileToggle(profile)} key={index} onClick={() => changeProfile(profile.AgentId)}>{profile.AgentName}</button>
     )
