@@ -7,11 +7,14 @@
 
 .agent-list {
     background-color: var(--tertiary-background-color);
-    border: var(--container-border-size);    
+    border: var(--container-border-size);
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
     border-radius: 10px;
     overflow-y: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar) var(--scroll-back);
 }
 
 .agent-background {
