@@ -38,7 +38,7 @@ const Statistics = ({ activeTeamProfiles, activeTeam, teams, activeProfileId, re
     let activeProfileStatsEmail = '0/0'
     let activeTeamStatsPBX = '0/0'
     let activeTeamStatsEmail = '0/0'
-    if (teams.length !== 0 && report) {
+    if (teams.length !== 0 && report && report.reportPBX.length !== 0) {
         if (activeTeamProfiles.length !== 0) {
             activeTeamStatsPBX = statsCounter.TeamStats(report.reportPBX, activeTeam, activeTeamProfiles)
             activeTeamStatsEmail = statsCounter.TeamStats(report.reportEmail, activeTeam, activeTeamProfiles)

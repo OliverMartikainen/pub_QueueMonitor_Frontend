@@ -21,9 +21,9 @@ const AgentHeader = ({ statusCount }) => {
     return (
         <div className='agent-header'>
             <AgentCount idStatus='center' idNumber='left' status='FREE: ' count={statusCount.free} />
-            <AgentCount idStatus='right' idNumber='center'  status='RESERVED: ' count={statusCount.reserved} />
-            <AgentCount idStatus='right' idNumber='center'  status='BUSY: ' count={statusCount.busy} />
-            <AgentCount idStatus='right' idNumber='center'  status='TOTAL: ' count={statusCount.total} />
+            <AgentCount idStatus='center' idNumber='left'  status='CALL: ' count={statusCount.call} />
+            <AgentCount idStatus='center' idNumber='left'  status='BUSY: ' count={statusCount.busy} />
+            <AgentCount idStatus='center' idNumber='left'  status='TOTAL: ' count={statusCount.total} />
         </div>
     )
 }

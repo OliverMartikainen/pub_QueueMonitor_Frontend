@@ -13,11 +13,10 @@
 
 .queue-row >div {
     font-size: 25px;
-    margin-left: 2px;
+    
     height: 100%;
     line-height: 50px;
     overflow: hidden;
-    
 }
 
 .service-name {
@@ -35,7 +34,7 @@
     text-align: center;
 }
 
-.queue-row >div#green {
+.queue-row #green {
     background-color: rgba(108, 180, 1, 0.753);
 }
 
@@ -43,6 +42,6 @@
     background-color: rgba(255, 166, 0, 0.726);
 }
 
-.queue-row >div#red {
+.queue-row #red {
     background-color: rgba(206, 2, 2, 0.76);
 }

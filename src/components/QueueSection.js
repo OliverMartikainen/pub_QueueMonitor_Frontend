@@ -1,8 +1,8 @@
-//top right
-
 import React from 'react'
+import vipServices from '../custom/vipServices'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
+import QueueVIPItem from './QueueSection/QueueVIPItem'
 import QueueHeader from './QueueSection/QueueHeader'
 
 
@@ -19,9 +19,18 @@ const QueueSorter = (item1, item2) => {
 }
 
 
-const QueueList = (queue) => {
-    return queue.map((item, index) => <QueueItem key={index} item={item} />)
+const QueueListCalls = (queue) => {
+    return queue.map((item, index) => {
+        if(vipServices.includes(item.ServiceId)) {
+            return <QueueVIPItem key={index} item={item} />
+        } else {
+            return <QueueItem key={index} item={item} />
+        }
+    })
 }
+
+const QueueListEmails = (queue) => queue.map((item, index) => <QueueItem key={index} item={item} />)
+
 
 const QueueSection = ({ queue }) => {
     let emails = []
@@ -41,11 +50,11 @@ const QueueSection = ({ queue }) => {
                 <QueueHeader />
                 <div className='call-list'>
                     <div className='list-background '><h1>{callsBack}</h1></div>
-                    <div>{QueueList(calls)}</div>
+                    <div>{QueueListCalls(calls)}</div>
                 </div>
                 <div className='email-list'>
                     <div className='list-background '><h1>{emailsBack}</h1></div>
-                    <div>{QueueList(emails)}</div>
+                    <div>{QueueListEmails(emails)}</div>
                 </div>
             </div>
 

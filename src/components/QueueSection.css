@@ -14,9 +14,10 @@
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
     border-radius: 10px;
-
+    /*
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar) var(--scroll-back);
+    */
 }
 
 .call-list {
@@ -27,9 +28,18 @@
     border-color: var(--container-border-color);
     border-style: var(--container-border-style);
     margin-bottom: 5px;
-
+    /*
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar) var(--scroll-back);
+    */
+}
+
+.email-list #vip-alarm-yellow {
+    background-color: rgba(255, 166, 0, 0.726);
+}
+
+.email-list #vip-alarm-red {
+    background-color: rgba(206, 2, 2, 0.76);
 }
 
 .list-background {

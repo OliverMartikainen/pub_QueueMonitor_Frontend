@@ -41,21 +41,21 @@
 }
 
 
-#green {
+.error-status #green {
     background: green;
 }
-#yellow {
+.error-status #yellow {
     background: yellow;
 }
-#red {
+.error-status #red {
     background: red;
 }
-#messagegreen {
+.error-status #messagegreen {
     color: green
 }
-#messageyellow {
+.error-status #messageyellow {
     color: yellow
 }
-#messagered {
+.error-status #messagered {
     color: red
 }

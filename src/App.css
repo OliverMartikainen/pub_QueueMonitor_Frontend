@@ -1,6 +1,6 @@
 :root {
-  --min-width: 1500px;
-  --min-height: 800px;
+  --min-width: 1200px;
+  --min-height: 600px;
   min-width: var(--min-width);
   min-height: var(--min-height);
   --header-border-color: rgb(255, 247, 247);
@@ -18,10 +18,10 @@
   --fourth-background-layer: rgba(224, 224, 224, 0.479);
   background-color: var(--main-background-color);
   
-
+/*
   --scroll-back: rgba(88, 88, 88, 0);
   --scroll-bar: darkgrey;
-
+*/
 }
 
 .main {
@@ -62,7 +62,7 @@
   grid-template-columns: 50% 50%;
 }
 
-
+/*
 ::-webkit-scrollbar {
   width: 5px;
 }
@@ -76,3 +76,4 @@
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
 }
+*/

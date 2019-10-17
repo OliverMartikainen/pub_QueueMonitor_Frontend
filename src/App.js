@@ -65,10 +65,11 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
       , 10000)
   }
   dataUpdates.onmessage = (event) => {
+    /*
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
       const time = new Date().toISOString().substr(11, 8)
       console.log('origin error', time, event.origin)
-    }
+    }*/
     const data = JSON.parse(event.data)
 
     if (data.status !== 200) {
@@ -105,9 +106,10 @@ const teamUpdater = (setTeams) => {
       , 10000)
   }
   teamUpdates.onmessage = (event) => {
+    /*
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
       console.log('origin error', event.origin) //not actually doing anything with this atm
-    }
+    }*/
 
     const data = JSON.parse(event.data)
 

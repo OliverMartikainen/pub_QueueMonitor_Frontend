@@ -2,10 +2,10 @@
     --width: 550px;
     position: absolute;
     z-index: 1;
-    bottom: 15%;
+    top: 10vh;
     left: calc(50% - calc(var(--width)*0.5));
     width: var(--width);
-    height: 700px;
+    height: 80vh;
     background-color: rgb(202, 201, 201);
 }
 h3 {
@@ -30,6 +30,7 @@ h4 {
 .modal-list {
     width: 90%;
     padding: 5%;
+    height: inherit;
     padding-top: 0;
 }
 
@@ -40,7 +41,7 @@ h4 {
 
 .modal-search {
     overflow-y: auto;
-    height: 570px;
+    height: calc(80vh - 100px);
 }
 
 .modal-search >button {

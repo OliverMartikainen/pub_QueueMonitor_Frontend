@@ -5,7 +5,7 @@ import AgentHeader from './AgentSection/AgentHeader'
 
 const AgentSection = ({ agents, censor }) => {
     const free = ['Login', 'Sisäänkirjaus']
-    const reserved = ['JÄLKIKIRJAUS', 'PUHELU (Sisään)', 'PUHELU (Ulos)', 'SÄHKÖPOSTI (Sisään)', 'SÄHKÖPOSTI (Ulos)', 'WRAPUP TIME', 'CALL (In)', 'CALL (Out)']
+    const call = ['JÄLKIKIRJAUS', 'PUHELU (Sisään)', 'PUHELU (Ulos)', 'SÄHKÖPOSTI (Sisään)', 'SÄHKÖPOSTI (Ulos)', 'WRAPUP TIME', 'CALL (In)', 'CALL (Out)']
 
     const reducer = (statusCount, agent) => {
         statusCount.total++
@@ -14,9 +14,9 @@ const AgentSection = ({ agents, censor }) => {
             agent.status = 'free'
             return statusCount
         }
-        if (reserved.includes(agent.Reason)) {
-            statusCount.reserved++
-            agent.status = 'reserved'
+        if (call.includes(agent.Reason)) {
+            statusCount.call++
+            agent.status = 'call'
             return statusCount
         }
         agent.status = 'busy'
@@ -24,7 +24,7 @@ const AgentSection = ({ agents, censor }) => {
         return statusCount
     }
 
-    const statusCount = agents.reduce(reducer, { free: 0, reserved: 0, busy: 0, total: 0 })
+    const statusCount = agents.reduce(reducer, { free: 0, call: 0, busy: 0, total: 0 })
     const agentsBack = agents.length !== 0 ? '' : 'NO AGENTS ONLINE' 
     return (
         <div className='agent-section'>

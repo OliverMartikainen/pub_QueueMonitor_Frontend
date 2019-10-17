@@ -12,9 +12,10 @@
     border-style: var(--container-border-style);
     border-radius: 10px;
     overflow-y: auto;
-
+    /*
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar) var(--scroll-back);
+    */
 }
 
 .agent-background {

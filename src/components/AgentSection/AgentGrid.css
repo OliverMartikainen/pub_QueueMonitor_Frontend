@@ -1,15 +1,35 @@
-.AgentGrid {
+.agent-grid {
     display: grid;
-    grid-template-columns: 33% 34% 33%;
     color: var(--general-font-color);
  }
 
+.agent-grid.normal {
+    grid-template-columns: 33% 34% 33%;
+    grid-auto-rows: 12vh;
+    font-size: 2.4vh;
+}
 
-.Agent {
+.agent-grid.big {
+    grid-template-columns: 50% 50%;
+    grid-auto-rows: 16.9vh;
+    font-size: 3.4vh;
+}
+
+.agent-grid.biggest {
+    grid-template-columns: 50% 50%;
+    grid-auto-rows: 41vh;
+    font-size: 5.8vh;
+    /* for 6 items
+    grid-auto-rows: 28.1vh;
+    font-size: 5vh;
+    */
+}
+
+
+.agent {
     display: grid;
     grid-template-rows: 55% 45%;
     margin-bottom: 0px;
-    height: 100px;
     border: 2px;
     border-color: rgba(139, 139, 139, 0.425);
     border-style: outset;
@@ -17,25 +37,26 @@
     padding-left: 5px;   
 }
 
-.AgentName {
-    font-size: 25px;
+.agent-name {
+    font-size: 125%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     overflow: hidden;
 }
-.AgentStatus {
-    font-size: 20px;
+.agent-status {
+    font-size: 100%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     overflow: hidden;
 }
 
-#free {
+.agent-grid #free {
     background-color: rgba(108, 180, 1, 0.753);
 }
 
-#reserved {
+.agent-grid #call {
     background-color: rgba(255, 166, 0, 0.726);
 }
 
-#busy {
+.agent-grid #busy {
     background-color: rgba(206, 2, 2, 0.76);
 }
+
