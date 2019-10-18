@@ -9,7 +9,7 @@ import agentCensor from './utils/agentCensor'
 import './App.css'
 
 //Agents need to be sorted before censoring (sorted by surname, censor removes it)
-const AgentFormatter = (activeTeam, agents, censor, teams) => {
+const agentFormatter = (activeTeam, agents, censor, teams) => {
   if (!agents || agents.length === 0 || activeTeam.length === 0 || teams.length === 0) {
     return []
   }
@@ -29,7 +29,7 @@ const AgentFormatter = (activeTeam, agents, censor, teams) => {
 }
 
 //sorted in QueueSection
-const QueueFormatter = (queue, activeProfileIds, teams, censor) => {
+const queueFormatter = (queue, activeProfileIds, teams, censor) => {
   try {
     if (activeProfileIds.length === 0 || queue.length === 0 || teams.length === 0) {
       return []
@@ -237,8 +237,8 @@ useEffect(() => {
 
 //want these to happen on each re-render?
 
-const AgentsFormatted = AgentFormatter(activeTeam, agents, censor, teams)
-const QueueFormatted = QueueFormatter(queue, activeProfileId, teams, censor)
+const agentsFormatted = agentFormatter(activeTeam, agents, censor, teams)
+const queueFormatted = queueFormatter(queue, activeProfileId, teams, censor)
 
 //activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
 const OptItems = {
@@ -255,8 +255,8 @@ const OptItems = {
 
 return (
   <div className='main'>
-    <QueueSection queue={QueueFormatted} />
-    <AgentSection agents={AgentsFormatted} censor={censor} />
+    <QueueSection queue={queueFormatted} />
+    <AgentSection agents={agentsFormatted} censor={censor} />
     <OptionsSection OptItems={OptItems} />
   </div>
 )

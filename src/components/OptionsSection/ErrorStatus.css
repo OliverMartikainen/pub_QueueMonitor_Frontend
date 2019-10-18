@@ -50,12 +50,12 @@
 .error-status #red {
     background: red;
 }
-.error-status #messagegreen {
+#messagegreen {
     color: green
 }
-.error-status #messageyellow {
+#messageyellow {
     color: yellow
 }
-.error-status #messagered {
+#messagered {
     color: red
 }

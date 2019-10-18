@@ -24,7 +24,6 @@ const Agent = ({ agent, censor }) => {
 
 const AgentGrid = ({ agents, censor }) => {
     const size = sizeChooser(agents.length)
-    console.log(size, agents.length)
     const agentList = agents.map((agent, index) => <Agent key={index} agent={agent} censor={censor} />)
     return (
         <div className={`agent-grid ${size}`} id='content'>

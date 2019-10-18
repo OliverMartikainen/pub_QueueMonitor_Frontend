@@ -90,10 +90,8 @@ const getUpdates = () =>
     updateTeams()
     //updateData()
 
-    //aa()//event source testing
     dataUpdater()
 
-    //change to 2-way listeners
     //setInterval(updateData, 4000) //update every 4 sec
     setInterval(updateTeams, 3600000) //1. per hour 1000*3600 = 3 600 000
   }, [])
