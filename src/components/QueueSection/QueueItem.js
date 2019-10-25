@@ -11,6 +11,8 @@ const QueueItem = ({item}) => {
     const waitStatus = (wait) => wait < 120 ? 'green' : (wait < 600 ? 'yellow' : 'red')
     const id = item.ContactType === 'PBX' ? waitStatus(wait) : 'email' //if we want calls only
 
+    //could replace time with just --> const time = new Date(1000 * item.MaxQueueTime).toISOString().substr(11, 8)
+
     return (
         <div className='queue-row'>
             <div className='service-name'>{item.ServiceName}</div>

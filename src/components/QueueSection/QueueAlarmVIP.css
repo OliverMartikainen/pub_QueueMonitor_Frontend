@@ -1,0 +1,41 @@
+
+.queue-alarm-modal {
+    z-index: 2 !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    display: grid;
+    grid-template-rows: 25% 25% 25% 25%;
+    font-size: 16vh;
+    color: black;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.queue-alarm-modal >div {
+    overflow: hidden;
+
+}
+
+.alarm-red {
+    background-color: rgba(124, 70, 0, 0.733);
+}
+
+.alarm-yellow {
+    background-color: rgba(255, 255, 0, 0.801);
+}
+
+.timer {
+
+}
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: rgb(255, 0, 212);
+}

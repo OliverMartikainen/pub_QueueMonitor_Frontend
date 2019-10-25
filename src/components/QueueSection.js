@@ -1,8 +1,10 @@
 import React from 'react'
 import vipServices from '../custom/vipServices'
+import vipServicesTest from '../custom/vipServicesTest'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
 import QueueVIPItem from './QueueSection/QueueVIPItem'
+import QueueAlarmVIP from './QueueSection/QueueAlarmVIP'
 import QueueHeader from './QueueSection/QueueHeader'
 
 
@@ -18,7 +20,12 @@ const QueueSorter = (item1, item2) => {
     return 0
 }
 
+const TestList = (queue) => {
+    return queue.map((item, index) => {
+        return <QueueVIPItem key={index} item={item} />
+    })
 
+}
 const QueueListCalls = (queue) => {
     return queue.map((item, index) => {
         if(vipServices.includes(item.ServiceId)) {
@@ -43,6 +50,9 @@ const QueueSection = ({ queue }) => {
     const emailsBack = emails.length !== 0 ? '' : 'NO EMAILS'
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
+    const vipCalls = calls.filter(call => vipServices.includes(call.ServiceId))
+    const testEmails = emails.filter(email => vipServicesTest.includes(email.ServiceId))
+
 
     return (
         <div className='queue-section'>
@@ -56,8 +66,8 @@ const QueueSection = ({ queue }) => {
                     <div className='list-background '><h1>{emailsBack}</h1></div>
                     <div>{QueueListEmails(emails)}</div>
                 </div>
+                <QueueAlarmVIP vipCalls={testEmails} />
             </div>
-
         </div>
     )
 }
