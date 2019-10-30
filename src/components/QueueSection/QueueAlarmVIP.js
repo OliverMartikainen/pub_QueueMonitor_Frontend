@@ -13,7 +13,7 @@ const TimerSeconds = ({ startTime }) => {
     if (timer > 20) {
         const time = new Date(1000 * (timer - 20)).toISOString().substr(11, 8)
         return (
-            <div className='timer blue'>
+            <div className='timer red'>
                 -{time}
             </div>
         )
@@ -21,7 +21,7 @@ const TimerSeconds = ({ startTime }) => {
     
     const time = new Date(1000 * (20 - timer)).toISOString().substr(11, 8)
         return (
-        <div className='timer red'>
+        <div className='timer blue'>
             {time}
         </div>
     )
@@ -29,8 +29,8 @@ const TimerSeconds = ({ startTime }) => {
 
 
 const QueueAlarmModal = ({ count, callShown }) => {
-    const [modalColor, setModalColor] = useState('alarm-red')
-    const flasher = modalColor !== 'alarm-red' ? 'alarm-red' : 'alarm-yellow'
+    const [modalColor, setModalColor] = useState('alarm-yellow')
+    const flasher = modalColor !== 'alarm-yellow' ? 'alarm-yellow' : 'alarm-white'
 
     useEffect(() => {
         setTimeout(() => {
@@ -40,6 +40,7 @@ const QueueAlarmModal = ({ count, callShown }) => {
 
     const totalCalls = count + callShown.QueueLength
     const showCallCount = totalCalls > 1 ? `VIP CALLS: ${totalCalls}` : ''
+    //<div className='call-counters'>{showCallCount}</div>
 
     return (
         <div className={`queue-alarm-modal ${modalColor}`}>
@@ -47,7 +48,6 @@ const QueueAlarmModal = ({ count, callShown }) => {
             <div>VIP CALL</div>
             <div className='call-name'>{callShown.ServiceName}</div>
             <TimerSeconds startTime={callShown.MaxQueueTime} />
-            <div className='call-counters'>{showCallCount}</div>
         </div>
     )
 }

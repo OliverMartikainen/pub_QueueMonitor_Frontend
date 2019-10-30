@@ -7,19 +7,23 @@
     grid-template-columns: 33% 34% 33%;
     grid-auto-rows: 12vh;
     font-size: 2.4vh;
+    white-space: nowrap;
 }
 
 .agent-grid.big {
     grid-template-columns: 50% 50%;
     grid-auto-rows: 16.9vh;
-    font-size: 3.4vh;
+    font-size: 3.2vh;
+    white-space: nowrap;
 }
 
 .agent-grid.biggest {
     grid-template-columns: 50% 50%;
     grid-auto-rows: 41vh;
-    font-size: 5.8vh;
-    /* for 6 items
+    font-size: 4.3vh;
+    /*
+    3.8vh
+    for 6 items
     grid-auto-rows: 28.1vh;
     font-size: 5vh;
     */
@@ -38,14 +42,16 @@
 }
 
 .agent-name {
+    font-size: 220%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    overflow: hidden;
+
+}
+.agent-status {
     font-size: 125%;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     overflow: hidden;
-}
-.agent-status {
-    font-size: 100%;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    overflow: hidden;
+
 }
 
 .agent-grid #free {

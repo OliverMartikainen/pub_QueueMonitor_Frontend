@@ -3,8 +3,6 @@
     grid-template-rows: 7% 47% 46%;
     margin: 5px;
     height: calc(100% - 10px);
-
-    /*6.2% is approx 1 queue row*/
 }
 
 .email-list {
@@ -34,17 +32,10 @@
     */
 }
 
-.email-list #vip-alarm-yellow {
-    background-color: rgba(255, 166, 0, 0.726);
-}
-
-.email-list #vip-alarm-red {
-    background-color: rgba(206, 2, 2, 0.76);
-}
-
 .list-background {
-    margin-left: 200px;
-    margin-top: 170px;
+    margin-left: 10vh;
+    margin-top: 5vh;
     position: absolute;
     opacity: 0.5;
+    font-size: 6vh;
 }

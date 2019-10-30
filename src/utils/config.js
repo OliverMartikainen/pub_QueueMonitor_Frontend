@@ -1,6 +1,6 @@
-const baseUrl = 'http://localhost:3001/api'
+//const baseUrl = 'http://localhost:3001/api'
 //const baseOrigin = 'http://localhost:3001'
-//const baseUrl = './api'
+const baseUrl = './api'
 const baseOrigin = ''
 
 

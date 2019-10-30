@@ -20,9 +20,6 @@ const StatsRow = ({ type, name, statsPBX, statsEmail }) => {
     return (
         <div className='stats-row'>
             <div>
-                {type}:
-            </div>
-            <div>
                 {name}
             </div>
             <StatsCount type='Calls' stats={statsPBX} />
@@ -56,12 +53,11 @@ const Statistics = ({ activeTeamProfiles, activeTeam, teams, activeProfileId, re
         }
     }
 
-
+    //<StatsRow type='Profile' name={activeProfileName} statsPBX={activeProfileStatsPBX} statsEmail={activeProfileStatsEmail} />
     return (
         <div className='statistics'>
             <StatsRow type='Team' name={activeTeamName} statsPBX={activeTeamStatsPBX} statsEmail={activeTeamStatsEmail} />
-            <StatsRow type='Profile' name={activeProfileName} statsPBX={activeProfileStatsPBX} statsEmail={activeProfileStatsEmail} />
-        </div>
+         </div>
     )
 }
 

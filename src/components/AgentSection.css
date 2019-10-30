@@ -19,10 +19,10 @@
 }
 
 .agent-background {
-    margin-left: 200px;
-    margin-top: 20%;
-    font-size: 33px;
-    font-weight: 700;
+    margin-left: 10vh;
+    margin-top: 25vh;
     position: absolute;
     opacity: 0.5;
+    font-weight: 700;
+    font-size: 12vh;
 }

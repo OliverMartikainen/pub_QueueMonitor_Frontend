@@ -20,22 +20,22 @@
 
 }
 
-.alarm-red {
-    background-color: rgba(124, 70, 0, 0.733);
+.alarm-white {
+    background-color: rgba(238, 251, 255, 0.582);
 }
 
 .alarm-yellow {
-    background-color: rgba(255, 255, 0, 0.801);
+    background-color: rgba(238, 255, 0, 0.945);
 }
 
 .timer {
 
 }
 
-.blue {
-    color: blue;
+.red {
+    color: rgb(255, 0, 0);
 }
 
-.red {
-    color: rgb(255, 0, 212);
+.blue {
+    color: rgb(0, 13, 134);
 }
