@@ -3,7 +3,7 @@ import './QueueAlarmVIP.css'
 import vipAlarm from './resources/VIPAlarm.mp3'
 
 const TimerSeconds = ({ startTime }) => {
-    const [timer, setTimer] = useState(1) //add 1 sec to counter possible delay
+    const [timer, setTimer] = useState(startTime) //add 1 sec to counter possible delay
     useEffect(() => {
         setTimeout(() => {
             setTimer(timer + 1)
