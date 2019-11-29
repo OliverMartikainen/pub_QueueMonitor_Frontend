@@ -1,3 +1,13 @@
+# QueueMonitor Frontend Documentation
+
+## Not needed to run showcase version
+
+## ToDo - keep some of react generic?
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -159,7 +159,7 @@ const App = () => {
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
   const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
   const [report, setReport] = useState('')
-  //200 OK, 502 database-backend error, 503 backend-frontend error
+  //200 OK, 502 database-backend error, 503 backend-frontend error --> combine for custom hook?
   const [connectionStatus, setConnectionStatus] = useState({ status: 200, errorStart: '' }) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
   const [dataUpdateStatus, setDataUpdateStatus] = useState(200)
 
@@ -222,44 +222,42 @@ const App = () => {
   }
 
 
-useEffect(() => {
-  errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
-  console.log('a', dataUpdateStatus, connectionStatus)
-}, [dataUpdateStatus, connectionStatus])
+  useEffect(() => {
+    errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
+  }, [dataUpdateStatus, connectionStatus])
 
-useEffect(() => {
-  teamUpdater(setTeams)
-  dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
-  const storageProfile = window.localStorage.getItem('activeProfileId')
-  const storageTeam = window.localStorage.getItem('activeTeam')
-  console.log('a', storageTeam, 'b', storageProfile)
-}, [])
+  useEffect(() => {
+    teamUpdater(setTeams)
+    dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
+    const storageProfile = window.localStorage.getItem('activeProfileId')
+    const storageTeam = window.localStorage.getItem('activeTeam')
+  }, [])
 
-//want these to happen on each re-render?
+  //want these to happen on each re-render?
 
-const agentsFormatted = agentFormatter(activeTeam, agents, censor, teams)
-const queueFormatted = queueFormatter(queue, activeProfileId, teams, censor)
+  const agentsFormatted = agentFormatter(activeTeam, agents, censor, teams)
+  const queueFormatted = queueFormatter(queue, activeProfileId, teams, censor)
 
-//activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
-const OptItems = {
-  activeTeam: activeTeam, //to highlight chosen team
-  teams: teams, //all teams & profiles
-  changeTeam: changeTeam, //for change team button
-  activeProfileId: activeProfileId, //highlight chosen profile
-  changeProfile: changeProfile, //profiles button func
-  censor: censor, //show current status
-  setCensor: (() => setCensor(!censor)), //censor button func
-  report,
-  connectionStatus
-}
+  //activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
+  const OptItems = {
+    activeTeam: activeTeam, //to highlight chosen team
+    teams: teams, //all teams & profiles
+    changeTeam: changeTeam, //for change team button
+    activeProfileId: activeProfileId, //highlight chosen profile
+    changeProfile: changeProfile, //profiles button func
+    censor: censor, //show current status
+    setCensor: (() => setCensor(!censor)), //censor button func
+    report,
+    connectionStatus
+  }
 
-return (
-  <div className='main'>
-    <QueueSection queue={queueFormatted} />
-    <AgentSection agents={agentsFormatted} censor={censor} />
-    <OptionsSection OptItems={OptItems} />
-  </div>
-)
+  return (
+    <div className='main'>
+      <QueueSection queue={queueFormatted} />
+      <AgentSection agents={agentsFormatted} censor={censor} />
+      <OptionsSection OptItems={OptItems} />
+    </div>
+  )
 
 }
 
