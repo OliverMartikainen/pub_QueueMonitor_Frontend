@@ -229,8 +229,6 @@ const App = () => {
   useEffect(() => {
     teamUpdater(setTeams)
     dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
-    const storageProfile = window.localStorage.getItem('activeProfileId')
-    const storageTeam = window.localStorage.getItem('activeTeam')
   }, [])
 
   //want these to happen on each re-render?

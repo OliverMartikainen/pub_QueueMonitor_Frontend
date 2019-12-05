@@ -24,8 +24,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#API info
-db.json
-src/tests/*
-src/tests/TestLists.js
-src/tests/testUrl.js

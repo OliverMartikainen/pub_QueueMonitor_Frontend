@@ -1,6 +1,5 @@
 import React from 'react'
 import vipServices from '../custom/vipServices'
-import vipServicesTest from '../custom/vipServicesTest'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
 import QueueAlarmVIP from './QueueSection/QueueAlarmVIP'
@@ -34,7 +33,6 @@ const QueueSection = ({ queue }) => {
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
     const vipCalls = calls.filter(call => vipServices.includes(call.ServiceId))
-    //const testEmails = emails.filter(email => vipServicesTest.includes(email.ServiceId))
 
     return (
         <div className='queue-section'>

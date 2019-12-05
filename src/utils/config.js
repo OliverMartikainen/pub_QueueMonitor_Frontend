@@ -1,7 +1,7 @@
-//const baseUrl = 'http://localhost:3001/api'
-//const baseOrigin = 'http://localhost:3001'
+//const baseUrl = 'http://localhost:3050/api' //used in development 
+//const baseOrigin = 'http://localhost:3001' //used in development 
 const baseUrl = './api'
-const baseOrigin = ''
+const baseOrigin = '' //if you want to test origin of responses - not used atm
 
 
 
