@@ -41,7 +41,7 @@ const OptionsSection = ({ OptItems }) => {
                 <button id={helpButtonId} onClick={() => setShowHelp(!showHelp)}>HELP</button>
                 <ErrorStatus error={OptItems.connectionStatus} />
             </div>
-            <Statistics activeTeamProfiles={activeTeamProfiles} activeTeam={OptItems.activeTeam} teams={OptItems.teams} activeProfileId={OptItems.activeProfileId} report={OptItems.report} censor={OptItems.censor}/>
+            <Statistics activeTeamProfiles={activeTeamProfiles} activeTeam={OptItems.activeTeam} teams={OptItems.teams} report={OptItems.report} />
         </div>
     )
 }
