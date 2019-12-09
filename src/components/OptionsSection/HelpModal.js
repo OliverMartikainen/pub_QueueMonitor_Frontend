@@ -10,27 +10,26 @@ const HelpModal = ({ showHelp }) => {
     const versionStorage = window.localStorage.getItem('serverVersion')
     return (
         <div className='help-modal' id={modalId} >
-            <p>Help unavailable at the moment.
-            <br></br>
-            <br></br>
-            <br></br>
-            If you have suggestions or encounter errors/problems contact:
-            <br></br>
-            <br></br>
-            Email oliver.martikainen@cgi.com, Subject: QueueMonitor
-            <br></br>
-            or
-            <br></br>
-            Email markus.ruotsalainen@cgi.com
-            
-            <br></br>
-            <br></br>
-            Next to help button there is a small circle that can be green, yellow or red.
-                Green means connection is ok.
-                Yellow means browser is not connected to server - either you need to change your connection or the server is down.
-                Red means server has no connection to database - nothing you can do - contact admin. 
+            <p>"CHOOSE FILTERS" button:
+                Use it to select different filters for the CALL and EMAIL queues, and the Agents shown.
                 <br></br>
+                Selected PROFILE's determine the QUEUE filter.
+                Selected TEAM's determine the AGENT filter.
                 <br></br>
+                Filter selection still under development.
+            <br></br>
+            <br></br>
+                "REMOVE FILTERS" button:
+                Use it to remove all selected filters.           
+            <br></br>
+                "CENSOR" button:
+                Hides shows only 1st letter of Service Names and hides lastnames of Agents.
+            <br></br>
+                "ERROR MESSAGE/LIGHT":
+                The status light is green when connection is good and everything is working.
+                The status light is yellow when the browser cannot connect to the server. Either you need to change your connection or the server is down.
+                The status light is red when the server cannot connect to the database. Contact admin.
+            <br></br>
             version: {versionStorage}
             </p>
             
