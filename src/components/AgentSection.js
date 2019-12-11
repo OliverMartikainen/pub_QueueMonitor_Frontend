@@ -2,10 +2,11 @@ import React from 'react'
 import './AgentSection.css'
 import AgentGrid from './AgentSection/AgentGrid'
 import AgentHeader from './AgentSection/AgentHeader'
+import AgentReasonGroups from '../custom/AgentReasonGroups'
 
 const AgentSection = ({ agents, censor }) => {
-    const free = ['Login', 'Sisäänkirjaus']
-    const call = ['JÄLKIKIRJAUS', 'PUHELU (Sisään)', 'PUHELU (Ulos)', 'SÄHKÖPOSTI (Sisään)', 'SÄHKÖPOSTI (Ulos)', 'WRAPUP TIME', 'CALL (In)', 'CALL (Out)']
+    const free = AgentReasonGroups.free
+    const call = AgentReasonGroups.call
 
     const reducer = (statusCount, agent) => {
         statusCount.total++

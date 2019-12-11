@@ -59,7 +59,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates ERROR: `, time)
     setDataUpdateStatus(503)
-    dataUpdates.close() //wihtout this firefox will close connection on 2nd error
+    dataUpdates.close() //without this firefox will close connection on 2nd error
     setTimeout(
       () => dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
       , 10000)
