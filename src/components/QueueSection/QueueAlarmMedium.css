@@ -1,0 +1,30 @@
+.medium-alarm-modal {
+    z-index: 2 !important;
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.781);
+    top: 30vh;
+    left: 0;
+    height: 50%;
+    width: 50%;
+    border-radius: 50px;
+    color: rgb(255, 236, 206);
+}
+
+.medium-alarm-header {
+    margin: 10px;
+    font-size: 5vh;
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.medium-alarm-row {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: calc(100% - 360px) 30px 330px;
+    font-size: 8vh;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.medium-alarm-row >div {
+    overflow: hidden;
+}

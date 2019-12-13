@@ -20,7 +20,7 @@ h4 {
     display: grid;
     grid-auto-columns: 50% 50%;
     border-radius: 10px;
-    z-index: 3 !important;
+    z-index: 10 !important;
 }
 
 .modal-box#hide {

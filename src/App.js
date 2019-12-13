@@ -159,7 +159,6 @@ const defaultTeam = () => {
 
 const defaultAlarms = () => {
   const storageAlarms = window.localStorage.getItem('activeAlarms')
-  console.log('storage',storageAlarms)
   const defaultAlarms = {}
   return ((storageAlarms === undefined || !storageAlarms) ? defaultAlarms : JSON.parse(storageAlarms))
 }
@@ -276,7 +275,7 @@ const App = () => { //Change activeTeam to shownAgents --> [AgentIds] --> agentf
 
   return (
     <div className='main'>
-      <QueueSection queue={queueFormatted} />
+      <QueueSection queue={queueFormatted} activeAlarms={activeAlarms} />
       <AgentSection agents={agentsFormatted} censor={censor} />
       <OptionsSection OptItems={OptItems} />
     </div>

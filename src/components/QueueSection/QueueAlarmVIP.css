@@ -1,6 +1,6 @@
 
-.queue-alarm-modal {
-    z-index: 2 !important;
+.vip-alarm-modal {
+    z-index: 3 !important;
     position: absolute;
     top: 0;
     left: 0;
@@ -15,7 +15,7 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.queue-alarm-modal >div {
+.vip-alarm-modal >div {
     overflow: hidden;
 
 }

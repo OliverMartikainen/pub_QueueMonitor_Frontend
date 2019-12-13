@@ -15,7 +15,7 @@ h3 {
 .service-modal-box#show {
     display: block;
     border-radius: 10px;
-    z-index: 3 !important;
+    z-index: 9 !important;
 }
 
 .service-modal-box#hide {

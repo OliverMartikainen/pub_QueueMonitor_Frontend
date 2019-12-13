@@ -3,6 +3,7 @@ import VipServices from '../custom/VipServices'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
 import QueueAlarmVIP from './QueueSection/QueueAlarmVIP'
+import QueueAlarmMedium from './QueueSection/QueueAlarmMedium'
 import QueueHeader from './QueueSection/QueueHeader'
 
 
@@ -21,7 +22,10 @@ const QueueSorter = (item1, item2) => {
 const QueueList = (queue) => queue.map((item, index) => <QueueItem key={index} item={item} />)
 
 
-const QueueSection = ({ queue }) => {
+const QueueSection = ({ queue, activeAlarms }) => {
+    /* 0=Default alarm, 1=Medium alarm, 2=VIPAlarm  
+        activeAlarms is object with ServiceIds as key and alarmLevel as value
+    */
     let emails = []
     let calls = []
     if (queue) {
@@ -33,6 +37,8 @@ const QueueSection = ({ queue }) => {
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
     const vipCalls = calls.filter(call => VipServices.includes(call.ServiceId))
+    const mediumAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 1)
+    //const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
 
     return (
         <div className='queue-section'>
@@ -46,6 +52,7 @@ const QueueSection = ({ queue }) => {
                     <div className='list-background '><h1>{emailsBack}</h1></div>
                     <div>{QueueList(emails)}</div>
                 </div>
+                <QueueAlarmMedium mediumAlarmCalls={mediumAlarmCalls} />
                 <QueueAlarmVIP vipCalls={vipCalls} />
             </div>
         </div>

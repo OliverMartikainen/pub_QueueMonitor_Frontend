@@ -28,7 +28,7 @@ const TimerSeconds = ({ startTime }) => {
 }
 
 
-const QueueAlarmModal = ({ count, callShown }) => {
+const VIPAlarmModal = ({ count, callShown }) => {
     const [modalColor, setModalColor] = useState('alarm-yellow')
     const flasher = modalColor !== 'alarm-yellow' ? 'alarm-yellow' : 'alarm-white'
 
@@ -38,12 +38,13 @@ const QueueAlarmModal = ({ count, callShown }) => {
         }, 1000)
     }, [flasher])
 
-    const totalCalls = count + callShown.QueueLength
-    const showCallCount = totalCalls > 1 ? `VIP CALLS: ${totalCalls}` : ''
+    /*const totalCalls = count + callShown.QueueLength
+    //const showCallCount = totalCalls > 1 ? `VIP CALLS: ${totalCalls}` : ''
     //<div className='call-counters'>{showCallCount}</div>
+    */
 
     return (
-        <div className={`queue-alarm-modal ${modalColor}`}>
+        <div className={`vip-alarm-modal ${modalColor}`}>
             <audio src={vipAlarm} autoPlay loop />
             <div>VIP CALL</div>
             <div className='call-name'>{callShown.ServiceName}</div>
@@ -62,7 +63,7 @@ const QueueAlarmVIP = ({ vipCalls }) => {
     const count = vipCalls.length
     const firstCall = vipCalls[0]
     return (
-        <QueueAlarmModal count={count} callShown={firstCall} />
+        <VIPAlarmModal count={count} callShown={firstCall} />
     )
 }
 

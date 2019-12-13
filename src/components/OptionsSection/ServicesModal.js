@@ -58,7 +58,7 @@ const ServiceListItem = ({ ServiceName, ServiceId, ServiceAlarmType, activeAlarm
         <div className={'service-modal-item'} >
             <div>{ServiceName} </div>
             <div>{ServiceId} </div>
-            <div>{ServiceAlarmType}</div>
+            <div></div>
             <AlarmOptionButtons ServiceAlarmType={ServiceAlarmType} changeAlarmsButtonFunc={changeAlarmsButtonFunc} />
         </div>
     )
