@@ -3,9 +3,9 @@ import AgentSection from './components/AgentSection'
 import QueueSection from './components/QueueSection'
 import OptionsSection from './components/OptionsSection'
 import eventService from './services/eventService'
-import config from './utils/config'
 import queueCensor from './utils/queueCensor'
 import agentCensor from './utils/agentCensor'
+import filterUtils from './utils/filterUtils'
 import './App.css'
 
 //Agents need to be sorted before censoring (sorted by surname, censor removes it)
@@ -14,13 +14,16 @@ const agentFormatter = (activeTeam, agents, censor, teams) => {
     return []
   }
   try {
-    const AgentsFiltered = activeTeam.includes('ALL TEAMS') ? agents : agents.filter(agent => activeTeam.includes(agent.Team))
-    const AgentsSorted = AgentsFiltered.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
+    const activeAgents = filterUtils.findActiveAgents(agents, activeTeam)
+    const AgentsSorted = activeAgents.sort((a1, a2) => (a1.AgentName < a2.AgentName ? -1 : 1))
+
     if (censor) {
       const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
       return agentCensor(AgentsSorted, allProfiles) //takes first names from agentProfiles and replaces agentsOnline names
     }
+
     return AgentsSorted
+
   } catch (error) {
     console.log('a', activeTeam, 'b', agents, 'c', censor, 'd', teams)
     console.error('Wild AgentSorting error', error)
@@ -35,13 +38,9 @@ const queueFormatter = (queue, activeProfileIds, teams, censor) => {
       return []
     }
 
-    const allProfiles = teams.find(t => t.TeamName === 'ALL TEAMS').Profiles
-    const activeProfiles = allProfiles.filter(p => activeProfileIds.includes(p.AgentId))
-    const reducer = (ids, profile) => [...ids, ...profile.ServiceIds]
-    const activeServiceIds = activeProfiles.reduce(reducer, [])
+    const activeQueueItems = filterUtils.findActiveQueueItems(queue, activeProfileIds, teams)
 
-    const QueueFiltered = queue.filter(q => activeServiceIds.includes(q.ServiceId))
-    return censor ? queueCensor(QueueFiltered) : QueueFiltered
+    return censor ? queueCensor(activeQueueItems) : activeQueueItems
   }
   catch (err) {
     console.error('QueueProfile error:', activeProfileIds, err)
@@ -59,13 +58,13 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     const time = new Date().toISOString().substr(11, 8)
     console.log(`dataUpdates ERROR: `, time)
     setDataUpdateStatus(503)
-    dataUpdates.close() //without this firefox will close connection on 2nd error
+    dataUpdates.close() //without this & the setTimeout() firefox will close connection on 2nd error
     setTimeout(
       () => dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
       , 10000)
   }
   dataUpdates.onmessage = (event) => {
-    /*
+    /* need to import util.config for this to work, also add origin to config.
     if (event.origin.toLocaleLowerCase() !== config.baseOrigin.toLocaleLowerCase()) {
       const time = new Date().toISOString().substr(11, 8)
       console.log('origin error', time, event.origin)
@@ -73,7 +72,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     const data = JSON.parse(event.data)
 
     if (data.status !== 200) {
-      const time = new Date().toISOString().substr(11, 8)
+      const time = new Date().toISOString()
       setDataUpdateStatus(data.status)
       console.log('TEAM UPDATE FAILED', data.status, time)
       return
@@ -91,7 +90,7 @@ const dataUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
 }
 
 //happens approx every 30min/1h - checks server version vs local storage version
-const teamUpdater = (setTeams) => {
+const teamUpdater = (setTeams, setServices) => {
   const teamUpdates = eventService.getTeamUpdates()
   teamUpdates.onopen = (event) => {
     const time = new Date().toISOString().substr(11, 8)
@@ -102,7 +101,7 @@ const teamUpdater = (setTeams) => {
     console.log(`teamUpdates ERROR: `, time)
     teamUpdates.close()
     setTimeout(
-      () => teamUpdater(setTeams)
+      () => teamUpdater(setTeams, setServices)
       , 10000)
   }
   teamUpdates.onmessage = (event) => {
@@ -126,9 +125,17 @@ const teamUpdater = (setTeams) => {
 
     window.localStorage.setItem('serverVersion', data.serverVersion)
     setTeams(data.teams)
+    setServices(data.services)
   }
 }
 
+/**
+ * Checks for change in dataUpdateStatus (dataUpdate feeds status code)
+ *  
+ * @param {*} dataUpdateStatus 
+ * @param {*} connectionStatus 
+ * @param {*} setConnectionStatus 
+ */
 const errorChecker = (dataUpdateStatus, connectionStatus, setConnectionStatus) => {
   if (connectionStatus.status !== dataUpdateStatus) {
     const time = new Date().toISOString()
@@ -143,28 +150,38 @@ const defaultProfile = () => {
   return (!storageProfile ? defaultProfile : storageProfile.split(',').map(id => parseInt(id)))
 }
 
-//if no team stored in browser set '' as starting team - changing this might cause problems
+//if no team stored in browser set [] as starting team - changing this might cause problems
 const defaultTeam = () => {
   const storageTeam = window.localStorage.getItem('activeTeam')
   const defaultTeam = []
   return (!storageTeam ? defaultTeam : storageTeam.split(','))
 }
 
-//show all useState object requirements here
-const App = () => {
-  const [activeTeam, setActiveTeam] = useState(defaultTeam) //[String]
-  const [activeProfileId, setQueueProfile] = useState(defaultProfile) //[Int]
+const defaultAlarms = () => {
+  const storageAlarms = window.localStorage.getItem('activeAlarms')
+  console.log('storage',storageAlarms)
+  const defaultAlarms = {}
+  return ((storageAlarms === undefined || !storageAlarms) ? defaultAlarms : JSON.parse(storageAlarms))
+}
+
+const App = () => { //Change activeTeam to shownAgents --> [AgentIds] --> agentfilter OR add this and keep activeTeam for options filter only?
+  const [activeTeam, setActiveTeam] = useState(defaultTeam) //[TeamNames] - String --> AgentFilter - database doesnt provide TeamIds
+  const [activeProfileId, setQueueProfile] = useState(defaultProfile) //[ServiceIds] - Int --> QueueFilter
+  const [activeAlarms, setActiveAlarms] = useState(defaultAlarms) /*{ServiceId: AlarmType} ServiceIds are unique numbers, Alarm type is 0-2 */
   const [censor, setCensor] = useState(false) //boolean: if sensitive info needs to be hidden
-  const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, MaxQueueWait?}]: for queue updates
+  const [queue, setQueue] = useState([]) //[{ServiceName, SerivceId, ContactType, QueueLength, MaxQueueTime}]
   const [agents, setAgents] = useState([]) //for agent updates - show ones filtered by team
   const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
   const [report, setReport] = useState('')
+  const [services, setServices] = useState([]) /* [{ServiceName, ServiceId}]  - used in OptionsSection ServiceAlarmsModal*/
   //200 OK, 502 database-backend error, 503 backend-frontend error --> combine for custom hook?
   const [connectionStatus, setConnectionStatus] = useState({ status: 200, errorStart: '' }) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
   const [dataUpdateStatus, setDataUpdateStatus] = useState(200)
 
-  //both used in OptionsSection & OptionsModal components
+  //chanceProfile & changeTeam are button functions used in OptionsSection & OptionsModal components - should extract these somewhere else...
+  //create ButtonFuncions.changeProfile? component? 
   const changeProfile = (newProfile) => { //newProfile is Int
+    //props --> activeProfileId (Int array), newProfile, setQueueProfile()
     const doProfileChange = (newProfileFilter) => {
       window.localStorage.setItem('activeProfileId', newProfileFilter.toString())
       setQueueProfile(newProfileFilter)
@@ -193,6 +210,7 @@ const App = () => {
   }
 
   const changeTeam = (newTeam) => { //newTeam is String
+    //props --> activeTeam, newTeam, setActiveTeam(), changeProfile()
     const doTeamChange = (newTeamFilter) => {
       window.localStorage.setItem('activeTeam', newTeamFilter.toString())
       setActiveTeam(newTeamFilter)
@@ -222,31 +240,38 @@ const App = () => {
   }
 
 
+
+
   useEffect(() => {
     errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
   }, [dataUpdateStatus, connectionStatus])
 
   useEffect(() => {
-    teamUpdater(setTeams)
+    teamUpdater(setTeams, setServices)
     dataUpdater(setQueue, setAgents, setReport, setDataUpdateStatus)
   }, [])
-
-  //want these to happen on each re-render?
 
   const agentsFormatted = agentFormatter(activeTeam, agents, censor, teams)
   const queueFormatted = queueFormatter(queue, activeProfileId, teams, censor)
 
-  //activeTeam, teams, changeTeam, activeProfileId, changeProfile, censor, setCensor(!censor), connectionStatus
+  /* OptItems:
+  activeTeam, teams, changeTeam, activeProfileId, changeProfile,
+  services, censor, setCensor(!censor),
+  connectionStatus, activeAlarms, setActiveAlarms 
+   */
   const OptItems = {
     activeTeam: activeTeam, //to highlight chosen team
     teams: teams, //all teams & profiles
     changeTeam: changeTeam, //for change team button
     activeProfileId: activeProfileId, //highlight chosen profile
     changeProfile: changeProfile, //profiles button func
+    services: services, //used to show all selected services
     censor: censor, //show current status
     setCensor: (() => setCensor(!censor)), //censor button func
     report,
-    connectionStatus
+    connectionStatus,
+    activeAlarms,
+    setActiveAlarms
   }
 
   return (

@@ -29,13 +29,13 @@ button {
 
 .buttons-container {
   display: grid;
-  grid-template-columns: 110px 110px 110px 120px calc(100% - 450px);
+  grid-template-columns: 90px 90px 90px 90px 90px calc(100% - 450px);
   padding: 2px;
 }
 .buttons-container >button {
   margin-left: 5px;
   border-radius: 20px;
-  width: 100px;
+  width: 85px;
   height: 6vh;
 }
 .buttons-container >p {

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './OptionModal.css'
+import filterUtils from '../../utils/filterUtils'
 
 //sorts the profile list team profiles 1st then alphabetic order 
 const ProfileSort = (profile, activeProfileId) => {
@@ -27,8 +28,9 @@ const SearchList = ({ list, column, type, header }) => {
 
     const handleFilter = (event) => setFilter(event.target.value)
 
+    /*"list" is list of buttons with a string as id, this filters them by id*/
     const filtered_list = !list ? list : list.filter(item => item.props.children.toLowerCase().includes(filter.toLowerCase()))
-    const style = { 'gridColumn': column }
+    const style = { 'gridColumn': column } /* used to set the correct column for the list  */
     return (
         <div className={'modal-list'} style={style} >
             <div className='modal-title'>
@@ -44,15 +46,14 @@ const SearchList = ({ list, column, type, header }) => {
 }
 
 /*
-const createTeamButtons = (activeTeam, teamsList, setTeam, setQueueProfile) => {
+const createTeamButtons = ({activeTeam, teamsList, setTeam, setQueueProfile}) => {
 
 }
 */
 
 const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
 
-    const allProfiles = teamsList.length === 0 ? [] : teamsList.find(team => team.TeamName === 'ALL TEAMS').Profiles
-    const activeProfile = allProfiles.length === 0 ? [] : allProfiles.filter(p => activeProfileId.includes(p.AgentId))
+    const activeProfiles = filterUtils.findActiveProfiles(activeProfileId, teamsList)
 
     const teamToggle = (t) => activeTeam.includes(t) ? 'Selected' : 'Unselected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
@@ -66,8 +67,8 @@ const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, a
     )
 
     const modalId = showModal ? 'show' : 'hide' //.css use
-    const TeamName =  activeTeam.length === 0 ? 'NONE' : (activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length-1}` : activeTeam[0])
-    const ProfileName = activeProfile.length === 0 ? 'NONE' : (activeProfile.length > 1 ? `${activeProfile[0].AgentName} +${activeProfile.length}` : activeProfile[0].AgentName)
+    const TeamName = activeTeam.length === 0 ? 'NONE' : (activeTeam.length > 1 ? `${activeTeam[0]} +${activeTeam.length - 1}` : activeTeam[0])
+    const ProfileName = activeProfiles.length === 0 ? 'NONE' : (activeProfiles.length > 1 ? `${activeProfiles[0].AgentName} +${activeProfiles.length}` : activeProfiles[0].AgentName)
 
     return (
         <div className='modal-box' id={modalId} >

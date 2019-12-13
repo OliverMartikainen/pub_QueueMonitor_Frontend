@@ -24,8 +24,8 @@ const AgentSection = ({ agents, censor }) => {
         statusCount.busy++
         return statusCount
     }
-
     const statusCount = agents.reduce(reducer, { free: 0, call: 0, busy: 0, total: 0 })
+    
     const agentsBack = agents.length !== 0 ? '' : 'NO AGENTS ONLINE' 
     return (
         <div className='agent-section'>

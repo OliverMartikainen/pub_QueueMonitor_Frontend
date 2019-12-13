@@ -1,0 +1,57 @@
+.service-modal-box {
+    --width: 750px;
+    position: absolute;
+    top: 10vh;
+    left: calc(50% - calc(var(--width)*0.5));
+    width: var(--width);
+    height: 80vh;
+    background-color: rgb(202, 201, 201);
+}
+h3 {
+  margin: 0px;
+  padding: 0px;  
+}
+
+.service-modal-box#show {
+    display: block;
+    border-radius: 10px;
+    z-index: 3 !important;
+}
+
+.service-modal-box#hide {
+    display: none;
+}
+
+.service-modal-list {
+    width: 90%;
+    padding: 5%;
+    height: inherit;
+    padding-top: 0;
+}
+
+.service-modal-title {
+    margin-top: 0px;
+    height: 100px;
+}
+
+.service-modal-search {
+    overflow-y: auto;
+    height: calc(80vh - 100px);
+    width: 100%;
+}
+
+.service-modal-search >button {
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.service-modal-item {
+    display: grid;
+    grid-template-columns: 30% 5% 5% 60%;
+}
+
+.service-modal-item >div {
+    margin: 1px;
+}
