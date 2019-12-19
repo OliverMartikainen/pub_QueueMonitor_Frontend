@@ -7,12 +7,11 @@
     width: 800px;
     height: 700px;
     background-color: whitesmoke;
+    padding-left: 30px;
   }
   
   .help-modal#show {
-    display: grid;
-    grid-auto-columns: 70% 20%;
-    grid-auto-rows: 100%;
+    display: block;
   }
   .help-modal#hide {
     display: none;

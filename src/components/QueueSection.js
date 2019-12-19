@@ -36,9 +36,9 @@ const QueueSection = ({ queue, activeAlarms }) => {
     const emailsBack = emails.length !== 0 ? '' : 'NO EMAILS'
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
-    const vipCalls = calls.filter(call => VipServices.includes(call.ServiceId))
+    //const vipCalls = calls.filter(call => VipServices.includes(call.ServiceId))
     const mediumAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 1)
-    //const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
+    const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
 
     return (
         <div className='queue-section'>
@@ -53,7 +53,7 @@ const QueueSection = ({ queue, activeAlarms }) => {
                     <div>{QueueList(emails)}</div>
                 </div>
                 <QueueAlarmMedium mediumAlarmCalls={mediumAlarmCalls} />
-                <QueueAlarmVIP vipCalls={vipCalls} />
+                <QueueAlarmVIP vipCalls={vipAlarmCalls} />
             </div>
         </div>
     )
