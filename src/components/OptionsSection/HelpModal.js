@@ -10,7 +10,6 @@ const HelpModal = ({ showHelp }) => {
     const versionStorage = window.localStorage.getItem('serverVersion')
     return (
         <div className='help-modal' id={modalId} >
-            <p>
                 <p>
                 <b> "CHOOSE FILTERS"</b> button:
                     <br />
@@ -61,8 +60,6 @@ const HelpModal = ({ showHelp }) => {
                 <p>
                 version: {versionStorage}
                 </p>
-            </p>
-
         </div>
     )
 }

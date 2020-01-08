@@ -7,10 +7,12 @@ const changeActiveAlarms = (ServiceId, newAlarmType, activeAlarms, setActiveAlar
         /* activeAlarms is object with SerivceId as key - of newAlarmType is default set as null?*/
         if (newAlarmType === 0) {
             delete activeAlarms[ServiceId]
-            return activeAlarms
+            const newActiveAlarms = {...activeAlarms}
+            return newActiveAlarms
         }
         activeAlarms[ServiceId] = newAlarmType
-        return activeAlarms
+        const newActiveAlarms = {...activeAlarms}
+        return newActiveAlarms
     }
     const newActiveAlarms = createNewActiveAlarms(ServiceId, newAlarmType, activeAlarms)
     window.localStorage.setItem('activeAlarms', JSON.stringify(newActiveAlarms))

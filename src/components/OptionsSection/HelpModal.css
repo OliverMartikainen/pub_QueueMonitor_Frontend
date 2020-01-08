@@ -2,7 +2,7 @@
 .help-modal {
     position: absolute;
     z-index: 1;
-    bottom: 15%;
+    top: 5vh;
     left: calc(50% - 400px); /*some inherit stuff to get it central?*/
     width: 800px;
     height: 700px;

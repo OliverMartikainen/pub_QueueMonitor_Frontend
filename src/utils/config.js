@@ -1,8 +1,13 @@
-//const baseUrl = 'http://localhost:3010/api' //used in development 
-//const baseOrigin = 'http://localhost:3001' //used in development 
-const baseUrl = './api'
-const baseOrigin = '' //if you want to test origin of responses - not used atm
+let mode = process.env.NODE_ENV || 'production'
+let baseUrl = './api'
 
+if(mode === 'development') {
+    baseUrl = 'http://localhost:3001/api'
+}
+if(mode === 'test') {
+    baseUrl = 'http://localhost:3010/api'
+}
 
+let baseOrigin = ''
 
 export default {baseUrl, baseOrigin}
