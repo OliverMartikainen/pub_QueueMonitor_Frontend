@@ -30,19 +30,6 @@ const AlarmOptionButtons = ({ ServiceAlarmType, changeAlarmsButtonFunc }) => {
         return template
     }
     const initialButtonIds = createButtonIds(ServiceAlarmType)
-    /* 
-        idk why but setActiveAlarms updates App.js part, but doesnt reach here until the next 'dataUpdates' setTimeout is done
-        OptionsModal for choosing the Profile filters uses pretty much the same logic and they didnt require this hack solution.
-        So here is a hack solution to it, makes the buttons seem more responsive.
-        Still works fine though. except filter breaks this. So no...
-    */
-    /*
-     const [selectedButton, setSelectedButton] = useState(initialButtonIds)
-     const hackFunction = (buttonid) => {
-         const newButtonIds = createButtonIds(buttonid)
-         //setSelectedButton(newButtonIds)
-     }
-     */
 
     return (
         <div>
