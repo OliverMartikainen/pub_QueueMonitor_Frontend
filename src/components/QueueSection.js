@@ -1,5 +1,4 @@
 import React from 'react'
-import VipServices from '../custom/VipServices'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
 import QueueAlarmVIP from './QueueSection/QueueAlarmVIP'
@@ -36,7 +35,6 @@ const QueueSection = ({ queue, activeAlarms }) => {
     const emailsBack = emails.length !== 0 ? '' : 'NO EMAILS'
     const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
 
-    //const vipCalls = calls.filter(call => VipServices.includes(call.ServiceId))
     const mediumAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 1)
     const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
 
