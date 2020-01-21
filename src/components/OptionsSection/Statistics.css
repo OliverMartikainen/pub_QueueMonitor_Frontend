@@ -14,6 +14,9 @@
     grid-template-rows: 100%;
 }
 
+.stats-row div {
+    overflow: hidden;
+}
 
 
 .stats-count {

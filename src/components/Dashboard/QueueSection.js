@@ -20,6 +20,14 @@ const QueueSorter = (item1, item2) => {
 
 const QueueList = (queue) => queue.map((item, index) => <QueueItem key={index} item={item} />)
 
+const EmptyQueue = ({ text }) => {
+    return (
+        <div className='list-background'>
+            {text}
+        </div>
+    )
+}
+
 
 const QueueSection = ({ queue, activeAlarms }) => {
     /* 0=Default alarm, 1=Medium alarm, 2=VIPAlarm  
@@ -32,8 +40,8 @@ const QueueSection = ({ queue, activeAlarms }) => {
         calls = queue.filter(q => q.ContactType === 'PBX').sort(QueueSorter)
     }
 
-    const emailsBack = emails.length !== 0 ? '' : 'NO EMAILS'
-    const callsBack = calls.length !== 0 ? '' : 'NO CALLS'
+    const emailsBack = emails.length !== 0 ? null : <EmptyQueue text='NO EMAILS' />
+    const callsBack = calls.length !== 0 ? null : <EmptyQueue text='NO CALLS' />
 
     const mediumAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 1)
     const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
@@ -43,12 +51,10 @@ const QueueSection = ({ queue, activeAlarms }) => {
             <div id='queue-container'>
                 <QueueHeader />
                 <div id='call-list'>
-                    <div className='list-background '><h1>{callsBack}</h1></div>
-                    <div>{QueueList(calls)}</div>
+                    {callsBack ? callsBack : QueueList(calls)}
                 </div>
                 <div id='email-list'>
-                    <div className='list-background '><h1>{emailsBack}</h1></div>
-                    <div>{QueueList(emails)}</div>
+                    {emailsBack ? emailsBack : QueueList(emails)}
                 </div>
                 <QueueAlarmMedium mediumAlarmCalls={mediumAlarmCalls} />
                 <QueueAlarmVIP vipCalls={vipAlarmCalls} />

@@ -10,26 +10,30 @@ const HelpModal = ({ showHelp }) => {
     const versionStorage = window.localStorage.getItem('serverVersion')
     return (
         <div className='help-modal' id={modalId} >
-                <p>
+            <p>
+                <b>VERSION: {versionStorage}</b>
+            </p>
+            <p>
                 <b> "CHOOSE FILTERS"</b> button:
                     <br />
-                    - Use it to select different filters for the CALL and EMAIL queues, and the Agents shown.
+                - Use it to select different filters for the CALL and EMAIL queues, and the Agents shown.
                     <br />
-                    - Selected PROFILE's determine the QUEUE filter.
-                    - Selected TEAM's determine the AGENT filter.
-                    <br /><br />
-                    Filter selection clarity will be improved in future.
+                - Selected PROFILE's determine the QUEUE filter.
+                <br />
+                - Selected TEAM's determine the AGENT filter.
+                    <br />
+                Filter selection clarity will be improved in future.
                 </p>
 
-                <p>
-                    <b>"REMOVE FILTERS"</b> button:
+            <p>
+                <b>"REMOVE FILTERS"</b> button:
                     <br />
-                    - Use it to remove all selected filters.
+                - Use it to remove all selected filters.
                 </p>
-                <p>
+            <p>
                 <b>"SERVICE ALARMS"</b> button:
                 <br />
-                - Shows all active service channels (takes ~3seconds to update). Your "CHOOSE FILTERS" --> PROFILE's determine these.
+                - Shows all active service channels. Your "CHOOSE FILTERS" --> PROFILE's determine these.
                 <br />
                 - All services shown here will be shown in QUEUE if an email or call comes from it.
                 <br /><br />
@@ -42,13 +46,13 @@ const HelpModal = ({ showHelp }) => {
                 - VIP alarm will trigger a screen wide flasing display with 20 second countdown and sound alarm.
                 <br />
                 <i>*NOTE for sound to work you need to allow autoplay in browser/click it once/use Chrome for less issues</i>
-                </p>
-                <p>
+            </p>
+            <p>
                 <b> "CENSOR"</b> button:
                     <br />
-                    - Hides shows only 1st letter of Service Names and hides lastnames of Agents.
+                - Hides shows only 1st letter of Service Names and hides lastnames of Agents.
                 </p>
-                <p>
+            <p>
                 <b>"ERROR MESSAGE/LIGHT"</b>:
                 <br />
                 - The status light is green when connection is good and everything is working.
@@ -57,9 +61,14 @@ const HelpModal = ({ showHelp }) => {
                 <br />
                 - The status light is red when the server cannot connect to the database. Contact admin.
                 </p>
-                <p>
-                version: {versionStorage}
-                </p>
+            <p>
+                <b>"SHOW/HIDE QUEUE or AGENTS"</b> dashboards:
+                <br />
+                - Hover over top center.
+                <br />
+                - Click the buttons
+            </p>
+
         </div>
     )
 }

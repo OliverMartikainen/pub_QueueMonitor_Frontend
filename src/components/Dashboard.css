@@ -1,0 +1,66 @@
+#dashboard {
+    display: grid;
+    grid-template-columns: var(--grid-columns);
+    grid-template-rows: 100%;
+}
+
+#queue-section {
+    margin: 5px;
+    margin-left: 10px;
+    background-color: var(--secondary-background-color);
+    border-radius: 10px;
+}
+
+#agent-section {
+    margin: 5px;
+    margin-right: 10px;
+    background-color: var(--secondary-background-color);
+    border-radius: 10px;
+    --selected-color: rgb(190, 199, 216);
+    --hover-color: rgb(206, 206, 206);
+}
+
+#dashboard-options {
+    background-color: rgb(136, 136, 136);
+    position: fixed;
+    left: calc( 50% - 20px);
+    width: 40px;
+    height: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 5000;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.123);
+    border-width: 2px;
+}
+
+#dashboard-options-modal {
+    display: none;
+}
+
+#dashboard-options:hover #dashboard-options-modal {
+    display: block;
+    z-index: 1000 !important;
+}
+
+#dashboard-options:hover {
+    height: 115px;
+    left: calc( 50% - 45px);
+    border-radius: 15px;
+    width: 90px;
+}
+
+#dashboard-options-modal button {
+    margin-left: 5px;
+    border-radius: 20px;
+    width: 80px;
+    height: 6vh;
+}
+
+.shown {
+    background-color: rgb(0, 0, 0);
+}
+
+.not-shown {
+    background-color: rgb(190, 199, 216);
+}

@@ -3,9 +3,11 @@
     grid-template-rows: 7% 47% 46%;
     margin: 5px;
     height: calc(100% - 10px);
+    overflow: hidden;
 }
 
 #email-list {
+    position: relative;
     background-color: var(--tertiary-background-color);
     overflow-y: auto;
     border: var(--container-border-size);
@@ -19,6 +21,7 @@
 }
 
 #call-list {
+    position: relative;
     border-radius: 10px;
     background-color: var(--tertiary-background-color);
     overflow-y: auto;
@@ -33,9 +36,9 @@
 }
 
 .list-background {
-    margin-left: 10vh;
-    margin-top: 5vh;
-    position: absolute;
+    margin-left: 5vh;
+    margin-top: 8vh;
     opacity: 0.5;
-    font-size: 6vh;
+    font-size: 12vh;
+    font-weight: 700;
 }

@@ -15,7 +15,7 @@ const ErrorStatus = ({ error }) => {
             errorExplain = 'Database connection problems!'
         }
     }
-
+  
     return (
         <div className='error-board'>
             <div className='error-status'>

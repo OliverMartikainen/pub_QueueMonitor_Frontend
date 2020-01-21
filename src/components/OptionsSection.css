@@ -1,4 +1,10 @@
-:root {
+
+
+#options-section {
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 99%;
   --selected-color: rgb(190, 199, 216);
   --hover-color: rgb(206, 206, 206);
 }
@@ -31,6 +37,7 @@ button {
   display: grid;
   grid-template-columns: 90px 90px 90px 90px 90px calc(100% - 450px);
   padding: 2px;
+  z-index: 9999 !important;
 }
 #option-buttons-container >button {
   margin-left: 5px;
