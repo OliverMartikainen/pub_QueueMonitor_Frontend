@@ -2,7 +2,7 @@ import React from 'react'
 import './AgentSection.css'
 import AgentGrid from './AgentSection/AgentGrid'
 import AgentHeader from './AgentSection/AgentHeader'
-import AgentReasonGroups from '../custom/AgentReasonGroups'
+import AgentReasonGroups from '../../custom/AgentReasonGroups'
 
 const AgentSection = ({ agents, censor }) => {
     const free = AgentReasonGroups.free
@@ -28,12 +28,12 @@ const AgentSection = ({ agents, censor }) => {
     
     const agentsBack = agents.length !== 0 ? '' : 'NO AGENTS ONLINE' 
     return (
-        <div className='agent-section'>
-            <div className='agent-container'>
+        <div id='agent-section'>
+            <div id='agent-container'>
                 <AgentHeader statusCount={statusCount} />
-                <div className='agent-list'>
+                <div id='agent-list'>
                     <AgentGrid agents={agents} censor={censor} />
-                    <div className='agent-background'>{agentsBack}</div>
+                    <div id='agent-background'>{agentsBack}</div>
                 </div>
             </div>
         </div>

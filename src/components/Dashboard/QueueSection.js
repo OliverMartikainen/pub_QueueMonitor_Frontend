@@ -39,14 +39,14 @@ const QueueSection = ({ queue, activeAlarms }) => {
     const vipAlarmCalls = calls.filter(call => activeAlarms[call.ServiceId] === 2)
 
     return (
-        <div className='queue-section'>
-            <div className='queue-container'>
+        <div id='queue-section'>
+            <div id='queue-container'>
                 <QueueHeader />
-                <div className='call-list'>
+                <div id='call-list'>
                     <div className='list-background '><h1>{callsBack}</h1></div>
                     <div>{QueueList(calls)}</div>
                 </div>
-                <div className='email-list'>
+                <div id='email-list'>
                     <div className='list-background '><h1>{emailsBack}</h1></div>
                     <div>{QueueList(emails)}</div>
                 </div>

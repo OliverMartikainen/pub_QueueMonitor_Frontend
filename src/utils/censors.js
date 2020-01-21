@@ -1,4 +1,12 @@
-const queueCensor = (queue) => {
+export const agentCensor = (AgentsSorted, teamProfiles) => {
+    AgentsSorted.forEach(agent => {
+        const agentProfile = teamProfiles.find(profile => profile.AgentId === agent.AgentId)
+        agent.AgentFirstName = agentProfile.AgentFirstName
+    })
+    return AgentsSorted
+}
+
+export const queueCensor = (queue) => {
     const ServiceCensor = (name) => name[0]
 
     const newList = []
@@ -14,4 +22,3 @@ const queueCensor = (queue) => {
     })
     return newList
 }
-export default queueCensor

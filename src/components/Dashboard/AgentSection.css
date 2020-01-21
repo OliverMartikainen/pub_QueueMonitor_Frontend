@@ -1,11 +1,11 @@
-.agent-container {
+#agent-container {
     margin: 5px;
     height: calc(100% - 10px);
     display: grid;
     grid-template-rows: 7% 93%
 }
 
-.agent-list {
+#agent-list {
     background-color: var(--tertiary-background-color);
     border: var(--container-border-size);
     border-color: var(--container-border-color);
@@ -18,7 +18,7 @@
     */
 }
 
-.agent-background {
+#agent-background {
     margin-left: 10vh;
     margin-top: 25vh;
     position: absolute;

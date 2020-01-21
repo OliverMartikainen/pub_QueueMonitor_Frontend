@@ -1,23 +1,7 @@
 import React, { useState } from 'react'
 import './ServicesModal.css'
 import filterUtils from '../../utils/filterUtils'
-
-const changeActiveAlarms = (ServiceId, newAlarmType, activeAlarms, setActiveAlarms) => {
-    const createNewActiveAlarms = (ServiceId, newAlarmType, activeAlarms) => {
-        /* activeAlarms is object with SerivceId as key - of newAlarmType is default set as null?*/
-        if (newAlarmType === 0) {
-            delete activeAlarms[ServiceId]
-            const newActiveAlarms = {...activeAlarms}
-            return newActiveAlarms
-        }
-        activeAlarms[ServiceId] = newAlarmType
-        const newActiveAlarms = {...activeAlarms}
-        return newActiveAlarms
-    }
-    const newActiveAlarms = createNewActiveAlarms(ServiceId, newAlarmType, activeAlarms)
-    window.localStorage.setItem('activeAlarms', JSON.stringify(newActiveAlarms))
-    setActiveAlarms(newActiveAlarms)
-}
+import { changeActiveAlarms } from '../../events/buttonEvents'
 
 const AlarmOptionButtons = ({ ServiceAlarmType, changeAlarmsButtonFunc }) => {
     const createButtonIds = (selectedId) => {
@@ -33,9 +17,9 @@ const AlarmOptionButtons = ({ ServiceAlarmType, changeAlarmsButtonFunc }) => {
 
     return (
         <div>
-            <button id={initialButtonIds[0]} onClick={() => { changeAlarmsButtonFunc(0) }}>Normal Alarm</button>
-            <button id={initialButtonIds[1]} onClick={() => { changeAlarmsButtonFunc(1) }}>Medium Alarm</button>
-            <button id={initialButtonIds[2]} onClick={() => { changeAlarmsButtonFunc(2) }}>VIP Alarm</button>
+            <button className={initialButtonIds[0]} onClick={() => { changeAlarmsButtonFunc(0) }}>Normal Alarm</button>
+            <button className={initialButtonIds[1]} onClick={() => { changeAlarmsButtonFunc(1) }}>Medium Alarm</button>
+            <button className={initialButtonIds[2]} onClick={() => { changeAlarmsButtonFunc(2) }}>VIP Alarm</button>
         </div>
     )
 }
@@ -67,12 +51,12 @@ const ServiceList = ({ completeActiveServices, activeAlarms, setActiveAlarms }) 
 
 
     return (
-        <div className={'service-modal-list'} >
-            <div className='service-modal-title'>
-                <h3>TAKES ~3 SECONDS TO UPDATE</h3>
+        <div id={'service-modal-list'} >
+            <div id='service-modal-title'>
+                <h3>Choose services alarm type - all active service shown</h3>
                 Search: <input value={filter} onChange={handleFilter} />
             </div>
-            <div className={'service-modal-search'}>
+            <div id={'service-modal-search'}>
                 <div className={'service-modal-item'}>
                     <div>Service Name </div>
                     <div>Service ID </div>
@@ -110,7 +94,7 @@ const ServicesModal = ({ services, showModal, activeServiceIds, activeAlarms, se
     const modalId = showModal ? 'show' : 'hide' //.css use
 
     return (
-        <div className='service-modal-box' id={modalId} >
+        <div id='service-modal-box' className={modalId} >
             <ServiceList completeActiveServices={completeActiveServices} activeAlarms={activeAlarms} setActiveAlarms={setActiveAlarms} />
         </div>
     )

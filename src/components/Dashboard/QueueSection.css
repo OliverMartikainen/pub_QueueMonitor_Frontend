@@ -1,11 +1,11 @@
-.queue-container {
+#queue-container {
     display: grid;
     grid-template-rows: 7% 47% 46%;
     margin: 5px;
     height: calc(100% - 10px);
 }
 
-.email-list {
+#email-list {
     background-color: var(--tertiary-background-color);
     overflow-y: auto;
     border: var(--container-border-size);
@@ -18,7 +18,7 @@
     */
 }
 
-.call-list {
+#call-list {
     border-radius: 10px;
     background-color: var(--tertiary-background-color);
     overflow-y: auto;

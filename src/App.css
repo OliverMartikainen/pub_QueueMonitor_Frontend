@@ -16,28 +16,26 @@
   --secondary-background-color: rgba(255, 255, 255, 0.226);
   --tertiary-background-color: rgba(224, 224, 224, 0.301);
   --fourth-background-layer: rgba(224, 224, 224, 0.479);
-
-  
-/*
-background-color: var(--main-background-color);
-  --scroll-back: rgba(88, 88, 88, 0);
-  --scroll-bar: darkgrey;
-*/
 }
 
-.main {
+#main {
   min-width: var(--min-width);
   min-height: var(--min-height);
   height: 100%;
   width: 100%;
-  /*color: var(--general-font-color);*/
-  grid-template-columns: 50% 50%;
   grid-template-rows: 93% 7%;
+  grid-template-columns: 100%;
   position: absolute;
   display: grid;
   background-image: linear-gradient(to right, rgb(0, 0, 0), rgb(2, 43, 71))}
 
-.queue-section {
+#dashboard {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
+}
+
+#queue-section {
   margin: 5px;
   margin-left: 10px;
   grid-column: 1;
@@ -46,7 +44,7 @@ background-color: var(--main-background-color);
   border-radius: 10px;
 }
 
-.agent-section {
+#agent-section {
   margin: 5px;
   margin-right: 10px;
   grid-column: 2;
@@ -55,7 +53,7 @@ background-color: var(--main-background-color);
   border-radius: 10px;
 }
 
-.options-section {
+#options-section {
   z-index: 3;
   grid-column: 1 /span 2;
   grid-row: 2;
@@ -63,19 +61,3 @@ background-color: var(--main-background-color);
   grid-template-columns: 50% 50%;
   grid-template-rows: 99%;
 }
-
-/*
-::-webkit-scrollbar {
-  width: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: rgba(88, 88, 88, 0);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-}
-*/

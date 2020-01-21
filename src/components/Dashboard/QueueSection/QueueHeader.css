@@ -1,4 +1,4 @@
-.queue-header {
+#queue-header {
     display: grid;
     grid-template-columns: 53% 15% 12% 20%;
     margin-bottom: 5px;
@@ -6,23 +6,23 @@
     background-color: var(--fourth-background-layer);
 }
 
-.queue-header >div {
+#queue-header >div {
     padding-top: 0px;
     font-size: 4.5vh;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.header-name {
+#header-name {
     padding-left: 10px;
 }
-.header-channel {
+#header-channel {
     padding-left: 5px;
 }
 
-.header-length {
+#header-length {
     text-align: right;
     padding-right: 25px;
 }
-.header-time {
+#header-time {
     text-align: center;
 }

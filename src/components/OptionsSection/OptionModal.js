@@ -45,11 +45,7 @@ const SearchList = ({ list, column, type, header }) => {
     )
 }
 
-/*
-const createTeamButtons = ({activeTeam, teamsList, setTeam, setQueueProfile}) => {
 
-}
-*/
 
 const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, activeProfileId, changeProfile, showModal }) => {
 
@@ -57,13 +53,13 @@ const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, a
 
     const teamToggle = (t) => activeTeam.includes(t) ? 'Selected' : 'Unselected' //.css use
     const activeTeamList = !teamsList ? [] : teamsList.map((team, index) =>
-        <button id={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
+        <button className={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
 
     const profileToggle = (profile) => activeProfileId.includes(profile.AgentId) ? "Selected" : "Unselected" //.css use
     const profilesSorted = ProfileSort(activeTeamProfiles, activeProfileId)
     const profilesList = profilesSorted.map((profile, index) =>
-        <button id={profileToggle(profile)} key={index} onClick={() => changeProfile(profile.AgentId)}>{profile.AgentName}</button>
+        <button className={profileToggle(profile)} key={index} onClick={() => changeProfile(profile.AgentId)}>{profile.AgentName}</button>
     )
 
     const modalId = showModal ? 'show' : 'hide' //.css use

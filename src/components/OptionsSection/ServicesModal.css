@@ -1,4 +1,4 @@
-.service-modal-box {
+#service-modal-box {
     --width: 750px;
     position: absolute;
     top: 10vh;
@@ -12,35 +12,35 @@ h3 {
   padding: 0px;  
 }
 
-.service-modal-box#show {
+#service-modal-box .show {
     display: block;
     border-radius: 10px;
     z-index: 9 !important;
 }
 
-.service-modal-box#hide {
+#service-modal-box .hide {
     display: none;
 }
 
-.service-modal-list {
+#service-modal-list {
     width: 90%;
     padding: 5%;
     height: inherit;
     padding-top: 0;
 }
 
-.service-modal-title {
+#service-modal-title {
     margin-top: 0px;
     height: 100px;
 }
 
-.service-modal-search {
+#service-modal-search {
     overflow-y: auto;
     height: calc(80vh - 100px);
     width: 100%;
 }
 
-.service-modal-search >button {
+#service-modal-search >button {
     width: 100%;
     height: 40px;
     overflow: hidden;
