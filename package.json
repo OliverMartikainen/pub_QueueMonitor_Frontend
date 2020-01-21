@@ -9,8 +9,8 @@
     "react-scripts": "^3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start NODE_ENV=development",
-    "showcase": "react-scripts start NODE_ENV=test",
+    "start": "react-scripts start",
+    "showcase": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -30,6 +30,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
-  "proxy": "http://localhost:3001"
+  "devDependencies": {}
 }
