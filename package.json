@@ -1,5 +1,5 @@
 {
-  "name": "cm_front",
+  "name": "queue_monitor_front",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
