@@ -1,6 +1,6 @@
 
 
-//chanceProfile & changeTeam are button functions used in OptionsSection & OptionsModal components - should extract these somewhere else...
+//chanceProfile & changeTeam are button functions used in OptionsSection & OptionsModal components
 export const changeProfileFunc = (newProfile, activeProfileId, setQueueProfile) => { //newProfile is Int
     const doProfileChange = (newProfileFilter) => {
         window.localStorage.setItem('activeProfileId', newProfileFilter.toString())
@@ -61,7 +61,7 @@ export const changeTeamFunc = (newTeam, activeTeam, setActiveTeam, changeProfile
 
 export const changeActiveAlarms = (ServiceId, newAlarmType, activeAlarms, setActiveAlarms) => {
     const createNewActiveAlarms = (ServiceId, newAlarmType, activeAlarms) => {
-        /* activeAlarms is object with SerivceId as key - of newAlarmType is default set as null?*/
+        /* activeAlarms is object with SerivceId as key */
         if (newAlarmType === 0) {
             delete activeAlarms[ServiceId]
             const newActiveAlarms = { ...activeAlarms }
