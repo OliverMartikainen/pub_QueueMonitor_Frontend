@@ -61,13 +61,13 @@ export const teamUpdater = (setTeams, setServices) => {
             return
         }
 
-        const serverVersion = window.localStorage.getItem('serverVersion') //restarts on browser open if it has old version stored - could avoid with close browser actions
+        const serverVersion = window.sessionStorage.getItem('serverVersion') //restarts on browser open if it has old version stored - could avoid with close browser actions
         if (serverVersion && (serverVersion !== data.serverVersion)) {  //if there is a stored server version compare it to data.serverVersion and refresh client if different
             console.log('New version available', data.serverVersion, 'old version:', serverVersion)
             setTimeout(() => { window.location.reload(true) }, 5000)
         }
 
-        window.localStorage.setItem('serverVersion', data.serverVersion)
+        window.sessionStorage.setItem('serverVersion', data.serverVersion)
         setTeams(data.teams)
         setServices(data.services)
     }

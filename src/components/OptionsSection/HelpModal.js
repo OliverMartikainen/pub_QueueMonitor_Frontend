@@ -7,7 +7,7 @@ import './HelpModal.css'
 
 const HelpModal = ({ showHelp }) => {
     const modalId = showHelp ? 'show' : 'hide'
-    const versionStorage = window.localStorage.getItem('serverVersion')
+    const versionStorage = window.sessionStorage.getItem('serverVersion')
     return (
         <div className='help-modal' id={modalId} >
             <p>
