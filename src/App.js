@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
 import OptionsSection from './components/OptionsSection'
 import { dashboardUpdater, teamUpdater } from './streams/dataUpdaters'
@@ -7,12 +7,13 @@ import { changeProfileFunc, changeTeamFunc } from './events/buttonEvents'
 import './App.css'
 
 /**
+ * dashboardStates typedefs
  * @typedef { Array<{ 
  *  AgentId: Number, 
  *  AgentName: String, 
  *  Duration: Number, //time agent has had current status
  *  Reason: String, //agents current status --> used in agent item color decision
- *  Team: String //agents teamName
+ *  Team: String //agents TeamName
  * }>} queue
  * 
  * @typedef { Array<{ 
@@ -40,7 +41,35 @@ import './App.css'
  *          ServiceName: String
  *      }>,
  *  }} report
+ * 
+ * @typedef {{ queue: queue, agents: agents, report: report }} dashboardStates
  */
+
+/**
+ * @typedef { Array<{ ServiceId: Number, ServiceName: String }>} services
+ * 
+ * @typedef { Array<{ 
+ *  TeamName: String,
+ *  Profiles: Array<{ 
+ *      AgentFirstName: String, //used in place of AgentName if Censor === true
+ *      AgentName: String, 
+ *      AgentId: Number, 
+ *      ServiceIds: Array<String> //service ids to use in queue dasboard if agent is active
+ *  }>
+ * }>} teams
+ * 
+ * this data needed since it only contains the teams official services. 
+ * Teams object above contains every serviceId any member of team has in their profile --> different from teams official serviceIds list
+ * - individual team members can have more services than the team. good for the queue, but not for statistics calculations
+ * @typedef { Object.<String, { //TeamName properties used as keys - this data used in statistics
+ *      TeamName: String, 
+ *      emailServiceIds: Array<String>, //teams email serviceIds
+ *      pbxServiceIds: Array<String> //teams pbx serviceIds
+ * }>} teamServicesIndex
+ * 
+ * @typedef {{ teams: teams, services: services, teamServicesIndex: teamServicesIndex }} teamStates
+ */
+
 
 /**
  * Checks for change in dataUpdateStatus (dataUpdate feeds status code)
@@ -77,23 +106,22 @@ const App = () => { //Change activeTeam to shownAgents --> [AgentIds] --> agentf
     const [activeAlarms, setActiveAlarms] = useState(defaultAlarms) /*{ServiceId: AlarmType} ServiceIds are unique numbers, Alarm type is 0-2 */
     const [activeProfileId, setQueueProfile] = useState(defaultProfile) //[ServiceIds] - Int --> QueueFilter
 
-    //backends dataStream data storer
-    /**
-     * @type {[
-     *  { queue: queue, agents: agents, report: report },
-     *  React.Dispatch<React.SetStateAction<{ queue: queue, agents: agents, report: report }>>
-     * ]}
-     */
-    const [dashboardData, setDasboardData] = useState({
+    //backends dataStream data storer - typedefs top of App.js
+    /** @type {[ dashboardStates, React.Dispatch<React.SetStateAction<dashboardStates>> ]} */
+    const [dashboardStates, setDasboardStates] = useState({
         queue: [], //[{ServiceName, SerivceId, ContactType, QueueLength, MaxQueueTime}]
         agents: [], //for agent updates - show ones filtered by team
         report: { reportPBX: [], reportEmail: [] } /*used for statistics --> { reportPBX: [{ContactsPieces: Number, ProcessedPieces: Number, ServiceId: Number, ServiceName: String}], reportEmail: [{same}] } */
     })
 
 
-    //backends teamUpdater data storer
-    const [teams, setTeams] = useState([]) //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
-    const [services, setServices] = useState([]) /* [{ServiceName, ServiceId}]  - used in OptionsSection ServiceAlarmsModal*/
+    //backends teamUpdater data storer - typedefs top of App.js
+    /** @type {[ teamStates, React.Dispatch<React.SetStateAction<teamStates>> ]} */
+    const [teamStates, setTeamStates] = useState({
+        teams: [], //[{TeamName, Profiles[same as queueProfile]}]: list of teams and their chosen services
+        services: [], /* [{ServiceName, ServiceId}]  - used in OptionsSection ServiceAlarmsModal*/
+        teamServicesIndex: {} //indexed object by TeamName -> values are 
+    })
 
     //200 OK, 502 database-backend error, 503 backend-frontend error --> combine for custom hook?
     const [connectionStatus, setConnectionStatus] = useState({ status: 200, errorStart: '' }) //{ Status: (200 or 502 or 503), ErrorStart: Date.ISOString} - using only DataUpdates to set error
@@ -103,15 +131,21 @@ const App = () => { //Change activeTeam to shownAgents --> [AgentIds] --> agentf
 
     //initiates SSE data update feed listeners
     useEffect(() => {
-        teamUpdater(setTeams, setServices)
-        dashboardUpdater(setDasboardData, setDataUpdateStatus)
+        const teamUpdateFeed = teamUpdater(setTeamStates)
+        const dashboardUpdateFeed = dashboardUpdater(setDasboardStates, setDataUpdateStatus)
+        //close SSE listeners on component demount
+        return () => {
+            teamUpdateFeed.close()
+            dashboardUpdateFeed.close()
+        }
     }, [])
 
     useEffect(() => {
         errorChecker(dataUpdateStatus, connectionStatus, setConnectionStatus)
     }, [dataUpdateStatus, connectionStatus])
 
-    const { queue, agents, report } = dashboardData
+    const { queue, agents, report } = dashboardStates
+    const { teams, services, teamServicesIndex } = teamStates
 
     const agentsFormatted = agentFormatter(activeTeam, agents, censor, teams)
     const queueFormatted = queueFormatter(queue, activeProfileId, teams, censor)
@@ -123,22 +157,24 @@ const App = () => { //Change activeTeam to shownAgents --> [AgentIds] --> agentf
         <div id='main'>
             <Dashboard queue={ queueFormatted } activeAlarms={ activeAlarms } agents={ agentsFormatted } censor={ censor } />
             <OptionsSection
-                activeTeam={ activeTeam }
-                teams={ teams }
-                changeTeam={ changeTeam }
-                activeProfileId={ activeProfileId }
-                changeProfile={ changeProfile }
-                services={ services }
-                censor={ censor }
-                setCensor={ () => setCensor(!censor) }
-                report={ report }
-                connectionStatus={ connectionStatus }
-                activeAlarms={ activeAlarms }
-                setActiveAlarms={ setActiveAlarms }
+                {...{
+                    activeTeam,
+                    teams,
+                    changeTeam,
+                    activeProfileId,
+                    changeProfile,
+                    services,
+                    teamServicesIndex,
+                    censor,
+                    setCensor: () => setCensor(!censor),
+                    report,
+                    connectionStatus,
+                    activeAlarms,
+                    setActiveAlarms
+                }}
             />
         </div>
     )
-
 }
 
 export default App
