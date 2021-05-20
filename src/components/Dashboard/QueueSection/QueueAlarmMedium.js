@@ -1,4 +1,3 @@
-import React from 'react'
 import './QueueAlarmMedium.css'
 
 const MediumAlarmHeader = () => {
@@ -27,7 +26,7 @@ const MediumAlarmItem = ({ ServiceName, MaxQueueTime }) => {
 }
 
 const MediumAlarmModal = ({ mediumAlarmCalls }) => {
-    const callsList = mediumAlarmCalls.map((call, index)=> <MediumAlarmItem key={index} ServiceName={call.ServiceName} MaxQueueTime={call.MaxQueueTime}/>)
+    const callsList = mediumAlarmCalls.map((call, index) => <MediumAlarmItem key={index} ServiceName={call.ServiceName} MaxQueueTime={call.MaxQueueTime}/>)
 
     return (
         <div className='medium-alarm-modal'>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './ServicesModal.css'
 import filterUtils from '../../utils/filterUtils'
 import { changeActiveAlarms } from '../../events/buttonEvents'

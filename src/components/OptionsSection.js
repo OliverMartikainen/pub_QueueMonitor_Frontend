@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Statistics from './OptionsSection/Statistics'
 import OptionsModal from './OptionsSection/OptionModal'
 import HelpModal from './OptionsSection/HelpModal'

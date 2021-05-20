@@ -1,4 +1,3 @@
-import React from 'react'
 import './QueueSection.css'
 import QueueItem from './QueueSection/QueueItem'
 import QueueAlarmVIP from './QueueSection/QueueAlarmVIP'

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './QueueAlarmVIP.css'
 import vipAlarm from './resources/VIPAlarm.mp3'
 
@@ -20,7 +20,7 @@ const TimerSeconds = ({ startTime }) => {
     }
     
     const time = new Date(1000 * (20 - timer)).toISOString().substr(11, 8)
-        return (
+    return (
         <div className='timer blue'>
             {time}
         </div>
@@ -28,7 +28,7 @@ const TimerSeconds = ({ startTime }) => {
 }
 
 
-const VIPAlarmModal = ({ count, callShown }) => {
+const VIPAlarmModal = ({ callShown }) => {
     const [modalColor, setModalColor] = useState('alarm-yellow')
     const flasher = modalColor !== 'alarm-yellow' ? 'alarm-yellow' : 'alarm-white'
 
@@ -38,10 +38,6 @@ const VIPAlarmModal = ({ count, callShown }) => {
         }, 1000)
     }, [flasher])
 
-    /*const totalCalls = count + callShown.QueueLength
-    //const showCallCount = totalCalls > 1 ? `VIP CALLS: ${totalCalls}` : ''
-    //<div className='call-counters'>{showCallCount}</div>
-    */
 
     return (
         <div className={`vip-alarm-modal ${modalColor}`}>
@@ -60,10 +56,9 @@ const QueueAlarmVIP = ({ vipCalls }) => {
             null
         )
     }
-    const count = vipCalls.length
     const firstCall = vipCalls[0]
     return (
-        <VIPAlarmModal count={count} callShown={firstCall} />
+        <VIPAlarmModal callShown={firstCall} />
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './OptionModal.css'
 import filterUtils from '../../utils/filterUtils'
 
@@ -56,7 +56,7 @@ const OptionsModal = ({ activeTeamProfiles, activeTeam, teamsList, changeTeam, a
         <button className={teamToggle(team.TeamName)} key={index} onClick={() => changeTeam(team.TeamName)}>{team.TeamName}</button>
     )
 
-    const profileToggle = (profile) => activeProfileId.includes(profile.AgentId) ? "Selected" : "Unselected" //.css use
+    const profileToggle = (profile) => activeProfileId.includes(profile.AgentId) ? 'Selected' : 'Unselected' //.css use
     const profilesSorted = ProfileSort(activeTeamProfiles, activeProfileId)
     const profilesList = profilesSorted.map((profile, index) =>
         <button className={profileToggle(profile)} key={index} onClick={() => changeProfile(profile.AgentId)}>{profile.AgentName}</button>

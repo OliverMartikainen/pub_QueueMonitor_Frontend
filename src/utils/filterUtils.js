@@ -74,4 +74,4 @@ const findServiceAlarmType = (ServiceId, activeAlarms) => {
 }
 
 export default {findServiceAlarmType, findActiveServices, findActiveServicesNames, findActiveTeamProfiles, findActiveServiceIds,
-     findActiveProfiles, findActiveQueueItems, findActiveAgents}
+    findActiveProfiles, findActiveQueueItems, findActiveAgents}

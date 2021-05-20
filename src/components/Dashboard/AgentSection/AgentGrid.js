@@ -1,4 +1,3 @@
-import React from 'react'
 import './AgentGrid.css'
 
 const sizeChooser = (count) => {

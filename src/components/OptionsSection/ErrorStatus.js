@@ -1,4 +1,3 @@
-import React from 'react'
 import './ErrorStatus.css'
 
 const ErrorStatus = ({ error }) => {

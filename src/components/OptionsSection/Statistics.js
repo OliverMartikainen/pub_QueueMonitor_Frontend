@@ -1,4 +1,3 @@
-import React from 'react'
 import statsCounter from '../../utils/statsCounter'
 import './Statistics.css'
 
@@ -16,7 +15,7 @@ const StatsCount = ({ type, stats }) => {
     )
 }
 
-const StatsRow = ({ type, name, statsPBX, statsEmail }) => {
+const StatsRow = ({ name, statsPBX, statsEmail }) => {
     return (
         <div className='stats-row'>
             <div>
@@ -43,8 +42,8 @@ const Statistics = ({ activeTeamProfiles, activeTeam, teams, report }) => {
 
     return (
         <div className='statistics'>
-            <StatsRow type='Team' name={activeTeamName} statsPBX={activeTeamStatsPBX} statsEmail={activeTeamStatsEmail} />
-         </div>
+            <StatsRow name={activeTeamName} statsPBX={activeTeamStatsPBX} statsEmail={activeTeamStatsEmail} />
+        </div>
     )
 }
 

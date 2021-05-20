@@ -2,13 +2,13 @@ import eventService from '../services/eventService'
 
 export const dashboardUpdater = (setQueue, setAgents, setReport, setDataUpdateStatus) => {
     let dataUpdates = eventService.getDataUpdates()
-    dataUpdates.onopen = (event) => {
+    dataUpdates.onopen = () => {
         const time = new Date().toISOString().substr(11, 8)
-        console.log(`dataUpdates OPEN:`, time)
+        console.log('dataUpdates OPEN:', time)
     }
-    dataUpdates.onerror = (event) => { //happens when frontend-backend connection is down
+    dataUpdates.onerror = () => { //happens when frontend-backend connection is down
         const time = new Date().toISOString().substr(11, 8)
-        console.log(`dataUpdates ERROR: `, time)
+        console.log('dataUpdates ERROR: ', time)
         setDataUpdateStatus(503)
         dataUpdates.close() //without this & the setTimeout() firefox will close connection on 2nd error
         setTimeout(
@@ -40,13 +40,13 @@ export const dashboardUpdater = (setQueue, setAgents, setReport, setDataUpdateSt
 //happens approx every 30min/1h - checks server version vs local storage version
 export const teamUpdater = (setTeams, setServices) => {
     const teamUpdates = eventService.getTeamUpdates()
-    teamUpdates.onopen = (event) => {
+    teamUpdates.onopen = () => {
         const time = new Date().toISOString().substr(11, 8)
-        console.log(`teamUpdates OPEN:`, time)
+        console.log('teamUpdates OPEN:', time)
     }
-    teamUpdates.onerror = (event) => {
+    teamUpdates.onerror = () => {
         const time = new Date().toISOString().substr(11, 8)
-        console.log(`teamUpdates ERROR: `, time)
+        console.log('teamUpdates ERROR: ', time)
         teamUpdates.close()
         setTimeout(
             () => teamUpdater(setTeams, setServices)

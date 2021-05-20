@@ -1,4 +1,3 @@
-import React from 'react'
 import './QueueItem.css'
 
 const QueueItem = ({item}) => {
@@ -19,9 +18,9 @@ const QueueItem = ({item}) => {
             <div className='service-channel' id={id}>{(item.ContactType === 'PBX' ? 'CALL' : item.ContactType)}</div>
             <div className='service-length' id={id}>{item.QueueLength}</div>
             <div className='service-time' id={id}>
-            {(h < 10 ? `0${h}` : h)}:
-            {(min < 10 ? `0${min}` : min)}:
-            {(sec < 10 ? `0${sec}` : sec)}
+                {(h < 10 ? `0${h}` : h)}:
+                {(min < 10 ? `0${min}` : min)}:
+                {(sec < 10 ? `0${sec}` : sec)}
             </div>
         </div>
     )

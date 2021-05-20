@@ -1,4 +1,3 @@
-import React from 'react'
 import './AgentSection.css'
 import AgentGrid from './AgentSection/AgentGrid'
 import AgentHeader from './AgentSection/AgentHeader'

@@ -1,4 +1,3 @@
-import React from 'react'
 import './AgentHeader.css'
 
 const AgentCount = ({idStatus, idNumber, status, count}) => {
