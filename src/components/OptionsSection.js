@@ -16,7 +16,7 @@ const OptionsSection = (props) => {
     const {
         activeTeam, teams, changeTeam, activeProfileId, changeProfile,
         services, censor, setCensor, connectionStatus, activeAlarms,
-        setActiveAlarms, report
+        setActiveAlarms, report, teamServicesIndex
     } = props
 
     const resetFunc = () => {
@@ -44,7 +44,7 @@ const OptionsSection = (props) => {
                 <button className={checkIfSelected(showHelp)} onClick={() => setShowHelp(!showHelp)}>HELP</button>
                 <ErrorStatus error={connectionStatus} />
             </div>
-            <Statistics activeTeamProfiles={activeTeamProfiles} activeTeam={activeTeam} teams={teams} report={report} />
+            <Statistics teamServicesIndex={teamServicesIndex} activeTeam={activeTeam} teams={teams} report={report} />
         </div>
     )
 }
