@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Dashboard from './components/Dashboard'
 import OptionsSection from './components/OptionsSection'
 import { dashboardUpdater, teamUpdater } from './streams/dataUpdaters'
