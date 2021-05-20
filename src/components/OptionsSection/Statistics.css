@@ -2,9 +2,9 @@
     display: grid;
     grid-template-rows: 100%;
     color: rgb(255, 255, 255);
-    font-size: 3.8vh;
+    font-size: 33px;
     font-weight: 600;
-    font-family: serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     white-space: nowrap;
 }
 
