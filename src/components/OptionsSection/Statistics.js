@@ -31,7 +31,7 @@ const Statistics = ({ teamServicesIndex, activeTeam, teams, report }) => {
     let activeTeamName = 'NONE'
     let activeTeamStatsPBX = { stats: '0/0', ratio: '' }
     let activeTeamStatsEmail = { stats: '0/0', ratio: '' }
-    console.log(report)
+
     if (teams.length !== 0 && report?.reportPBX?.length !== 0) {
         if (activeTeam.includes('ALL TEAMS')) {
             //just count serviceId -1 stats --> report serviceId for allServices in report
