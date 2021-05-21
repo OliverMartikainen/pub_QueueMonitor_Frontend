@@ -11,7 +11,7 @@ const activeServiceIdsStats = (report, ServiceIds) => {
     const ratio = `${Math.round(stats.Answered / stats.Received * 100)}%`
     return ({
         stats: numbs,
-        ratio: (ratio !== 'NaN %') ? ratio : ''
+        ratio: (ratio !== 'NaN%') ? ratio : ''
     })
 }
 
